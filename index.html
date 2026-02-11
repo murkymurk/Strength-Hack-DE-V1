@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Strength Hack — B2B Pitch Deck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --font-heading: 'DM Serif Display', Georgia, serif;
+    --font-body: 'Outfit', -apple-system, sans-serif;
+    --color-bg: #FDFBF7;
+    --color-bg-alt: #F5F0E8;
+    --color-bg-dark: #1A1714;
+    --color-bg-dark-alt: #242018;
+    --color-text: #2C2824;
+    --color-text-muted: #7A7168;
+    --color-text-light: #A89F94;
+    --color-text-on-dark: #F5F0E8;
+    --color-accent: #D4652A;
+    --color-accent-hover: #BF5520;
+    --color-accent-light: rgba(212, 101, 42, 0.08);
+    --color-accent-glow: rgba(212, 101, 42, 0.15);
+    --color-warm-gold: #C49A2A;
+    --color-border: rgba(44, 40, 36, 0.08);
+    --color-border-dark: rgba(245, 240, 232, 0.1);
+    --radius-pill: 980px;
+    --radius-card: 20px;
+    --radius-small: 12px;
+    --max-width: 1120px;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-font-smoothing: antialiased; }
+
+  body {
+    font-family: var(--font-body);
+    color: var(--color-text);
+    background: var(--color-bg-dark);
+    line-height: 1.6;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  /* ——— LAYOUT ——— */
+  .presentation-wrapper {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  /* ——— CHAPTER NAV ——— */
+  .chapter-nav {
+    width: 260px;
+    min-width: 260px;
+    height: 100vh;
+    background: rgba(253, 251, 247, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-right: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    padding: 32px 0;
+    overflow-y: auto;
+    z-index: 10;
+  }
+
+  .nav-brand {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    color: var(--color-text);
+    padding: 0 28px;
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+  }
+  .nav-brand span { color: var(--color-accent); }
+
+  .nav-subtitle {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-text-light);
+    padding: 0 28px;
+    margin-bottom: 36px;
+    letter-spacing: 0.3px;
+  }
+
+  .chapter-group {
+    margin-bottom: 8px;
+  }
+
+  .chapter-heading {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--color-text-light);
+    padding: 12px 28px 8px;
+  }
+
+  .chapter-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 28px;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    border-left: 3px solid transparent;
+    text-decoration: none;
+  }
+  .chapter-item:hover {
+    color: var(--color-text);
+    background: var(--color-accent-light);
+  }
+  .chapter-item.active {
+    color: var(--color-accent);
+    font-weight: 600;
+    background: var(--color-accent-light);
+    border-left-color: var(--color-accent);
+  }
+
+  .chapter-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--color-border);
+    flex-shrink: 0;
+    transition: all 0.25s ease;
+  }
+  .chapter-item.active .chapter-dot {
+    background: var(--color-accent);
+    box-shadow: 0 0 8px var(--color-accent-glow);
+  }
+
+  .nav-footer {
+    margin-top: auto;
+    padding: 24px 28px 0;
+    border-top: 1px solid var(--color-border);
+    font-size: 12px;
+    color: var(--color-text-light);
+  }
+  .nav-footer-keys {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .key-badge {
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--color-text-muted);
+  }
+
+  /* ——— SLIDE AREA ——— */
+  .slide-area {
+    flex: 1;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ——— SLIDE COUNTER ——— */
+  .slide-counter {
+    position: absolute;
+    top: 28px;
+    right: 36px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text-light);
+    z-index: 20;
+    letter-spacing: 0.5px;
+    transition: color 0.5s ease;
+  }
+  .slide-counter.on-dark {
+    color: rgba(245, 240, 232, 0.35);
+  }
+
+  /* ——— SLIDES ——— */
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(40px, 5vw, 80px);
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    pointer-events: none;
+    will-change: opacity, transform;
+  }
+  .slide.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .slide.exit-up {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+
+  .slide-inner {
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  /* ——— BACKGROUNDS ——— */
+  .bg-light { background: var(--color-bg); }
+  .bg-alt { background: var(--color-bg-alt); }
+  .bg-dark {
+    background: var(--color-bg-dark);
+    color: var(--color-text-on-dark);
+  }
+  .bg-dark-alt {
+    background: linear-gradient(135deg, var(--color-bg-dark) 0%, var(--color-bg-dark-alt) 100%);
+    color: var(--color-text-on-dark);
+  }
+
+  /* ——— GLOW EFFECTS ——— */
+  .glow-center::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(212, 101, 42, 0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .glow-top::before {
+    content: '';
+    position: absolute;
+    top: -30%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, var(--color-accent-glow) 0%, transparent 70%);
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  /* ——— TYPOGRAPHY ——— */
+  .slide-label {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 20px;
+    display: inline-block;
+  }
+  .bg-dark .slide-label,
+  .bg-dark-alt .slide-label { color: rgba(212, 101, 42, 0.7); }
+
+  .slide-headline {
+    font-family: var(--font-heading);
+    font-size: clamp(32px, 4.5vw, 56px);
+    line-height: 1.12;
+    letter-spacing: -0.5px;
+    color: var(--color-text);
+    max-width: 800px;
+  }
+  .bg-dark .slide-headline,
+  .bg-dark-alt .slide-headline { color: var(--color-text-on-dark); }
+  .slide-headline em {
+    font-style: italic;
+    color: var(--color-accent);
+  }
+
+  .slide-subhead {
+    font-size: clamp(17px, 2vw, 21px);
+    line-height: 1.65;
+    color: var(--color-text-muted);
+    max-width: 640px;
+    font-weight: 300;
+    margin-top: 24px;
+  }
+  .bg-dark .slide-subhead,
+  .bg-dark-alt .slide-subhead { color: rgba(245, 240, 232, 0.55); }
+
+  .slide-body {
+    font-size: clamp(15px, 1.6vw, 18px);
+    line-height: 1.75;
+    color: var(--color-text-muted);
+    max-width: 600px;
+  }
+  .bg-dark .slide-body,
+  .bg-dark-alt .slide-body { color: rgba(245, 240, 232, 0.6); }
+
+  /* ——— CARDS ——— */
+  .card {
+    padding: 36px 32px;
+    border-radius: var(--radius-card);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    transition: all 0.3s ease;
+  }
+  .card-dark {
+    background: var(--color-bg-dark-alt);
+    border-color: var(--color-border-dark);
+  }
+  .card-accent {
+    border-color: rgba(212, 101, 42, 0.15);
+    background: linear-gradient(135deg, var(--color-accent-light), rgba(196, 154, 42, 0.04));
+  }
+
+  /* ——— STAT BLOCKS ——— */
+  .stat-number {
+    font-family: var(--font-heading);
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 1;
+    color: var(--color-accent);
+  }
+  .stat-label {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    margin-top: 8px;
+  }
+  .bg-dark .stat-label,
+  .bg-dark-alt .stat-label { color: rgba(245, 240, 232, 0.5); }
+
+  /* ——— ICON BLOCKS ——— */
+  .icon-box {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    background: var(--color-accent-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    flex-shrink: 0;
+  }
+  .icon-box-dark {
+    background: rgba(212, 101, 42, 0.12);
+  }
+  .icon-box-gold {
+    background: rgba(196, 154, 42, 0.1);
+  }
+
+  /* ——— FLOW ARROW ——— */
+  .flow-row {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .flow-arrow {
+    font-size: 24px;
+    color: var(--color-text-light);
+    font-weight: 300;
+  }
+  .bg-dark .flow-arrow { color: rgba(245, 240, 232, 0.2); }
+
+  /* ——— GRID LAYOUTS ——— */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .grid-center { align-items: center; }
+
+  /* ——— COMPARISON ——— */
+  .vs-divider {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading);
+    font-size: 18px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 4px 20px rgba(212, 101, 42, 0.3);
+  }
+
+  /* ——— STEP LINE ——— */
+  .step-row {
+    display: flex;
+    gap: 40px;
+    position: relative;
+  }
+  .step-item {
+    flex: 1;
+    text-align: center;
+  }
+  .step-num {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 2px solid var(--color-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading);
+    font-size: 26px;
+    color: var(--color-accent);
+    margin: 0 auto 20px;
+    position: relative;
+    z-index: 2;
+  }
+  .bg-dark .step-num {
+    background: var(--color-bg-dark);
+  }
+  .step-title {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    color: var(--color-text);
+    margin-bottom: 10px;
+  }
+  .bg-dark .step-title { color: var(--color-text-on-dark); }
+  .step-desc {
+    font-size: 15px;
+    color: var(--color-text-muted);
+    line-height: 1.65;
+  }
+  .bg-dark .step-desc { color: rgba(245, 240, 232, 0.5); }
+
+  /* ——— TIMELINE ——— */
+  .timeline {
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+    margin-top: 40px;
+    position: relative;
+  }
+  .timeline-stage {
+    flex: 1;
+    text-align: center;
+    position: relative;
+  }
+  .timeline-bar {
+    height: 8px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    transition: all 0.3s ease;
+  }
+  .timeline-name {
+    font-family: var(--font-heading);
+    font-size: 17px;
+    margin-bottom: 6px;
+  }
+  .timeline-detail {
+    font-size: 13px;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+  }
+
+  /* ——— PACKAGE CARDS ——— */
+  .package-card {
+    padding: 40px 32px;
+    border-radius: var(--radius-card);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+  }
+  .package-card.featured {
+    border-color: var(--color-accent);
+    box-shadow: 0 8px 40px rgba(212, 101, 42, 0.12);
+    position: relative;
+  }
+  .package-card.featured::before {
+    content: 'Recommended';
+    position: absolute;
+    top: -13px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 5px 18px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--color-accent);
+    border-radius: var(--radius-pill);
+  }
+  .package-name {
+    font-family: var(--font-heading);
+    font-size: 24px;
+    color: var(--color-text);
+    margin-bottom: 6px;
+  }
+  .package-duration {
+    font-size: 14px;
+    color: var(--color-accent);
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .package-desc {
+    font-size: 15px;
+    color: var(--color-text-muted);
+    line-height: 1.65;
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .package-list {
+    list-style: none;
+    flex: 1;
+  }
+  .package-list li {
+    font-size: 14px;
+    color: var(--color-text-muted);
+    padding: 6px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    line-height: 1.5;
+  }
+  .package-list li::before {
+    content: '✓';
+    color: var(--color-accent);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ——— BUTTONS ——— */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 36px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 16px;
+    color: #fff;
+    background: var(--color-accent);
+    border: none;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 4px 20px rgba(212, 101, 42, 0.25);
+  }
+  .btn-primary:hover {
+    background: var(--color-accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(212, 101, 42, 0.35);
+  }
+  .btn-dark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 36px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--color-bg-dark);
+    background: var(--color-text-on-dark);
+    border: none;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  .btn-dark:hover { background: #fff; }
+
+  /* ——— PROOF BADGES ——— */
+  .badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .badge {
+    padding: 8px 20px;
+    border-radius: var(--radius-pill);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+  }
+  .badge-light {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+  }
+  .badge-dark {
+    background: var(--color-bg-dark-alt);
+    border: 1px solid var(--color-border-dark);
+    color: rgba(245, 240, 232, 0.6);
+  }
+
+  /* ——— CONTENT ANIMATIONS ——— */
+  .slide .anim {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .slide.active .anim { opacity: 1; transform: translateY(0); }
+  .slide.active .anim.d1 { transition-delay: 0.1s; }
+  .slide.active .anim.d2 { transition-delay: 0.2s; }
+  .slide.active .anim.d3 { transition-delay: 0.3s; }
+  .slide.active .anim.d4 { transition-delay: 0.4s; }
+  .slide.active .anim.d5 { transition-delay: 0.5s; }
+  .slide.active .anim.d6 { transition-delay: 0.6s; }
+
+  /* ——— QUOTE ——— */
+  .quote-mark {
+    font-family: var(--font-heading);
+    font-size: 72px;
+    line-height: 1;
+    color: var(--color-accent);
+    opacity: 0.3;
+    margin-bottom: -16px;
+  }
+
+  /* ——— COST LIST ——— */
+  .cost-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .cost-item:last-child { border-bottom: none; }
+  .cost-emoji {
+    font-size: 22px;
+    width: 40px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .cost-text {
+    font-size: 17px;
+    color: var(--color-text);
+    font-weight: 500;
+  }
+
+  /* ——— BEFORE / AFTER ——— */
+  .before-after-header {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .before-after-header.before { color: var(--color-text-muted); }
+  .before-after-header.after { color: var(--color-accent); }
+  .ba-list {
+    list-style: none;
+  }
+  .ba-list li {
+    font-size: 15px;
+    color: var(--color-text-muted);
+    padding: 7px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    line-height: 1.55;
+  }
+  .ba-list li .li-icon {
+    flex-shrink: 0;
+    margin-top: 2px;
+    font-size: 14px;
+  }
+
+  /* ——— RESPONSIVE ——— */
+  @media (max-width: 1100px) {
+    .grid-2 { grid-template-columns: 1fr; }
+    .grid-3 { grid-template-columns: 1fr; }
+    .grid-4 { grid-template-columns: 1fr 1fr; }
+    .step-row { flex-direction: column; gap: 24px; }
+    .timeline { flex-direction: column; }
+  }
+  @media (max-width: 800px) {
+    .chapter-nav { display: none; }
+    .grid-4 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="presentation-wrapper">
+
+  <!-- CHAPTER NAV -->
+  <nav class="chapter-nav">
+    <a href="https://strength-hack.com/" target="_blank" class="nav-brand" style="text-decoration: none; color: var(--color-text);">The Strength <span>Hack</span></a>
+    <div class="nav-subtitle">B2B Team Performance Pitch</div>
+
+    <div class="chapter-group">
+      <div class="chapter-heading">The Problem</div>
+      <div class="chapter-item active" data-slide="0">
+        <span class="chapter-dot"></span> The Hook
+      </div>
+      <div class="chapter-item" data-slide="1">
+        <span class="chapter-dot"></span> Cost of Friction
+      </div>
+      <div class="chapter-item" data-slide="2">
+        <span class="chapter-dot"></span> The Evidence
+      </div>
+    </div>
+
+    <div class="chapter-group">
+      <div class="chapter-heading">The Solution</div>
+      <div class="chapter-item" data-slide="3">
+        <span class="chapter-dot"></span> The Bottleneck
+      </div>
+      <div class="chapter-item" data-slide="4">
+        <span class="chapter-dot"></span> The Mechanism
+      </div>
+      <div class="chapter-item" data-slide="5">
+        <span class="chapter-dot"></span> Tuckman Accelerator
+      </div>
+    </div>
+
+    <div class="chapter-group">
+      <div class="chapter-heading">The Science</div>
+      <div class="chapter-item" data-slide="6">
+        <span class="chapter-dot"></span> Psychological Safety
+      </div>
+      <div class="chapter-item" data-slide="7">
+        <span class="chapter-dot"></span> Strengths &amp; Gaps
+      </div>
+    </div>
+
+    <div class="chapter-group">
+      <div class="chapter-heading">The Offer</div>
+      <div class="chapter-item" data-slide="8">
+        <span class="chapter-dot"></span> ROI Model
+      </div>
+      <div class="chapter-item" data-slide="9">
+        <span class="chapter-dot"></span> Packages
+      </div>
+      <div class="chapter-item" data-slide="10">
+        <span class="chapter-dot"></span> Proof
+      </div>
+      <div class="chapter-item" data-slide="11">
+        <span class="chapter-dot"></span> Next Step
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      Navigate with
+      <div class="nav-footer-keys">
+        <span class="key-badge">←</span>
+        <span class="key-badge">→</span>
+        <span style="font-size: 11px; color: var(--color-text-light); align-self: center;">arrow keys</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- SLIDE AREA -->
+  <div class="slide-area">
+    <div class="slide-counter" id="slideCounter">1 / 12</div>
+
+    <!-- ==================== SLIDE 1: HOOK ==================== -->
+    <div class="slide bg-dark glow-center active" data-index="0">
+      <div class="slide-inner" style="text-align: center; display: flex; flex-direction: column; align-items: center;">
+        <div class="slide-label anim">The Problem</div>
+        <h1 class="slide-headline anim d1" style="max-width: 760px;">
+          Your team took the assessment.<br>Then <em>nothing changed.</em>
+        </h1>
+        <p class="slide-subhead anim d2" style="max-width: 580px; margin-left: auto; margin-right: auto;">
+          Monday happened. Same friction. Same blind spots. Same miscommunication. The PDF sat in a drawer.
+        </p>
+        <div style="margin-top: 48px;" class="anim d3">
+          <div class="badge-row" style="justify-content: center;">
+            <span class="badge badge-dark">CliftonStrengths ✓</span>
+            <span class="badge badge-dark">MBTI ✓</span>
+            <span class="badge badge-dark">VIA ✓</span>
+            <span class="badge badge-dark">Big Five ✓</span>
+          </div>
+          <p style="font-size: 14px; color: rgba(245,240,232,0.35); margin-top: 14px;">Assessment done — impact missing</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SLIDE 2: COST ==================== -->
+    <div class="slide bg-light" data-index="1">
+      <div class="slide-inner">
+        <div class="slide-label anim">The Hidden Cost</div>
+        <h2 class="slide-headline anim d1" style="max-width: 680px;">
+          Friction isn't annoying.<br>It's <em>expensive.</em>
+        </h2>
+        <p class="slide-subhead anim d2" style="margin-bottom: 48px;">
+          Every unresolved team problem compounds — across every person, every week.
+        </p>
+        <div class="grid-4 anim d3">
+          <div class="card" style="text-align: center; padding: 32px 24px;">
+            <div style="font-size: 32px; margin-bottom: 12px;">🐌</div>
+            <div style="font-family: var(--font-heading); font-size: 18px; color: var(--color-text); margin-bottom: 8px;">Slower Decisions</div>
+            <div style="font-size: 14px; color: var(--color-text-muted);">Unclear roles → more loops</div>
+          </div>
+          <div class="card" style="text-align: center; padding: 32px 24px;">
+            <div style="font-size: 32px; margin-bottom: 12px;">🔁</div>
+            <div style="font-family: var(--font-heading); font-size: 18px; color: var(--color-text); margin-bottom: 8px;">Repeated Rework</div>
+            <div style="font-size: 14px; color: var(--color-text-muted);">Misalignment → wasted cycles</div>
+          </div>
+          <div class="card" style="text-align: center; padding: 32px 24px;">
+            <div style="font-size: 32px; margin-bottom: 12px;">💥</div>
+            <div style="font-family: var(--font-heading); font-size: 18px; color: var(--color-text); margin-bottom: 8px;">Avoidable Conflict</div>
+            <div style="font-size: 14px; color: var(--color-text-muted);">Blind spots → friction</div>
+          </div>
+          <div class="card" style="text-align: center; padding: 32px 24px;">
+            <div style="font-size: 32px; margin-bottom: 12px;">👋</div>
+            <div style="font-family: var(--font-heading); font-size: 18px; color: var(--color-text); margin-bottom: 8px;">Quiet Quitting</div>
+            <div style="font-size: 14px; color: var(--color-text-muted);">Disengagement → turnover</div>
+          </div>
+        </div>
+        <p class="anim d4" style="font-size: 15px; color: var(--color-text-light); margin-top: 32px; text-align: center;">
+          Even a small efficiency gain pays back immediately — because it scales across every week, every person.
+        </p>
+      </div>
+    </div>
+
+    <!-- ==================== SLIDE 3: EVIDENCE ==================== -->
+    <div class="slide bg-alt" data-index="2">
+      <div class="slide-inner">
+        <div class="grid-2 grid-center" style="gap: 64px;">
+          <div>
+            <div class="slide-label anim">The Evidence</div>
+            <h2 class="slide-headline anim d1">
+              This isn't soft.<br>It's <em>Gallup-proven.</em>
+            </h2>
+            <p class="slide-subhead anim d2">
+              Gallup's large-scale meta-analyses link higher team engagement directly to hard business outcomes.
+            </p>
+          </div>
+          <div>
+            <div class="card anim d2" style="padding: 40px 36px;">
+              <div style="font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--color-accent); margin-bottom: 24px;">Engagement drives</div>
+              <div style="display: flex; flex-direction: column; gap: 20px;">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                  <div class="icon-box">📈</div>
+                  <div>
+                    <div style="font-family: var(--font-heading); font-size: 20px;">Productivity</div>
+                    <div style="font-size: 14px; color: var(--color-text-muted);">Higher output per team</div>
+                  </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 16px;">
+                  <div class="icon-box icon-box-gold">💰</div>
+                  <div>
+                    <div style="font-family: var(--font-heading); font-size: 20px;">Profitability</div>
+                    <div style="font-size: 14px; color: var(--color-text-muted);">Better margins, fewer losses</div>
+                  </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 16px;">
+                  <div class="icon-box">🔒</div>
+                  <div>
+                    <div style="font-family: var(--font-heading); font-size: 20px;">Retention</div>
+                    <div style="font-size: 14px; color: var(--color-text-muted);">Lower turnover &amp; absenteeism</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SLIDE 4: BOTTLENECK ==================== -->
+    <div class="slide bg-light" data-index="3">
+      <div class="slide-inner">
+        <div class="slide-label anim">The Bottleneck</div>
+        <h2 class="slide-headline anim d1" style="margin-bottom: 48px; max-width: 720px;">
+          Teams don't have an <em>operating system.</em>
+        </h2>
+        <div class="grid-2 anim d2" style="gap: 40px;">
+          <div class="card" style="padding: 36px 32px;">
+            <div class="before-after-header before">❌&ensp;Where most companies stop</div>
+            <ul class="ba-list">
+              <li><span class="li-icon">📄</span> A PDF with assessment results</li>
+              <li><span class="li-icon">🎤</span> A one-off workshop</li>
+              <li><span class="li-icon">🖼️</span> A poster on the wall</li>
+              <li><span class="li-icon">🤷</span> Back to business as usual</li>
+            </ul>
+          </div>
+          <div class="card card-accent" style="padding: 36px 32px;">
+            <div class="before-after-header after">✓&ensp;What high-performing teams run on</div>
+            <ul class="ba-list">
+              <li><span class="li-icon">📐</span> Clear decision rules</li>
+              <li><span class="li-icon">⚡</span> Explicit conflict agreements</li>
+              <li><span class="li-icon">🎯</span> Role clarity from strengths</li>
+              <li><span class="li-icon">🗣️</span> A shared team language</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SLIDE 5: MECHANISM ==================== -->
+    <div class="slide bg-dark glow-center" data-index="4">
+      <div class="slide-inner" style="text-align: center; display: flex; flex-direction: column; align-items: center;">
+        <div class="slide-label anim">Our Mechanism</div>
+        <h2 class="slide-headline anim d1" style="margin-bottom: 56px;">
+          Import → Analyze → <em>Act</em>
+        </h2>
+        <div class="step-row anim d2" style="width: 100%; max-width: 880px;">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-title">Import</div>
+            <div class="step-desc">Bring your existing assessment results — CliftonStrengths, MBTI, VIA — or take our built-in Big Five in 5 minutes.</div>
+          </div>
+          <div style="font-size: 28px; color: rgba(245,240,232,0.15); align-self: center; margin-top: -20px;">→</div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-title">Analyze</div>
+            <div class="step-desc">AI maps your team dynamics in real time: complementary strengths, friction points, blind spots, and gaps.</div>
+          </div>
+          <div style="font-size: 28px; color: rgba(245,240,232,0.15); align-self: center; margin-top: -20px;">→</div>
+          <div class="step-item">
+            <div class="step-num">3</div>
+            <div class="step-title">Act</div>
+            <div class="step-desc">Turn insights into team agreements, coaching conversations, action plans, and exportable reports.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SLIDE 6: TUCKMAN ==================== -->
+    <div class="slide bg-alt" data-index="5">
+      <div class="slide-inner">
+        <div class="slide-label anim">Tuckman Accelerator</div>
+        <h2 class="slide-headline anim d1" style="max-width: 700px;">
+          Storming is normal.<br>Staying there is <em>the problem.</em>
+        </h2>
+        <p class="slide-subhead anim d2" style="margin-bottom: 16px;">
+          We accelerate norming by making expectations explicit: roles, communication rights, and feedback loops.
+        </p>
+        <div class="timeline anim d3">
+          <div class="timeline-stage">
+            <div class="timeline-bar" style="background: rgba(44,40,36,0.08); border-radius: 4px 0 0 4px;"></div>
+            <div class="timeline-name" style="color: var(--color-text-light);">Forming</div>
+            <div class="timeline-detail">Polite, uncertain</div>
+          </div>
+          <div class="timeline-stage">
+            <div class="timeline-bar" style="background: linear-gradient(90deg, var(--color-accent), #e07840); box-shadow: 0 2px 12px rgba(212,101,42,0.3);"></div>
+            <div class="timeline-name" style="color: var(--color-accent);">Storming</div>
+            <div class="timeline-detail">Friction, conflict — <strong style="color: var(--color-accent);">shorten this</strong></div>
+          </div>
+          <div class="timeline-stage">
+            <div class="timeline-bar" style="background: linear-gradient(90deg, var(--color-warm-gold), #d4b42a);"></div>
+            <div class="timeline-name" style="color: var(--color-warm-gold);">Norming</div>
+            <div class="timeline-detail">Agreements, clarity</div>
+          </div>
+          <div class="timeline-stage">
+            <div class="timeline-bar" style="background: linear-gradient(90deg, #5a8a4a, #6ea05a); border-radius: 0 4px 4px 0;"></div>
+            <div class="timeline-name" style="color: #6ea05a;">Performing</div>
+            <div class="timeline-detail">Flow, results</div>
+          </div>
+        </div>
+        <div class="anim d4" style="margin-top: 40px;">
+          <div class="card card-accent" style="padding: 24px 32px; display: inline-flex; align-items: center; gap: 16px;">
+            <div style="font-size: 24px;">⚡</div>
+            <div style="font-size: 16px; color: var(--color-text); font-weight: 500;">We make the implicit explicit — so norming happens in weeks, not months.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SLIDE 7: PSYCH SAFETY ==================== -->
+    <div class="slide bg-dark-alt glow-center" data-index="6">
+      <div class="slide-inner">
+        <div class="grid-2 grid-center" style="gap: 64px;">
+          <div>
+            <div class="slide-label anim">The Science</div>
+            <h2 class="slide-headline anim d1">
+              Psychological safety is a <em>performance lever.</em>
+            </h2>
+            <p class="slide-subhead anim d2">
+              Google's Project Aristotle found it was the key differentiator in effective teams. Not talent. Not resources. Safety.
+            </p>
+          </div>
+          <div>
+            <div class="card card-dark anim d3" style="padding: 40px 36px;">
+              <div style="font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--color-accent); opacity: 0.7; margin-bottom: 28px;">In practice, this means</div>
+              <div style="display: flex; flex-direction: column; gap: 24px;">
+                <div style="display: flex; align-items: flex-start; gap: 16px;">
+                  <div class="icon-box icon-box-dark" style="min-width: 48px; width: 48px; height: 48px; border-radius: 14px; font-size: 22px;">🗣️</div>
+                  <div>
+                    <div style="font-family: var(--font-heading); font-size: 18px; color: var(--color-text-on-dark);">People speak up earlier</div>
+                    <div style="font-size: 14px; color: rgba(245,240,232,0.45);">Ideas and concerns surface before they escalate</div>
+                  </div>
+                </div>
+                <div style="display: flex; align-items: flex-start; gap: 16px;">
+                  <div class="icon-box icon-box-dark" style="min-width: 48px; width: 48px; height: 48px; border-radius: 14px; font-size: 22px;">🐛</div>
+                  <div>
+                    <div style="font-family: var(--font-heading); font-size: 18px; color: var(--color-text-on-dark);">Errors surface faster</div>
+                    <div style="font-size: 14px; color: rgba(245,240,232,0.45);">No blame culture → faster correction loops</div>
+                  </div>
+                </div>
+                <div style="display: flex; align-items: flex-start; gap: 16px;">
+                  <div class="icon-box icon-box-dark" style="min-width: 48px; width: 48px; height: 48px; border-radius: 14px; font-size: 22px;">🔄</div>
+                  <div>
+                    <div style="font-family: var(--font-heading); font-size: 18px; color: var(--color-text-on-dark);">Learning cycles shorten</div>
+                    <div style="font-size: 14px; color: rgba(245,240,232,0.45);">Teams iterate and improve faster</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SLIDE 8: STRENGTHS & GAPS ==================== -->
+    <div class="slide bg-light" data-index="7">
+      <div class="slide-inner">
+        <div class="slide-label anim">Strengths + Gaps</div>
+        <h2 class="slide-headline anim d1" style="max-width: 700px;">
+          Stop staffing by <em>guesswork.</em>
+        </h2>
+        <p class="slide-subhead anim d2" style="margin-bottom: 48px;">
+          We map your team as a system: complementary pairs, friction points, and capability gaps.
+        </p>
+        <div class="grid-3 anim d3">
+          <div class="card" style="text-align: center; padding: 36px 28px;">
+            <div class="icon-box" style="margin: 0 auto 20px;">🔍</div>
+            <div style="font-family: var(--font-heading); font-size: 20px; margin-bottom: 10px;">What should this team stop doing?</div>
+            <div style="font-size: 14px; color: var(--color-text-muted); line-height: 1.65;">Identify draining activities that work against the team's natural strengths.</div>
+          </div>
+          <div class="card card-accent" style="text-align: center; padding: 36px 28px;">
+            <div class="icon-box" style="margin: 0 auto 20px; background: rgba(212,101,42,0.12);">🧩</div>
+            <div style="font-family: var(--font-heading); font-size: 20px; margin-bottom: 10px;">Where do we need a different profile?</div>
+            <div style="font-size: 14px; color: var(--color-text-muted); line-height: 1.65;">Surface capability gaps that no current member covers.</div>
+          </div>
+          <div class="card" style="text-align: center; padding: 36px 28px;">
+            <div class="icon-box icon-box-gold" style="margin: 0 auto 20px;">⚖️</div>
+            <div style="font-family: var(--font-heading); font-size: 20px; margin-bottom: 10px;">Re-shape or re-staff?</div>
+            <div style="font-size: 14px; color: var(--color-text-muted); line-height: 1.65;">Decide when to adjust roles versus when to bring in new strengths.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SLIDE 9: ROI ==================== -->
+    <div class="slide bg-alt" data-index="8">
+      <div class="slide-inner">
+        <div class="grid-2 grid-center" style="gap: 64px;">
+          <div>
+            <div class="slide-label anim">The ROI Model</div>
+            <h2 class="slide-headline anim d1">
+              Simple math.<br><em>CFO-friendly.</em>
+            </h2>
+            <p class="slide-subhead anim d2">
+              We use a conservative baseline in every pilot. No inflated promises — just math that holds up.
+            </p>
+          </div>
+          <div>
+            <div class="card anim d2" style="padding: 44px 40px;">
+              <div style="margin-bottom: 32px;">
+                <div class="stat-number">60 min</div>
+                <div class="stat-label">saved per person per week</div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 12px; padding: 16px 0; border-top: 1px solid var(--color-border); font-size: 15px; color: var(--color-text-muted);">
+                <span style="font-size: 20px;">×</span>
+                <span><strong style="color: var(--color-text);">10 people</strong> = 10 hours/week recovered</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 12px; padding: 16px 0; border-top: 1px solid var(--color-border); font-size: 15px; color: var(--color-text-muted);">
+                <span style="font-size: 20px;">×</span>
+                <span><strong style="color: var(--color-text);">Fully loaded cost</strong> = your baseline ROI</span>
+              </div>
+              <div style="margin-top: 20px; padding: 16px 20px; background: var(--color-accent-light); border-radius: var(--radius-small); font-size: 14px; color: var(--color-text); font-weight: 500;">
+                ⚡ Before counting retention and quality improvements
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SLIDE 10: PACKAGES ==================== -->
+    <div class="slide bg-light" data-index="9">
+      <div class="slide-inner">
+        <div class="slide-label anim" style="text-align: center; display: block;">Our Packages</div>
+        <h2 class="slide-headline anim d1" style="text-align: center; margin: 0 auto 48px;">
+          A system, <em>not software.</em>
+        </h2>
+        <div class="grid-2 anim d2" style="gap: 32px; max-width: 880px; margin: 0 auto;">
+          <div class="package-card">
+            <div class="package-name">Team Performance Sprint</div>
+            <div class="package-duration">2–3 weeks</div>
+            <div class="package-desc">Rapid diagnostic and alignment for teams that need clarity fast.</div>
+            <ul class="package-list">
+              <li>Intake + assessment import</li>
+              <li>1:1 leader alignment (goals, KPIs)</li>
+              <li>1:1 team member onboarding calls</li>
+              <li>Team synergy report + team canvas</li>
+              <li>Action plan workshop</li>
+              <li>2-week follow-up check</li>
+            </ul>
+          </div>
+          <div class="package-card featured">
+            <div class="package-name">Team Re-Design</div>
+            <div class="package-duration">6–8 weeks</div>
+            <div class="package-desc">Deep restructuring for teams ready to change how they operate.</div>
+            <ul class="package-list">
+              <li>Everything in Performance Sprint</li>
+              <li>Role &amp; decision architecture</li>
+              <li>Gap plan: hire / swap / upskill</li>
+              <li>Operating agreements + rituals</li>
+              <li>Embedded team routines</li>
+              <li>Optional: leadership coaching cadence</li>
+            </ul>
+          </div>
+        </div>
+        <p class="anim d3" style="text-align: center; margin-top: 32px; font-size: 15px; color: var(--color-text-light);">
+          The platform is the delivery engine. The value is the transformation. →
+          <a href="https://strength-hack.com/" target="_blank" style="color: var(--color-accent); text-decoration: none; font-weight: 500; border-bottom: 1px solid transparent; transition: border-color 0.2s ease;">strength-hack.com</a>
+        </p>
+      </div>
+    </div>
+
+    <!-- ==================== SLIDE 11: PROOF ==================== -->
+    <div class="slide bg-dark" data-index="10">
+      <div class="slide-inner" style="text-align: center; display: flex; flex-direction: column; align-items: center;">
+        <div class="slide-label anim">Proof</div>
+        <h2 class="slide-headline anim d1" style="margin-bottom: 48px;">
+          Built on <em>1,000+ hours</em> of real coaching.
+        </h2>
+        <div class="grid-3 anim d2" style="width: 100%; max-width: 880px; margin-bottom: 48px;">
+          <div class="card card-dark" style="text-align: center; padding: 32px 24px;">
+            <div class="stat-number" style="font-size: 48px;">500+</div>
+            <div class="stat-label">Professionals served</div>
+          </div>
+          <div class="card card-dark" style="text-align: center; padding: 32px 24px;">
+            <div class="stat-number" style="font-size: 48px;">4.9<span style="font-size: 24px; color: var(--color-warm-gold);">/5</span></div>
+            <div class="stat-label">User rating</div>
+          </div>
+          <div class="card card-dark" style="text-align: center; padding: 32px 24px;">
+            <div class="stat-number" style="font-size: 48px;">1,000+</div>
+            <div class="stat-label">Coaching hours</div>
+          </div>
+        </div>
+        <div class="card card-dark anim d3" style="max-width: 640px; width: 100%; text-align: left; padding: 36px 36px;">
+          <div class="quote-mark">"</div>
+          <p style="font-size: 17px; line-height: 1.75; color: rgba(245,240,232,0.7); font-style: italic; margin-bottom: 20px;">
+            After the diagnostic, we cut our escalation meetings by half. Ownership became clear because everyone understood their complementary strengths. It's a system that stays.
+          </p>
+          <div style="font-size: 14px; font-weight: 600; color: var(--color-text-on-dark);">— Team Lead, SaaS Company</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SLIDE 12: CLOSE ==================== -->
+    <div class="slide bg-dark-alt glow-center" data-index="11">
+      <div class="slide-inner" style="text-align: center; display: flex; flex-direction: column; align-items: center;">
+        <div class="slide-label anim">Next Step</div>
+        <h2 class="slide-headline anim d1" style="max-width: 680px;">
+          The easiest <em>"yes"</em> you'll give this quarter.
+        </h2>
+        <p class="slide-subhead anim d2" style="max-width: 560px; margin-bottom: 48px; margin-left: auto; margin-right: auto;">
+          One conversation. Zero commitment. Full clarity.
+        </p>
+        <div class="anim d3" style="display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; margin-bottom: 48px;">
+          <div class="card card-dark" style="padding: 28px 32px; text-align: left; min-width: 220px;">
+            <div style="font-size: 28px; margin-bottom: 12px;">📞</div>
+            <div style="font-family: var(--font-heading); font-size: 20px; color: var(--color-text-on-dark); margin-bottom: 6px;">45-min Discovery</div>
+            <div style="font-size: 14px; color: rgba(245,240,232,0.45);">Understand your team's context</div>
+          </div>
+          <div class="card card-dark" style="padding: 28px 32px; text-align: left; min-width: 220px;">
+            <div style="font-size: 28px; margin-bottom: 12px;">🔬</div>
+            <div style="font-family: var(--font-heading); font-size: 20px; color: var(--color-text-on-dark); margin-bottom: 6px;">2-Week Diagnostic</div>
+            <div style="font-size: 14px; color: rgba(245,240,232,0.45);">Team map + top 3 friction points</div>
+          </div>
+          <div class="card card-dark" style="padding: 28px 32px; text-align: left; min-width: 220px;">
+            <div style="font-size: 28px; margin-bottom: 12px;">📋</div>
+            <div style="font-family: var(--font-heading); font-size: 20px; color: var(--color-text-on-dark); margin-bottom: 6px;">30-Day Action Plan</div>
+            <div style="font-size: 14px; color: rgba(245,240,232,0.45);">Concrete steps your team can run</div>
+          </div>
+        </div>
+        <div class="anim d4">
+          <a href="https://calendar.app.google/rjkerVN3rhHKscfh8" target="_blank" class="btn-primary" style="padding: 20px 48px; font-size: 18px;">Book Your Free Discovery Call</a>
+        </div>
+        <p class="anim d5" style="font-size: 14px; color: rgba(245,240,232,0.3); margin-top: 20px;">
+          Would next Tuesday or Thursday work?
+        </p>
+        <a href="https://strength-hack.com/" target="_blank" class="anim d6" style="font-size: 13px; color: rgba(212,101,42,0.5); margin-top: 12px; text-decoration: none; border-bottom: 1px solid rgba(212,101,42,0.2); transition: all 0.2s ease;">strength-hack.com</a>
+      </div>
+    </div>
+
+  </div><!-- /slide-area -->
+</div><!-- /presentation-wrapper -->
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const chapterItems = document.querySelectorAll('.chapter-item');
+  const counter = document.getElementById('slideCounter');
+  const totalSlides = slides.length;
+  let currentSlide = 0;
+  let transitioning = false;
+
+  function updateCounter() {
+    counter.textContent = `${currentSlide + 1} / ${totalSlides}`;
+    const isDark = slides[currentSlide].classList.contains('bg-dark') ||
+                   slides[currentSlide].classList.contains('bg-dark-alt');
+    counter.classList.toggle('on-dark', isDark);
+  }
+
+  function updateChapterNav() {
+    chapterItems.forEach(item => {
+      const slideIndex = parseInt(item.dataset.slide);
+      item.classList.toggle('active', slideIndex === currentSlide);
+    });
+  }
+
+  function goToSlide(index) {
+    if (index < 0 || index >= totalSlides || index === currentSlide || transitioning) return;
+    transitioning = true;
+
+    const direction = index > currentSlide ? 1 : -1;
+    const current = slides[currentSlide];
+    const next = slides[index];
+
+    // Exit current
+    current.classList.remove('active');
+    if (direction > 0) {
+      current.classList.add('exit-up');
+    }
+
+    // Enter next
+    next.style.transform = direction > 0 ? 'translateY(40px)' : 'translateY(-40px)';
+    next.style.opacity = '0';
+
+    requestAnimationFrame(() => {
+      next.classList.add('active');
+      next.style.transform = '';
+      next.style.opacity = '';
+    });
+
+    setTimeout(() => {
+      current.classList.remove('exit-up');
+      transitioning = false;
+    }, 700);
+
+    currentSlide = index;
+    updateCounter();
+    updateChapterNav();
+  }
+
+  // Keyboard nav
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      goToSlide(currentSlide + 1);
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      goToSlide(currentSlide - 1);
+    }
+  });
+
+  // Chapter nav clicks
+  chapterItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const index = parseInt(item.dataset.slide);
+      goToSlide(index);
+    });
+  });
+
+  // Init
+  updateCounter();
+  updateChapterNav();
+</script>
+
+</body>
+</html>
