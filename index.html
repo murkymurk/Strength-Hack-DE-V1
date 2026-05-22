@@ -512,6 +512,9 @@ em.accent {
 }
 .slide.beige .card-title,
 .slide.light .card-title { color: var(--ink); }
+/* Light/orange feat-cards always use ink regardless of parent slide background */
+.feat-card.light .card-title,
+.feat-card.orange .card-title { color: var(--ink); }
 
 .card-body {
   font-family: var(--font-outfit);
@@ -521,6 +524,8 @@ em.accent {
 }
 .slide.beige .card-body,
 .slide.light .card-body { color: var(--ink-2); }
+.feat-card.light .card-body,
+.feat-card.orange .card-body { color: var(--ink-2); }
 
 /* ══════════════════════════════════════════════════════════════
    STAT / ROI
@@ -1044,10 +1049,10 @@ em.accent {
 
           <div style="flex:1; min-height:0; display:flex; flex-direction:column; gap:44px;">
             <div>
-              <h2 class="h2" style="color:var(--ink); margin-bottom:16px;">
+              <h2 class="h2" style="margin-bottom:16px;">
                 Reibung ist nicht nur nervig. Sie ist <em class="accent">teuer.</em>
               </h2>
-              <p class="sub" style="color:var(--ink-2);">
+              <p class="sub">
                 Jedes ungelöste Team-Problem skaliert — über jede Person, jede Woche.
               </p>
             </div>
@@ -1106,10 +1111,10 @@ em.accent {
 
           <div class="grid-2" style="gap:80px; align-items:center;">
             <div>
-              <h2 class="h2" style="color:var(--ink); margin-bottom:36px;">
+              <h2 class="h2" style="margin-bottom:36px;">
                 Das ist kein Soft-Thema. Das ist <em class="accent">Gallup-bewiesen.</em>
               </h2>
-              <p class="sub" style="color:var(--ink-2); max-width:640px;">
+              <p class="sub" style="max-width:640px;">
                 Gallup zeigt in großen Meta-Analysen: Engagement hängt messbar mit harten Business-Ergebnissen zusammen.
               </p>
             </div>
@@ -1585,42 +1590,42 @@ em.accent {
             <div class="page-num">12 / 12</div>
           </div>
 
-          <div class="grid-2" style="gap:100px; align-items:center;">
-            <div style="display:flex; flex-direction:column; gap:36px;">
+          <div class="grid-2" style="gap:80px; align-items:center; flex:1; min-height:0;">
+            <div style="display:flex; flex-direction:column; gap:24px;">
               <div>
-                <h2 class="h2" style="color:var(--on-dark); font-size:56px; margin-bottom:24px;">
+                <h2 class="h2" style="color:var(--on-dark); font-size:48px; margin-bottom:18px;">
                   Das einfachste <em class="accent">„Ja"</em> dieses Quartals.
                 </h2>
-                <p class="sub" style="max-width:580px;">
+                <p class="sub" style="font-size:34px; max-width:580px;">
                   Ein Gespräch. Null Verpflichtung. Volle Klarheit.
                 </p>
               </div>
 
-              <div style="display:flex; flex-direction:column; gap:14px;">
-                <div class="cta-card">
-                  <div class="cta-icon">📞</div>
+              <div style="display:flex; flex-direction:column; gap:10px;">
+                <div class="cta-card" style="padding:20px 28px;">
+                  <div class="cta-icon" style="font-size:34px;">📞</div>
                   <div>
-                    <div class="cta-title">45 Min. Discovery</div>
-                    <div class="cta-sub">Euren Team-Kontext verstehen und einordnen</div>
+                    <div class="cta-title" style="font-size:30px;">45 Min. Discovery</div>
+                    <div class="cta-sub" style="font-size:24px;">Euren Team-Kontext verstehen und einordnen</div>
                   </div>
                 </div>
-                <div class="cta-card">
-                  <div class="cta-icon">🔬</div>
+                <div class="cta-card" style="padding:20px 28px;">
+                  <div class="cta-icon" style="font-size:34px;">🔬</div>
                   <div>
-                    <div class="cta-title">2-Wochen-Diagnose</div>
-                    <div class="cta-sub">Team-Map + Top-3-Reibungspunkte</div>
+                    <div class="cta-title" style="font-size:30px;">2-Wochen-Diagnose</div>
+                    <div class="cta-sub" style="font-size:24px;">Team-Map + Top-3-Reibungspunkte</div>
                   </div>
                 </div>
-                <div class="cta-card">
-                  <div class="cta-icon">📋</div>
+                <div class="cta-card" style="padding:20px 28px;">
+                  <div class="cta-icon" style="font-size:34px;">📋</div>
                   <div>
-                    <div class="cta-title">30-Tage-Aktionsplan</div>
-                    <div class="cta-sub">Konkrete Schritte, die euer Team sofort umsetzen kann</div>
+                    <div class="cta-title" style="font-size:30px;">30-Tage-Aktionsplan</div>
+                    <div class="cta-sub" style="font-size:24px;">Konkrete Schritte, die euer Team sofort umsetzen kann</div>
                   </div>
                 </div>
               </div>
 
-              <a href="https://calendar.app.google/rjkerVN3rhHKscfh8" target="_blank" class="btn-solid" style="width:fit-content;">
+              <a href="https://calendar.app.google/rjkerVN3rhHKscfh8" target="_blank" class="btn-solid" style="width:fit-content; font-size:26px; padding:20px 44px;">
                 Kostenloses Discovery-Gespräch buchen
               </a>
             </div>
