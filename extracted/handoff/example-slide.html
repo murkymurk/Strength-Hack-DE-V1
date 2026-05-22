@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<title>Strength Hack — Example Slide</title>
+<link rel="stylesheet" href="colors_and_type.css" />
+<style>
+  /* ---------------------------------------------------------------
+     This file is a single 1920×1080 slide that demonstrates:
+       1. The two fonts (DM Serif Display + Outfit) in context.
+       2. The full --type-* scale on real elements.
+       3. The Milo .hero-image frame (rounded 28 + teal backplate
+          #20322F + heavy floating shadow).
+
+     Open it on its own to inspect, or copy the markup into a
+     <deck-stage> to use it as a real slide.
+     --------------------------------------------------------------- */
+
+  :root {
+    /* Type scale (also lives in colors_and_type.css — duplicated
+       here so this example is self-contained) */
+    --type-display: 132px;
+    --type-title:    88px;
+    --type-h2:       72px;
+    --type-quote:    56px;
+    --type-sub:      40px;
+    --type-body:     30px;
+    --type-small:    24px;
+    --type-eyebrow:  24px;
+
+    /* Spacing */
+    --pad-x:      120px;
+    --pad-top:    110px;
+    --pad-bottom:  90px;
+    --gap-title:   44px;
+    --gap-item:    28px;
+
+    /* Brand */
+    --orange:    #D4652A;
+    --charcoal:  #1A1714;
+    --on-dark:   #F5F0E8;
+    --on-dark-2: rgba(245, 240, 232, 0.62);
+  }
+
+  html, body {
+    margin: 0;
+    background: #0E0C0A;
+    font-family: var(--font-outfit);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* The slide canvas — fixed 1920×1080 like a deck stage */
+  .slide {
+    width: 1920px;
+    height: 1080px;
+    background: var(--charcoal);
+    color: var(--on-dark);
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+
+    /* Scale to fit the viewport so this file is browseable */
+    transform-origin: top center;
+  }
+  @media (max-width: 1920px) {
+    .slide { transform: scale(calc(100vw / 1920)); }
+    body   { height: calc(100vw * 1080 / 1920); }
+  }
+
+  .frame {
+    position: absolute;
+    inset: 0;
+    padding: var(--pad-top) var(--pad-x) var(--pad-bottom);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-outfit);
+    font-size: var(--type-small);
+    color: var(--on-dark-2);
+    letter-spacing: 0.5px;
+  }
+
+  /* ---- The fonts in action ---------------------------------- */
+
+  .eyebrow {
+    font-family: var(--font-outfit);
+    font-size: var(--type-eyebrow);
+    font-weight: 600;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--orange);
+    line-height: 1;
+    margin-bottom: var(--gap-title);
+  }
+
+  .display {
+    font-family: var(--font-dm-serif);
+    font-weight: 400;
+    font-size: var(--type-display);
+    letter-spacing: -3px;
+    line-height: 1.0;
+    text-wrap: balance;
+    margin: 0 0 var(--gap-title) 0;
+  }
+
+  em.accent {
+    font-style: italic;
+    color: var(--orange);
+  }
+
+  .sub {
+    font-family: var(--font-outfit);
+    font-weight: 300;
+    font-size: var(--type-sub);
+    line-height: 1.35;
+    color: var(--on-dark-2);
+    text-wrap: pretty;
+    max-width: 720px;
+    margin: 0;
+  }
+
+  /* ---- The Milo image frame --------------------------------- */
+  /*
+     The three required ingredients:
+       1. border-radius: 28px
+       2. background: #20322F  (teal backplate behind the image)
+       3. box-shadow: 0 20px 60px rgba(0,0,0,0.4)
+  */
+  .hero-image {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 28px;
+    overflow: hidden;
+    background: #20322F;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  }
+  .hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Layout: 58/42 split with Milo on the right */
+  .grid {
+    display: grid;
+    grid-template-columns: 58fr 42fr;
+    gap: 100px;
+    align-items: center;
+    flex: 1;
+  }
+
+  .small {
+    font-family: var(--font-outfit);
+    font-size: var(--type-small);
+    color: var(--on-dark-2);
+    letter-spacing: 0.3px;
+  }
+</style>
+</head>
+<body>
+
+<div class="slide">
+  <div class="frame">
+
+    <div class="top-bar">
+      <span>The Strength Hack</span>
+      <span>Beispiel-Slide · Schrift &amp; Bild</span>
+    </div>
+
+    <div class="grid">
+      <div>
+        <div class="eyebrow">Beispiel · Hero-Layout</div>
+        <h1 class="display">
+          So sehen Schrift und Bild <em class="accent">zusammen</em> aus.
+        </h1>
+        <p class="sub">
+          DM Serif Display für die Headline, Outfit für alles andere. Milo sitzt im
+          gerundeten Rahmen mit warmem Hintergrund und schwerem Schlagschatten — nie
+          flach auf der Slide.
+        </p>
+      </div>
+      <div>
+        <div class="hero-image" style="aspect-ratio: 4 / 5; height: auto;">
+          <img src="assets/milo-hero.jpg" alt="Milo juggling crystals" />
+        </div>
+      </div>
+    </div>
+
+    <div class="top-bar">
+      <span class="small">strength-hack.com</span>
+      <span class="small">01 / 01</span>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

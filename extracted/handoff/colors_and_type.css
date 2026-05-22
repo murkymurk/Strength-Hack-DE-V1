@@ -1,0 +1,243 @@
+/* ============================================================
+   The Strength Hack — Design System
+   colors_and_type.css
+
+   Source of truth: docs/DESIGN-SYSTEM.md + landing.css from
+   murkymurk/strength-hack @ feature/integrations.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* ---------- FONT FAMILIES ---------- */
+  --font-dm-serif: 'DM Serif Display', Georgia, 'Times New Roman', serif;
+  --font-outfit: 'Outfit', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+
+  /* ---------- CORE BRAND ---------- */
+  --color-brand:           #D4652A;   /* Warm orange — the brand */
+  --color-brand-hover:     #BF5520;   /* Darker hover state */
+  --color-brand-accessible:#B5501E;   /* AA variant — 4.92:1 on cream */
+  --color-brand-gold:      #C49A2A;   /* Secondary accent — stars, gradients */
+
+  /* ---------- BACKGROUNDS ---------- */
+  --bg-page:        #FDFBF7;          /* Warm cream — default page */
+  --bg-surface:     #F5F0E8;          /* Warm beige — alternate sections, proof bar */
+  --bg-dark:        #1A1714;          /* Warm charcoal — dark sections */
+  --bg-card-dark:   #242018;          /* Cards on dark */
+
+  /* ---------- TEXT ---------- */
+  --fg-primary:        #2C2824;       /* Headlines, body emphasis */
+  --fg-secondary:      #7A7168;       /* Body text, descriptions */
+  --fg-muted:          #A89F94;       /* Decorative only — fails WCAG */
+  --fg-on-dark:        #F5F0E8;       /* Text on dark bg */
+  --fg-on-dark-2:      rgba(245, 240, 232, 0.6);
+  --fg-on-dark-muted:  rgba(245, 240, 232, 0.35);
+
+  /* AA-safe variants */
+  --fg-secondary-on-beige: #6F655C;   /* Use on #F5F0E8 cards */
+  --fg-functional-muted:   #7A7168;   /* When muted text conveys meaning */
+
+  /* ---------- BORDERS ---------- */
+  --border-default:  rgba(44, 40, 36, 0.08);    /* Cards, dividers */
+  --border-hover:    rgba(44, 40, 36, 0.20);    /* Secondary buttons */
+  --border-strong:   rgba(44, 40, 36, 0.25);    /* Functional borders (inputs) */
+  --border-dark:     rgba(245, 240, 232, 0.10); /* Cards on dark */
+  --border-active:   #D4652A;
+
+  /* ---------- ACCENT / STATE ---------- */
+  --glow-brand:           rgba(212, 101, 42, 0.08);  /* Icon containers */
+  --shadow-brand:         rgba(212, 101, 42, 0.25);  /* Button shadow */
+  --gradient-accent:      linear-gradient(90deg, #D4652A, #C49A2A);
+  --radial-glow-brand:    radial-gradient(circle, rgba(212, 101, 42, 0.15) 0%, transparent 70%);
+  --radial-glow-brand-dim:radial-gradient(circle, rgba(212, 101, 42, 0.08) 0%, transparent 60%);
+
+  /* ---------- SHADOWS ---------- */
+  --shadow-button:         0 4px 20px rgba(212, 101, 42, 0.25);
+  --shadow-button-hover:   0 8px 32px rgba(212, 101, 42, 0.35);
+  --shadow-card-hover:     0 20px 60px rgba(44, 40, 36, 0.08);
+  --shadow-card-medium:    0 12px 40px rgba(44, 40, 36, 0.08);
+  --shadow-card-featured:  0 8px 40px rgba(212, 101, 42, 0.12);
+  --shadow-image-hero:     0 20px 60px rgba(44, 40, 36, 0.12);
+  --shadow-subtle:         0 4px 16px rgba(44, 40, 36, 0.04);
+  --shadow-login-card:     0 8px 40px rgba(44, 40, 36, 0.06);
+
+  /* ---------- BORDER RADIUS ---------- */
+  --radius-pill:        980px;        /* Buttons, badges, tags */
+  --radius-card:        20px;         /* Cards, sections */
+  --radius-icon:        16px;         /* Icon containers */
+  --radius-icon-sm:     14px;
+  --radius-image:       12px;         /* Feature images */
+  --radius-input:       12px;
+
+  /* ---------- SPACING (vertical rhythm) ---------- */
+  --space-section:       clamp(80px, 10vw, 140px);
+  --space-section-sm:    clamp(60px, 8vw, 100px);
+  --space-container-x:   clamp(20px, 5vw, 48px);
+
+  --pad-card-lg:         44px 36px;
+  --pad-card-md:         40px 32px;
+  --pad-card-sm:         36px 28px;
+
+  /* ---------- LAYOUT ---------- */
+  --container-max:       1120px;
+  --content-max:         720px;
+  --body-max:            640px;
+  --hero-max:            800px;
+
+  /* ---------- TRANSITIONS ---------- */
+  --ease-brand:          cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-button:   all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-card:     all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-simple:   all 0.3s ease;
+
+  /* ---------- CLIFTONSTRENGTHS DOMAINS ----------
+     Functional palette — used in charts, badges, domain-tagged content.
+     Source: src/constants/domain-colors.ts (canonical) */
+  --domain-relationship: #2563eb;     /* blue-600 */
+  --domain-influencing:  #eab308;     /* yellow-500 */
+  --domain-executing:    #ef4444;     /* red-500 */
+  --domain-strategic:    #10b981;     /* emerald-500 */
+
+  /* ---------- TUCKMAN STAGES ---------- */
+  --tuckman-forming:    #7A9BB5;
+  --tuckman-storming:   #C86B5A;
+  --tuckman-norming:    #C49A2A;
+  --tuckman-performing: #3A9268;
+}
+
+/* ============================================================
+   SEMANTIC TYPOGRAPHY
+   Use these directly on elements for consistent type.
+   ============================================================ */
+
+body {
+  font-family: var(--font-outfit);
+  color: var(--fg-primary);
+  background: var(--bg-page);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Display headlines (hero, page-opening) */
+.ts-display {
+  font-family: var(--font-dm-serif);
+  font-weight: 400;
+  font-size: clamp(40px, 7vw, 80px);
+  line-height: 1.08;
+  letter-spacing: -1.5px;
+  color: var(--fg-primary);
+}
+.ts-display em { font-style: italic; color: var(--color-brand); }
+
+/* h1 — section headlines */
+.ts-h1 {
+  font-family: var(--font-dm-serif);
+  font-weight: 400;
+  font-size: clamp(32px, 5vw, 52px);
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+  color: var(--fg-primary);
+}
+
+/* h2 — subsection headlines */
+.ts-h2 {
+  font-family: var(--font-dm-serif);
+  font-weight: 400;
+  font-size: clamp(24px, 3vw, 32px);
+  line-height: 1.2;
+  letter-spacing: -0.3px;
+  color: var(--fg-primary);
+}
+
+/* h3 — card / feature titles */
+.ts-h3 {
+  font-family: var(--font-dm-serif);
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 1.25;
+  color: var(--fg-primary);
+}
+
+/* h4 — small card titles */
+.ts-h4 {
+  font-family: var(--font-dm-serif);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.3;
+  color: var(--fg-primary);
+}
+
+/* Body — primary reading copy */
+.ts-body {
+  font-family: var(--font-outfit);
+  font-weight: 300;
+  font-size: clamp(16px, 1.8vw, 19px);
+  line-height: 1.75;
+  color: var(--fg-secondary);
+  max-width: var(--body-max);
+}
+
+/* Body small — meta, captions */
+.ts-body-sm {
+  font-family: var(--font-outfit);
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--fg-secondary);
+}
+
+/* Eyebrow label — section markers, tag-style */
+.ts-label {
+  font-family: var(--font-outfit);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--color-brand-accessible);
+  display: inline-block;
+}
+.ts-label-on-dark { color: rgba(245, 240, 232, 0.75); }
+
+/* Inline link */
+.ts-link {
+  color: var(--color-brand-accessible);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+.ts-link:hover { border-bottom-color: var(--color-brand-accessible); }
+
+/* Code / mono — system mono stack (no custom mono in design) */
+.ts-mono {
+  font-family: ui-monospace, 'SF Mono', Menlo, Monaco, Consolas, monospace;
+  font-size: 14px;
+  background: var(--bg-surface);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--fg-primary);
+}
+
+/* Pricing amount specimen */
+.ts-pricing-amount {
+  font-family: var(--font-dm-serif);
+  font-weight: 400;
+  font-size: 48px;
+  line-height: 1;
+  color: var(--fg-primary);
+}
+.ts-pricing-amount span {
+  font-family: var(--font-outfit);
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--fg-secondary);
+}
+
+/* Headlines auto-style when nested in landing-page-style scopes */
+h1.ts-auto, h2.ts-auto, h3.ts-auto, h4.ts-auto {
+  font-family: var(--font-dm-serif);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+  margin: 0;
+}

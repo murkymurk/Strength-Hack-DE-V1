@@ -1,0 +1,1054 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<title>Strength Hack · Team-Kickoff</title>
+<link rel="stylesheet" href="colors_and_type.css" />
+<style>
+  /* =========================================================
+     Strength Hack — Kickoff (8 slides, 1920×1080)
+     ========================================================= */
+
+  :root {
+    /* Type scale — projection-appropriate */
+    --type-display: 132px;
+    --type-title:   88px;
+    --type-h2:      72px;
+    --type-quote:   56px;
+    --type-stat:    220px;
+    --type-sub:     40px;
+    --type-body:    30px;
+    --type-small:   24px;
+    --type-eyebrow: 24px;
+
+    /* Spacing */
+    --pad-x:       120px;
+    --pad-top:     110px;
+    --pad-bottom:  90px;
+    --gap-title:   44px;
+    --gap-item:    28px;
+
+    /* Brand */
+    --orange:        #D4652A;
+    --orange-soft:   rgba(212,101,42,0.10);
+    --orange-line:   rgba(212,101,42,0.32);
+    --cream:         #FDFBF7;
+    --beige:         #F5F0E8;
+    --charcoal:      #1A1714;
+    --card-dark:     #242018;
+    --ink:           #2C2824;
+    --ink-2:         #7A7168;
+    --on-dark:       #F5F0E8;
+    --on-dark-2:     rgba(245,240,232,0.62);
+    --on-dark-3:     rgba(245,240,232,0.38);
+    --on-dark-line:  rgba(245,240,232,0.10);
+  }
+
+  html, body { background: #0E0C0A; }
+  deck-stage { background: #0E0C0A; color: var(--ink); font-family: var(--font-outfit); }
+
+  /* Slide base ------------------------------------------------ */
+  .slide {
+    background: var(--cream);
+    color: var(--ink);
+    overflow: hidden;
+    position: relative;
+    font-family: var(--font-outfit);
+    -webkit-font-smoothing: antialiased;
+  }
+  .slide.dark  { background: var(--charcoal); color: var(--on-dark); }
+  .slide.beige { background: var(--beige);    color: var(--ink); }
+
+  /* Frame: every slide gets the same generous padding ---------- */
+  .frame {
+    position: absolute;
+    inset: 0;
+    padding: var(--pad-top) var(--pad-x) var(--pad-bottom);
+    display: flex;
+    flex-direction: column;
+  }
+  .frame.center { justify-content: center; }
+  .frame.between { justify-content: space-between; }
+
+  /* Eyebrow / labels ------------------------------------------ */
+  .eyebrow {
+    font-family: var(--font-outfit);
+    font-size: var(--type-eyebrow);
+    font-weight: 600;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--orange);
+    line-height: 1;
+  }
+  .dark .eyebrow { color: var(--orange); }
+
+  /* Type ------------------------------------------------------- */
+  .display, .title, .h2, .quote {
+    font-family: var(--font-dm-serif);
+    font-weight: 400;
+    letter-spacing: -1.2px;
+    line-height: 1.04;
+    text-wrap: balance;
+    margin: 0;
+  }
+  .display { font-size: var(--type-display); letter-spacing: -3px; line-height: 1.0; }
+  .title   { font-size: var(--type-title);   letter-spacing: -1.8px; }
+  .h2      { font-size: var(--type-h2);      letter-spacing: -1.2px; line-height: 1.06; }
+  .quote   { font-size: var(--type-quote);   font-style: italic; line-height: 1.18; letter-spacing: -0.6px; }
+
+  em.accent {
+    font-style: italic;
+    color: var(--orange);
+  }
+
+  .body  { font-size: var(--type-body); line-height: 1.55; color: var(--ink-2); font-weight: 400; }
+  .dark .body { color: var(--on-dark-2); }
+  .sub   { font-size: var(--type-sub);  line-height: 1.3;  color: var(--ink-2); font-weight: 300; }
+  .dark .sub  { color: var(--on-dark-2); }
+  .small { font-size: var(--type-small); line-height: 1.5; color: var(--ink-2); }
+  .dark .small { color: var(--on-dark-3); }
+
+  .strong-on-dark { color: var(--on-dark); font-weight: 500; }
+  .strong-ink     { color: var(--ink);     font-weight: 500; }
+
+  /* Header bar / footer chrome -------------------------------- */
+  .top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 36px;
+    margin-bottom: var(--gap-title);
+  }
+  .brand-lockup {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .brand-mark {
+    width: 36px; height: 36px;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .brand-mark svg { display: block; }
+  .brand-word {
+    font-family: var(--font-dm-serif);
+    font-size: 26px;
+    line-height: 1;
+    letter-spacing: -0.4px;
+    color: var(--ink);
+  }
+  .dark .brand-word { color: var(--on-dark); }
+
+  .top-meta {
+    font-family: var(--font-outfit);
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+  .dark .top-meta { color: var(--on-dark-3); }
+
+  .bottom-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--font-outfit);
+    font-size: 24px;
+    color: var(--ink-2);
+    letter-spacing: 0.5px;
+  }
+  .dark .bottom-bar { color: var(--on-dark-3); }
+
+  /* Layout helpers -------------------------------------------- */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; flex: 1; min-height: 0; }
+  .grid-2-58 { display: grid; grid-template-columns: 0.92fr 1.08fr; gap: 80px; align-items: center; flex: 1; min-height: 0; }
+  .stack { display: flex; flex-direction: column; }
+  .stack > * + * { margin-top: var(--gap-item); }
+
+  /* Pills + buttons ------------------------------------------ */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 26px;
+    border-radius: 980px;
+    font-family: var(--font-outfit);
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+  .pill.outline {
+    background: transparent;
+    border: 1.5px solid rgba(44,40,36,0.20);
+    color: var(--ink);
+  }
+  .dark .pill.outline {
+    border-color: rgba(245,240,232,0.22);
+    color: var(--on-dark);
+  }
+  .pill.solid {
+    background: var(--orange);
+    color: #fff;
+    border: 1.5px solid var(--orange);
+    box-shadow: 0 8px 32px rgba(212,101,42,0.25);
+  }
+  .pill.dot::before {
+    content: ""; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--orange);
+  }
+
+  /* Hero image frame ----------------------------------------- */
+  .hero-image {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 28px;
+    overflow: hidden;
+    background: #20322F;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+  .hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Stat block ------------------------------------------------ */
+  .stat-number {
+    font-family: var(--font-dm-serif);
+    font-size: var(--type-stat);
+    line-height: 0.9;
+    letter-spacing: -8px;
+    color: var(--orange);
+  }
+  .stat-number .pct { font-size: 0.42em; vertical-align: top; margin-left: 6px; letter-spacing: -2px; }
+  .stat-caption {
+    font-family: var(--font-outfit);
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--on-dark-3);
+  }
+
+  /* Cards ----------------------------------------------------- */
+  .card-dark {
+    background: var(--card-dark);
+    border: 1px solid var(--on-dark-line);
+    border-radius: 24px;
+    padding: 38px 40px;
+  }
+  .card-light {
+    background: #fff;
+    border: 1px solid rgba(44,40,36,0.08);
+    border-radius: 24px;
+    padding: 38px 40px;
+  }
+  .card-beige {
+    background: var(--beige);
+    border-radius: 24px;
+    padding: 38px 40px;
+  }
+  .card-orange {
+    background: var(--orange-soft);
+    border: 1.5px solid var(--orange-line);
+    border-radius: 24px;
+    padding: 38px 40px;
+  }
+
+  /* Aristotle pillars list ----------------------------------- */
+  .pillar-row {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    align-items: center;
+    gap: 28px;
+    padding: 26px 32px;
+    border-radius: 18px;
+    border: 1px solid var(--on-dark-line);
+    background: rgba(245,240,232,0.03);
+  }
+  .pillar-row.featured {
+    background: var(--orange-soft);
+    border: 1.5px solid var(--orange-line);
+  }
+  .pillar-num {
+    font-family: var(--font-dm-serif);
+    font-size: 56px;
+    line-height: 1;
+    letter-spacing: -2px;
+    color: var(--on-dark-3);
+  }
+  .pillar-row.featured .pillar-num { color: var(--orange); }
+  .pillar-name {
+    font-family: var(--font-outfit);
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--on-dark);
+  }
+  .pillar-row:not(.featured) .pillar-name { color: var(--on-dark-2); }
+  .pillar-tag {
+    font-family: var(--font-outfit);
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--orange);
+  }
+
+  /* Comparison row (S2) --------------------------------------- */
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 80px 1fr;
+    gap: 0;
+    align-items: stretch;
+    flex: 1;
+    min-height: 0;
+  }
+  .compare-side {
+    border-radius: 24px;
+    padding: 44px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .compare-side.old {
+    background: rgba(245,240,232,0.04);
+    border: 1px solid var(--on-dark-line);
+    color: var(--on-dark-2);
+  }
+  .compare-side.new {
+    background: var(--orange-soft);
+    border: 1.5px solid var(--orange-line);
+  }
+  .compare-arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--orange);
+    font-size: 40px;
+  }
+  .compare-arrow .line {
+    width: 1.5px;
+    flex: 1;
+    background: var(--on-dark-line);
+  }
+  .compare-arrow .arrow {
+    margin: 18px 0;
+    font-family: var(--font-dm-serif);
+    font-style: italic;
+    font-size: 28px;
+    letter-spacing: -0.5px;
+    color: var(--orange);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+
+  .compare-label {
+    font-family: var(--font-outfit);
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--on-dark-3);
+    margin-bottom: 18px;
+  }
+  .compare-side.new .compare-label { color: var(--orange); }
+  .compare-title {
+    font-family: var(--font-dm-serif);
+    font-size: 64px;
+    line-height: 1.04;
+    letter-spacing: -1.5px;
+    color: var(--on-dark);
+    margin-bottom: 28px;
+  }
+  .compare-side.old .compare-title { color: var(--on-dark-2); }
+  .compare-bullets { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 18px; }
+  .compare-bullets li {
+    font-family: var(--font-outfit);
+    font-size: 24px;
+    line-height: 1.45;
+    color: var(--on-dark-2);
+    padding-left: 22px;
+    position: relative;
+  }
+  .compare-bullets li::before {
+    content: ""; position: absolute; left: 0; top: 14px;
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--on-dark-3);
+  }
+  .compare-side.new .compare-bullets li { color: var(--on-dark); }
+  .compare-side.new .compare-bullets li::before { background: var(--orange); }
+  .compare-outcome {
+    margin-top: 28px;
+    font-family: var(--font-dm-serif);
+    font-style: italic;
+    font-size: 28px;
+    color: var(--on-dark-3);
+  }
+  .compare-side.new .compare-outcome { color: var(--orange); }
+
+  /* Stat trio (S6) -------------------------------------------- */
+  .stat-trio {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    flex: 1;
+    align-items: stretch;
+  }
+  .stat-card {
+    background: var(--card-dark);
+    border: 1px solid var(--on-dark-line);
+    border-radius: 28px;
+    padding: 56px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .stat-card.featured {
+    background: var(--orange-soft);
+    border: 1.5px solid var(--orange-line);
+  }
+  .stat-card .num {
+    font-family: var(--font-dm-serif);
+    font-size: 200px;
+    line-height: 0.85;
+    letter-spacing: -8px;
+    color: var(--orange);
+  }
+  .stat-card .num small { font-size: 0.5em; letter-spacing: -3px; vertical-align: top; }
+  .stat-card .label {
+    font-family: var(--font-outfit);
+    font-size: 30px;
+    font-weight: 500;
+    color: var(--on-dark);
+    margin-top: 24px;
+    line-height: 1.2;
+  }
+  .stat-card .footnote {
+    font-family: var(--font-outfit);
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--on-dark-3);
+    margin-top: 28px;
+  }
+
+  /* Gap-flow (S7) --------------------------------------------- */
+  .gap-step {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 24px 32px;
+    border-radius: 18px;
+    border: 1px solid rgba(44,40,36,0.10);
+    background: #fff;
+  }
+  .gap-step.dead {
+    border: 1.5px dashed rgba(212,101,42,0.40);
+    background: rgba(212,101,42,0.04);
+  }
+  .gap-step.target {
+    border: 1.5px solid var(--orange);
+    background: var(--orange-soft);
+  }
+  .gap-num {
+    font-family: var(--font-dm-serif);
+    font-size: 40px;
+    line-height: 1;
+    color: var(--orange);
+    width: 40px;
+    flex-shrink: 0;
+  }
+  .gap-text {
+    font-family: var(--font-outfit);
+    font-size: 24px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .gap-text small {
+    display: block;
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--ink-2);
+    margin-top: 4px;
+  }
+  .gap-step.target .gap-text { color: var(--orange); font-weight: 600; }
+  .gap-arrow {
+    text-align: center;
+    color: rgba(44,40,36,0.20);
+    font-size: 24px;
+    margin: 4px 0 4px 20px;
+  }
+
+  /* Roadmap (S8) ---------------------------------------------- */
+  .roadmap {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+    margin-top: 60px;
+  }
+  .roadmap-step {
+    position: relative;
+    padding-top: 36px;
+  }
+  .roadmap-step::before {
+    content: "";
+    position: absolute;
+    top: 16px; left: 0; right: -28px;
+    height: 1px;
+    background: rgba(245,240,232,0.18);
+  }
+  .roadmap-step:last-child::before { right: 0; }
+  .roadmap-week {
+    font-family: var(--font-outfit);
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--orange);
+    position: absolute;
+    top: -10px; left: 0;
+    background: var(--charcoal);
+    padding-right: 16px;
+  }
+  .roadmap-title {
+    font-family: var(--font-dm-serif);
+    font-size: 38px;
+    line-height: 1.1;
+    letter-spacing: -0.6px;
+    color: var(--on-dark);
+    margin-bottom: 14px;
+  }
+  .roadmap-body {
+    font-family: var(--font-outfit);
+    font-size: 26px;
+    line-height: 1.5;
+    color: var(--on-dark-2);
+  }
+
+  /* Misc ------------------------------------------------------ */
+  .quote-mark {
+    font-family: var(--font-dm-serif);
+    font-size: 180px;
+    line-height: 0.6;
+    color: var(--orange);
+    margin-bottom: -30px;
+    display: block;
+  }
+
+  .source-line {
+    font-family: var(--font-outfit);
+    font-size: 24px;
+    color: var(--on-dark-3);
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .light .source-line { color: var(--ink-2); }
+
+  /* Hero glow ------------------------------------------------- */
+  .hero-glow {
+    position: absolute;
+    width: 1200px; height: 1200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212,101,42,0.20) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Pretty wrap utility */
+  .wrap-pretty { text-wrap: pretty; }
+
+  /* Page-progress dots --- shown only when toggled in tweaks */
+  .page-dots { display: flex; gap: 12px; }
+  .page-dots span {
+    width: 28px; height: 2px;
+    background: rgba(245,240,232,0.15);
+    border-radius: 2px;
+  }
+  .light .page-dots span { background: rgba(44,40,36,0.12); }
+  .page-dots span.on { background: var(--orange); }
+
+  /* Page number */
+  .page-num {
+    font-family: var(--font-dm-serif);
+    font-size: 24px;
+    color: var(--on-dark-3);
+  }
+  .light .page-num { color: var(--ink-2); }
+
+</style>
+</head>
+<body>
+
+<deck-stage width="1920" height="1080">
+
+  <!-- ════════════════════════════════════════════════════════════
+       SLIDE 1 — TITLE / HERO  (dark, Milo)
+       ════════════════════════════════════════════════════════════ -->
+  <section class="slide dark" data-label="01 Titel">
+    <div class="frame between">
+      <div class="top-bar">
+        <div class="brand-lockup">
+          <span class="brand-mark">
+            <svg width="36" height="36" viewBox="0 0 100 100" fill="none">
+              <circle cx="50" cy="50" r="44" stroke="#D4652A" stroke-width="5"></circle>
+              <path d="M50 16 L70 76 L50 64 L30 76 Z" fill="#D4652A"></path>
+            </svg>
+          </span>
+          <span class="brand-word" style="color: var(--on-dark);">The Strength Hack</span>
+        </div>
+        <div class="top-meta">Team-Kickoff · 2026</div>
+      </div>
+
+      <div class="grid-2-58" style="gap: 100px;">
+        <div>
+          <div class="eyebrow" style="margin-bottom: 36px;">Führungsteam · Kickoff</div>
+          <h1 class="display wrap-pretty" style="margin-bottom: 40px;">
+            Vom Testergebnis<br />zur <em class="accent">Team-Excellence</em>.
+          </h1>
+          <p class="sub wrap-pretty" style="max-width: 680px;">
+            Wie Du aus CliftonStrengths-Berichten ein Team baust, das messbar besser zusammenarbeitet — in vier Wochen.
+          </p>
+        </div>
+        <div class="hero-image">
+          <img src="assets/milo-hero.jpg" alt="Milo juggling crystals" />
+        </div>
+      </div>
+
+      <div class="bottom-bar">
+        <div>strength-hack.com</div>
+        <div>60-Minuten Kickoff</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════
+       SLIDE 2 — Heroic Leader vs Conductor (dark, comparison)
+       ════════════════════════════════════════════════════════════ -->
+  <section class="slide dark" data-label="02 Hero vs Conductor">
+    <div class="frame">
+      <div class="top-bar">
+        <div class="eyebrow">Das Problem · Teil 1</div>
+        <div class="page-num">02 / 08</div>
+      </div>
+
+      <h2 class="h2 wrap-pretty" style="max-width: 1200px; margin-bottom: 56px;">
+        Heroische Führung skaliert <em class="accent">nicht mehr</em>.
+      </h2>
+
+      <div class="compare">
+        <div class="compare-side old">
+          <div>
+            <div class="compare-label">Altes Modell</div>
+            <div class="compare-title">Der Hero-Leader</div>
+            <ul class="compare-bullets">
+              <li>Alle Antworten kommen von oben.</li>
+              <li>Eine Person trägt die ganze Last.</li>
+              <li>Reaktiv, nicht strategisch.</li>
+            </ul>
+          </div>
+          <div class="compare-outcome">→ Burnout &amp; Überforderung.</div>
+        </div>
+
+        <div class="compare-arrow">
+          <div class="line"></div>
+          <div class="arrow">Stärken statt Schwächen</div>
+          <div class="line"></div>
+        </div>
+
+        <div class="compare-side new">
+          <div>
+            <div class="compare-label">Neues Modell</div>
+            <div class="compare-title">Der Strengths-Conductor</div>
+            <ul class="compare-bullets">
+              <li>Kollektive Intelligenz orchestrieren.</li>
+              <li>Verantwortung verteilt sich im Team.</li>
+              <li>Proaktiv, mit Raum für Strategie.</li>
+            </ul>
+          </div>
+          <div class="compare-outcome">→ Performance &amp; Flow.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════
+       SLIDE 3 — Big stat: 22% (dark, hero number)
+       ════════════════════════════════════════════════════════════ -->
+  <section class="slide dark" data-label="03 Manager-Engagement">
+    <div class="frame between">
+      <div class="top-bar">
+        <div class="eyebrow">Gallup · State of the Global Workplace 2026</div>
+        <div class="page-num">03 / 08</div>
+      </div>
+
+      <div class="grid-2" style="gap: 120px; align-items: center;">
+        <div>
+          <div class="stat-caption" style="margin-bottom: 28px;">Manager · global engaged</div>
+          <div style="display: flex; align-items: flex-start; line-height: 1;">
+            <span class="stat-number">22<span class="pct">%</span></span>
+          </div>
+          <div class="sub" style="max-width: 560px; margin-top: 36px; color: var(--on-dark-2);">
+            Nur jede:r fünfte Führungskraft weltweit ist heute noch wirklich engagiert.
+          </div>
+        </div>
+
+        <div class="stack" style="gap: 18px;">
+          <div class="card-dark" style="display: flex; align-items: center; justify-content: space-between; gap: 24px;">
+            <span class="strong-on-dark" style="font-size: 28px; font-weight: 500;">Täglicher Stress</span>
+            <span style="font-family: var(--font-dm-serif); font-size: 56px; line-height: 1; color: var(--orange); letter-spacing: -1px;">+7&nbsp;Pkt</span>
+          </div>
+          <div class="card-dark" style="display: flex; align-items: center; justify-content: space-between; gap: 24px;">
+            <span class="strong-on-dark" style="font-size: 28px; font-weight: 500;">Wut &amp; Frustration</span>
+            <span style="font-family: var(--font-dm-serif); font-size: 56px; line-height: 1; color: var(--orange); letter-spacing: -1px;">+12&nbsp;Pkt</span>
+          </div>
+          <div class="card-dark" style="display: flex; align-items: center; justify-content: space-between; gap: 24px;">
+            <span class="strong-on-dark" style="font-size: 28px; font-weight: 500;">Einsamkeit</span>
+            <span style="font-family: var(--font-dm-serif); font-size: 56px; line-height: 1; color: var(--orange); letter-spacing: -1px;">+10&nbsp;Pkt</span>
+          </div>
+          <div class="small" style="margin-top: 12px;">Zunahme bei Manager:innen ggü. Mitarbeitenden ohne Führungsverantwortung.</div>
+        </div>
+      </div>
+
+      <div class="bottom-bar">
+        <div class="source-line">Quelle · Gallup 2026</div>
+        <div class="page-num" style="opacity: 0;">·</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════
+       SLIDE 4 — Aristotle / Psych Safety (dark, list)
+       ════════════════════════════════════════════════════════════ -->
+  <section class="slide dark" data-label="04 Aristotle">
+    <div class="frame">
+      <div class="top-bar">
+        <div class="eyebrow">Google Project Aristotle · 180 Teams</div>
+        <div class="page-num">04 / 08</div>
+      </div>
+
+      <div class="grid-2" style="gap: 100px; align-items: center;">
+        <div>
+          <h2 class="h2 wrap-pretty" style="margin-bottom: 40px;">
+            Psychologische Sicherheit schlägt <em class="accent">Talent</em>.
+          </h2>
+          <p class="sub wrap-pretty" style="max-width: 620px; margin-bottom: 36px;">
+            Google hat fünf Jahre lang 180 Teams vermessen. Der größte Hebel war nicht der IQ, nicht das Skill-Set — sondern <span class="strong-on-dark">wie</span> die Teams miteinander reden.
+          </p>
+          <div class="card-orange">
+            <div class="quote" style="color: var(--on-dark); font-size: 36px; line-height: 1.3;">
+              „Wer im Team ist, ist viel weniger wichtig als wie das Team zusammenarbeitet."
+            </div>
+            <div class="small" style="margin-top: 22px; color: var(--on-dark-3); letter-spacing: 2px; text-transform: uppercase; font-weight: 600;">— Project Aristotle, Google 2015</div>
+          </div>
+        </div>
+
+        <div class="stack" style="gap: 16px;">
+          <div class="pillar-row featured">
+            <div class="pillar-num">01</div>
+            <div>
+              <div class="pillar-name">Psychologische Sicherheit</div>
+              <div class="pillar-tag" style="margin-top: 4px;">Wichtigster Faktor</div>
+            </div>
+            <div></div>
+          </div>
+          <div class="pillar-row">
+            <div class="pillar-num">02</div>
+            <div class="pillar-name">Verlässlichkeit</div>
+            <div></div>
+          </div>
+          <div class="pillar-row">
+            <div class="pillar-num">03</div>
+            <div class="pillar-name">Struktur &amp; Klarheit</div>
+            <div></div>
+          </div>
+          <div class="pillar-row">
+            <div class="pillar-num">04</div>
+            <div class="pillar-name">Sinnhaftigkeit</div>
+            <div></div>
+          </div>
+          <div class="pillar-row">
+            <div class="pillar-num">05</div>
+            <div class="pillar-name">Wirksamkeit</div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════
+       SLIDE 5 — Seligman quote (light section, beige break)
+       ════════════════════════════════════════════════════════════ -->
+  <section class="slide beige" data-label="05 Seligman">
+    <div class="frame between">
+      <div class="top-bar">
+        <div class="eyebrow">Positive Psychologie · Martin Seligman, 1998</div>
+        <div class="page-num" style="color: var(--ink-2);">05 / 08</div>
+      </div>
+
+      <div class="grid-2" style="gap: 100px; align-items: center;">
+        <div>
+          <span class="quote-mark">"</span>
+          <div class="quote wrap-pretty" style="color: var(--ink); margin-bottom: 40px; max-width: 760px;">
+            Exzellenz entsteht nicht durch das Ausmerzen von Schwächen — sondern durch das Ausbauen von <em class="accent">Stärken</em>.
+          </div>
+          <div class="source-line" style="color: var(--ink-2);">Martin Seligman · APA-Präsident 1998</div>
+        </div>
+
+        <div>
+          <div class="hero-image" style="aspect-ratio: 4 / 5; height: auto;">
+            <img src="assets/milo-strengths.jpg" alt="Milo polishing a crystal" />
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-bar" style="color: var(--ink-2);">
+        <div>Defizite verwalten kostet Energie. Stärken entfalten erzeugt Exzellenz.</div>
+        <div class="source-line" style="color: var(--ink-2);">Paradigmenwechsel</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════
+       SLIDE 6 — Gallup 3-up stats (dark)
+       ════════════════════════════════════════════════════════════ -->
+  <section class="slide dark" data-label="06 Gallup Meta">
+    <div class="frame">
+      <div class="top-bar">
+        <div class="eyebrow">Gallup Meta-Analyse · 50.000 Geschäftseinheiten</div>
+        <div class="page-num">06 / 08</div>
+      </div>
+
+      <h2 class="h2 wrap-pretty" style="max-width: 1300px; margin-bottom: 56px;">
+        Stärken-fokussierte Teams liefern <em class="accent">messbar</em> mehr.
+      </h2>
+
+      <div class="stat-trio">
+        <div class="stat-card">
+          <div class="num">+19<small>%</small></div>
+          <div>
+            <div class="label">Höherer Umsatz</div>
+            <div class="footnote">vs. Benchmark</div>
+          </div>
+        </div>
+        <div class="stat-card featured">
+          <div class="num">+29<small>%</small></div>
+          <div>
+            <div class="label">Höherer Profit</div>
+            <div class="footnote">vs. Benchmark</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="num">6×</div>
+          <div>
+            <div class="label">Höheres Engagement</div>
+            <div class="footnote">vs. Benchmark</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-bar" style="margin-top: 56px;">
+        <div class="sub" style="font-size: 30px; color: var(--on-dark-2);">
+          Gieße die Blumen — nicht die Steine.
+        </div>
+        <div class="source-line">Quelle · Gallup Q12 Meta-Analyse</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════
+       SLIDE 7 — Schubladen-Falle (light, gap flow)
+       ════════════════════════════════════════════════════════════ -->
+  <section class="slide" data-label="07 Schubladen-Falle">
+    <div class="frame">
+      <div class="top-bar">
+        <div class="eyebrow">Die Lücke</div>
+        <div class="page-num" style="color: var(--ink-2);">07 / 08</div>
+      </div>
+
+      <div class="grid-2" style="gap: 100px; align-items: start;">
+        <div style="padding-top: 20px;">
+          <h2 class="h2 wrap-pretty" style="margin-bottom: 40px;">
+            Du hast den Test gemacht. <em class="accent">Und jetzt?</em>
+          </h2>
+          <p class="sub wrap-pretty" style="max-width: 640px; margin-bottom: 36px;">
+            Millionen Reports liegen in Schubladen. Es gibt einen kurzen „Aha-Moment" beim Lesen — und dann die gleichen Meetings, die gleiche Reibung, die gleichen Blindspots.
+          </p>
+          <div class="card-beige" style="border: 1.5px solid var(--orange-line); background: var(--orange-soft); padding: 32px 36px;">
+            <div class="eyebrow" style="margin-bottom: 14px;">Der entscheidende Sprung</div>
+            <div style="font-family: var(--font-dm-serif); font-size: 38px; line-height: 1.25; letter-spacing: -0.6px; color: var(--ink);">
+              Von <span class="strong-ink">„Ich kenne meine Stärken"</span><br />
+              zu <em class="accent">„Wir verschalten unsere Stärken als Team."</em>
+            </div>
+          </div>
+        </div>
+
+        <div class="stack" style="gap: 12px;">
+          <div class="gap-step">
+            <div class="gap-num">1</div>
+            <div class="gap-text">Assessment absolviert<small>CliftonStrengths · MBTI · VIA · Big Five</small></div>
+          </div>
+          <div class="gap-arrow">↓</div>
+          <div class="gap-step">
+            <div class="gap-num">2</div>
+            <div class="gap-text">„Aha-Moment" beim Lesen<small>Report nicken, begeistert sein, weiterleiten</small></div>
+          </div>
+          <div class="gap-arrow">↓</div>
+          <div class="gap-step dead">
+            <div class="gap-num" style="color: var(--orange);">3</div>
+            <div class="gap-text" style="color: var(--orange);">Bericht landet in der Schublade<small style="color: var(--ink-2);">Gleiche Meetings · gleiche Reibung · gleiche Blindspots</small></div>
+          </div>
+          <div class="gap-arrow">↓</div>
+          <div class="gap-step target">
+            <div class="gap-num">4</div>
+            <div class="gap-text">Stärken als Team verschalten<small style="color: var(--ink-2);">The Strength Hack schließt diese Lücke</small></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════
+       SLIDE 8 — Roadmap / Call-to-action (dark, 4 weeks)
+       ════════════════════════════════════════════════════════════ -->
+  <section class="slide dark" data-label="08 Roadmap">
+    <div class="frame between">
+      <div class="top-bar">
+        <div class="eyebrow">Der Weg · 4 Wochen</div>
+        <div class="page-num">08 / 08</div>
+      </div>
+
+      <div>
+        <h2 class="h2 wrap-pretty" style="max-width: 1300px; margin-bottom: 28px;">
+          So verschalten wir <em class="accent">eure Stärken</em> in vier&nbsp;Wochen.
+        </h2>
+        <p class="sub wrap-pretty" style="max-width: 980px; color: var(--on-dark-2);">
+          Eine harte Baseline, ein klarer Hebel pro Person, ein wöchentlicher Check.
+          Nach vier Wochen vergleichen wir gegen die Ausgangslage.
+        </p>
+
+        <div class="roadmap">
+          <div class="roadmap-step">
+            <div class="roadmap-week">Woche 1</div>
+            <div class="roadmap-title">Baseline</div>
+            <div class="roadmap-body">1–2 harte Metriken plus ein Team-Signal. Wir messen, bevor wir bewegen.</div>
+          </div>
+          <div class="roadmap-step">
+            <div class="roadmap-week">Woche 2</div>
+            <div class="roadmap-title">Stärken-Karte</div>
+            <div class="roadmap-body">Pro Person ein Hebel — die Stärke, die im aktuellen Engpass den Unterschied macht.</div>
+          </div>
+          <div class="roadmap-step">
+            <div class="roadmap-week">Woche 3</div>
+            <div class="roadmap-title">Im Alltag</div>
+            <div class="roadmap-body">AI-Coach im Hintergrund. Stärken-Sprache in 1:1s, Stand-ups, Konflikten.</div>
+          </div>
+          <div class="roadmap-step">
+            <div class="roadmap-week">Woche 4</div>
+            <div class="roadmap-title">Re-Score</div>
+            <div class="roadmap-body">Gleiche Metriken, neuer Vergleich. Sehen wir keinen Hebel — sagen wir es offen.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-bar">
+        <div class="pill solid">
+          <span style="font-family: var(--font-dm-serif); font-size: 26px;">→</span>
+          Jetzt loslegen
+        </div>
+        <div class="source-line">strength-hack.com · Discovery-Call · 30&nbsp;Min</div>
+      </div>
+    </div>
+  </section>
+
+</deck-stage>
+
+<script src="deck-stage.js"></script>
+
+<!-- =============== Tweaks =============== -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel">
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "titleSize": 88,
+    "lightMode": "balanced"
+  }/*EDITMODE-END*/;
+
+  // lightMode → which slides become light/beige instead of dark
+  const LIGHT_PRESETS = {
+    "all-dark":  { light: [],                        label: "Alle dunkel"     },
+    "balanced":  { light: ["05"],                    label: "Slide 5 hell"     },
+    "rhythm":    { light: ["05","07"],               label: "Slides 5 + 7 hell" },
+    "bright":    { light: ["01","05","07"],          label: "Mehr Helligkeit"  }
+  };
+
+  function applyLightMode(mode) {
+    const set = new Set((LIGHT_PRESETS[mode] || LIGHT_PRESETS.balanced).light);
+    document.querySelectorAll('deck-stage > section').forEach((s) => {
+      const lbl = (s.dataset.label || '').slice(0,2);
+      const wantLight = set.has(lbl);
+      if (lbl === '07') {
+        // Slide 7 is authored on cream; "light" = cream, "not-light" = dark
+        s.classList.toggle('dark', !wantLight);
+        s.classList.remove('beige');
+      } else {
+        s.classList.toggle('dark', !wantLight);
+        s.classList.toggle('beige', wantLight);
+      }
+    });
+  }
+
+  function App() {
+    const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+    React.useEffect(() => {
+      document.documentElement.style.setProperty('--type-h2', `${t.titleSize}px`);
+      document.documentElement.style.setProperty('--type-title', `${t.titleSize}px`);
+      document.documentElement.style.setProperty('--type-display', `${Math.round(t.titleSize * 1.5)}px`);
+    }, [t.titleSize]);
+
+    React.useEffect(() => { applyLightMode(t.lightMode); }, [t.lightMode]);
+
+    const selectOptions = Object.entries(LIGHT_PRESETS).map(([k, v]) => ({ value: k, label: v.label }));
+
+    return (
+      <TweaksPanel title="Tweaks">
+        <TweakSection label="Typografie">
+          <TweakSlider
+            label="Titel-Größe"
+            value={t.titleSize}
+            min={64} max={120} step={2}
+            onChange={(v) => setTweak('titleSize', v)}
+            unit="px"
+          />
+        </TweakSection>
+        <TweakSection label="Light / Dark">
+          <TweakSelect
+            label="Helle Slides"
+            value={t.lightMode}
+            options={selectOptions}
+            onChange={(v) => setTweak('lightMode', v)}
+          />
+        </TweakSection>
+      </TweaksPanel>
+    );
+  }
+
+  const root = ReactDOM.createRoot(document.getElementById('tweaks-root') || (() => {
+    const el = document.createElement('div');
+    el.id = 'tweaks-root';
+    document.body.appendChild(el);
+    return el;
+  })());
+  root.render(<App />);
+</script>
+
+</body>
+</html>
