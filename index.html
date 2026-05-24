@@ -903,6 +903,61 @@ em.accent {
 }
 
 /* ══════════════════════════════════════════════════════════════
+   ANIMATIONS & TRANSITIONS
+   ══════════════════════════════════════════════════════════════ */
+
+/* 1. Slide exit fade */
+.slide.exiting {
+  opacity: 0;
+  transition: opacity 0.25s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+
+/* 2. Content stagger */
+@keyframes staggerFadeUp {
+  from { opacity: 0; transform: translateY(26px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+[data-a] { opacity: 0; }
+.slide.active [data-a] {
+  animation: staggerFadeUp 0.58s cubic-bezier(0.25,0.46,0.45,0.94) both;
+}
+.slide.active [data-a="1"] { animation-delay:   0ms; }
+.slide.active [data-a="2"] { animation-delay:  80ms; }
+.slide.active [data-a="3"] { animation-delay: 160ms; }
+.slide.active [data-a="4"] { animation-delay: 240ms; }
+.slide.active [data-a="5"] { animation-delay: 320ms; }
+.slide.active [data-a="6"] { animation-delay: 400ms; }
+.slide.active [data-a="7"] { animation-delay: 480ms; }
+.slide.active [data-a="8"] { animation-delay: 560ms; }
+
+/* 3. Card hover lift */
+.feat-card, .card-dark, .card-light, .card-orange, .pkg-card, .cta-card {
+  transition: transform 0.26s cubic-bezier(0.25,0.46,0.45,0.94),
+              box-shadow 0.26s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.feat-card:hover    { transform: translateY(-6px); box-shadow: 0 18px 44px rgba(0,0,0,0.14); }
+.card-dark:hover    { transform: translateY(-6px); box-shadow: 0 18px 44px rgba(0,0,0,0.28); }
+.card-light:hover   { transform: translateY(-6px); box-shadow: 0 18px 44px rgba(44,40,36,0.10); }
+.card-orange:hover  { transform: translateY(-6px); box-shadow: 0 18px 44px rgba(212,101,42,0.16); }
+.pkg-card:hover     { transform: translateY(-6px); box-shadow: 0 18px 44px rgba(44,40,36,0.10); }
+.cta-card:hover     { transform: translateY(-4px); box-shadow: 0 10px 28px rgba(0,0,0,0.22); }
+
+/* 4. Progress bar */
+.progress-bar {
+  position: fixed; bottom: 0;
+  left: var(--sidebar-w); right: 0;
+  height: 3px;
+  background: rgba(245,240,232,0.06);
+  z-index: 200; pointer-events: none;
+}
+.progress-fill {
+  height: 100%; background: var(--orange);
+  width: 0%;
+  transition: width 0.45s cubic-bezier(0.25,0.46,0.45,0.94);
+  border-radius: 0 2px 2px 0;
+}
+
+/* ══════════════════════════════════════════════════════════════
    PRINT / PDF EXPORT
    ══════════════════════════════════════════════════════════════ */
 @media print {
@@ -941,6 +996,9 @@ em.accent {
   }
   .slide[data-skip-print] { display: none !important; }
   .hero-image { box-shadow: none !important; }
+  * { animation: none !important; transition: none !important; }
+  [data-a] { opacity: 1 !important; transform: none !important; }
+  .progress-bar { display: none !important; }
 }
 </style>
 </head>
@@ -1009,20 +1067,20 @@ em.accent {
 
           <div class="grid-2-58" style="gap:100px; align-items:center;">
             <div>
-              <h1 class="h2" style="font-size:64px; margin-bottom:44px; max-width:820px;">
+              <h1 class="h2" data-a="1" style="font-size:64px; margin-bottom:44px; max-width:820px;">
                 Ihr Team hat ein Assessment gemacht. Dann ist <em class="accent">nichts passiert.</em>
               </h1>
-              <p class="sub" style="margin-bottom:56px; max-width:680px;">
+              <p class="sub" data-a="2" style="margin-bottom:56px; max-width:680px;">
                 Am Montag war alles wie vorher. Dieselbe Reibung. Dieselben blinden Flecken. Das PDF lag in der Schublade.
               </p>
-              <div style="display:flex; flex-wrap:wrap; gap:14px;">
+              <div data-a="3" style="display:flex; flex-wrap:wrap; gap:14px;">
                 <span style="display:inline-flex; align-items:center; padding:12px 28px; border-radius:980px; border:1px solid rgba(245,240,232,0.15); background:rgba(245,240,232,0.04); font-size:24px; font-weight:500; color:rgba(245,240,232,0.42); letter-spacing:0.5px;">CliftonStrengths ✓</span>
                 <span style="display:inline-flex; align-items:center; padding:12px 28px; border-radius:980px; border:1px solid rgba(245,240,232,0.15); background:rgba(245,240,232,0.04); font-size:24px; font-weight:500; color:rgba(245,240,232,0.42); letter-spacing:0.5px;">MBTI ✓</span>
                 <span style="display:inline-flex; align-items:center; padding:12px 28px; border-radius:980px; border:1px solid rgba(245,240,232,0.15); background:rgba(245,240,232,0.04); font-size:24px; font-weight:500; color:rgba(245,240,232,0.42); letter-spacing:0.5px;">VIA ✓</span>
                 <span style="display:inline-flex; align-items:center; padding:12px 28px; border-radius:980px; border:1px solid rgba(245,240,232,0.15); background:rgba(245,240,232,0.04); font-size:24px; font-weight:500; color:rgba(245,240,232,0.42); letter-spacing:0.5px;">Big Five ✓</span>
               </div>
             </div>
-            <div class="hero-image">
+            <div class="hero-image" data-a="4">
               <img src="assets/milo-hero.jpg" alt="Milo">
             </div>
           </div>
@@ -1048,7 +1106,7 @@ em.accent {
           </div>
 
           <div style="flex:1; min-height:0; display:flex; flex-direction:column; gap:44px;">
-            <div>
+            <div data-a="1">
               <h2 class="h2" style="margin-bottom:16px;">
                 Reibung ist nicht nur nervig. Sie ist <em class="accent">teuer.</em>
               </h2>
@@ -1058,28 +1116,28 @@ em.accent {
             </div>
 
             <div class="grid-4">
-              <div class="feat-card light">
+              <div class="feat-card light" data-a="2">
                 <div class="icon-box">🐌</div>
                 <div>
                   <div class="card-title" style="font-size:34px; margin-bottom:14px;">Langsamere Entscheidungen</div>
                   <div class="card-body" style="font-size:26px;">Unklare Rollen → mehr Schleifen, mehr Meetings, weniger Ergebnis</div>
                 </div>
               </div>
-              <div class="feat-card light">
+              <div class="feat-card light" data-a="3">
                 <div class="icon-box">🔁</div>
                 <div>
                   <div class="card-title" style="font-size:34px; margin-bottom:14px;">Vermeidbare Rework</div>
                   <div class="card-body" style="font-size:26px;">Fehlende Abstimmung → verlorene Zyklen, doppelte Arbeit</div>
                 </div>
               </div>
-              <div class="feat-card light">
+              <div class="feat-card light" data-a="4">
                 <div class="icon-box">💥</div>
                 <div>
                   <div class="card-title" style="font-size:34px; margin-bottom:14px;">Unnötige Konflikte</div>
                   <div class="card-body" style="font-size:26px;">Blinde Flecken → Reibungsverluste und Energie-Verschwendung</div>
                 </div>
               </div>
-              <div class="feat-card light">
+              <div class="feat-card light" data-a="5">
                 <div class="icon-box">👋</div>
                 <div>
                   <div class="card-title" style="font-size:34px; margin-bottom:14px;">Stilles Desengagement</div>
@@ -1110,7 +1168,7 @@ em.accent {
           </div>
 
           <div class="grid-2" style="gap:80px; align-items:center;">
-            <div>
+            <div data-a="1">
               <h2 class="h2" style="margin-bottom:36px;">
                 Das ist kein Soft-Thema. Das ist <em class="accent">Gallup-bewiesen.</em>
               </h2>
@@ -1119,7 +1177,7 @@ em.accent {
               </p>
             </div>
 
-            <div class="card-light" style="padding:52px 56px;">
+            <div class="card-light" data-a="2" style="padding:52px 56px;">
               <div style="font-size:24px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--orange); margin-bottom:36px;">Engagement treibt</div>
               <div style="display:flex; flex-direction:column; gap:28px;">
                 <div style="display:flex; align-items:center; gap:24px;">
@@ -1168,11 +1226,11 @@ em.accent {
           </div>
 
           <div style="flex:1; min-height:0; display:flex; flex-direction:column; gap:36px;">
-            <h2 class="h2" style="color:var(--ink);">
+            <h2 class="h2" data-a="1" style="color:var(--ink);">
               Teams fehlt ein <em class="accent">Betriebssystem.</em>
             </h2>
 
-            <div class="compare">
+            <div class="compare" data-a="2">
               <div class="compare-side old">
                 <div class="compare-label">❌&ensp;Wo die meisten aufhören</div>
                 <div class="compare-title" style="font-size:48px;">Der Status Quo</div>
@@ -1224,24 +1282,24 @@ em.accent {
           </div>
 
           <div style="flex:1; min-height:0; display:flex; flex-direction:column; gap:48px;">
-            <h2 class="h2" style="color:var(--on-dark); text-align:center;">
+            <h2 class="h2" data-a="1" style="color:var(--on-dark); text-align:center;">
               Importieren → Analysieren → <em class="accent">Umsetzen</em>
             </h2>
 
             <div class="step-row">
-              <div class="step-item">
+              <div class="step-item" data-a="2">
                 <div class="step-num">1</div>
                 <div class="step-title">Importieren</div>
                 <div class="step-body">Bestehende Assessment-Ergebnisse mitbringen — CliftonStrengths, MBTI, VIA — oder unser integriertes Big-Five-Assessment in 5 Minuten machen.</div>
               </div>
-              <div class="step-divider">→</div>
-              <div class="step-item">
+              <div class="step-divider" data-a="3">→</div>
+              <div class="step-item" data-a="4">
                 <div class="step-num">2</div>
                 <div class="step-title">Analysieren</div>
                 <div class="step-body">KI kartiert eure Teamdynamik in Echtzeit: komplementäre Stärken, Reibungspunkte, blinde Flecken und Capability-Gaps.</div>
               </div>
-              <div class="step-divider">→</div>
-              <div class="step-item">
+              <div class="step-divider" data-a="5">→</div>
+              <div class="step-item" data-a="6">
                 <div class="step-num">3</div>
                 <div class="step-title">Umsetzen</div>
                 <div class="step-body">Erkenntnisse werden zu Team-Vereinbarungen, Coaching-Gesprächen, Aktionsplänen und exportierbaren Reports.</div>
@@ -1270,7 +1328,7 @@ em.accent {
           </div>
 
           <div style="flex:1; min-height:0; display:flex; flex-direction:column; gap:40px;">
-            <div>
+            <div data-a="1">
               <h2 class="h2" style="color:var(--ink); margin-bottom:18px;">
                 Storming ist normal. Zu lange dort bleiben ist <em class="accent">das Problem.</em>
               </h2>
@@ -1280,23 +1338,23 @@ em.accent {
             </div>
 
             <div class="timeline">
-              <div class="tl-stage forming">
+              <div class="tl-stage forming" data-a="2">
                 <div class="tl-bar" style="background:rgba(44,40,36,0.15);"></div>
                 <div class="tl-name" style="color:var(--ink-2);">Forming</div>
                 <div class="tl-sub">Höflich, unsicher — erste Orientierung</div>
               </div>
-              <div class="tl-stage storming">
+              <div class="tl-stage storming" data-a="3">
                 <div class="tl-bar" style="background:linear-gradient(90deg,var(--orange),#e07840);"></div>
                 <div class="tl-name" style="color:var(--orange);">Storming</div>
                 <div class="tl-sub">Reibung, Konflikte, ungeklärte Erwartungen</div>
                 <div class="tl-pill">⚡ Das verkürzen wir</div>
               </div>
-              <div class="tl-stage norming">
+              <div class="tl-stage norming" data-a="4">
                 <div class="tl-bar" style="background:linear-gradient(90deg,#C49A2A,#d4b42a);"></div>
                 <div class="tl-name" style="color:#b38a20;">Norming</div>
                 <div class="tl-sub">Vereinbarungen, Klarheit, gemeinsame Sprache</div>
               </div>
-              <div class="tl-stage performing">
+              <div class="tl-stage performing" data-a="5">
                 <div class="tl-bar" style="background:linear-gradient(90deg,#3A9268,#4aad7a);"></div>
                 <div class="tl-name" style="color:#3A9268;">Performing</div>
                 <div class="tl-sub">Flow, Ergebnisse, selbstorganisierendes Team</div>
@@ -1325,7 +1383,7 @@ em.accent {
           </div>
 
           <div class="grid-2" style="gap:80px; align-items:center;">
-            <div>
+            <div data-a="1">
               <h2 class="h2" style="color:var(--on-dark); margin-bottom:36px;">
                 Psychologische Sicherheit ist ein <em class="accent">Performance-Hebel.</em>
               </h2>
@@ -1334,7 +1392,7 @@ em.accent {
               </p>
             </div>
 
-            <div class="card-dark" style="padding:52px 56px;">
+            <div class="card-dark" data-a="2" style="padding:52px 56px;">
               <div style="font-size:24px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:rgba(212,101,42,0.7); margin-bottom:36px;">In der Praxis heißt das</div>
               <div style="display:flex; flex-direction:column; gap:32px;">
                 <div style="display:flex; align-items:flex-start; gap:24px;">
@@ -1383,7 +1441,7 @@ em.accent {
           </div>
 
           <div style="flex:1; min-height:0; display:flex; flex-direction:column; gap:44px;">
-            <div>
+            <div data-a="1">
               <h2 class="h2" style="color:var(--ink); margin-bottom:16px;">
                 Schluss mit Besetzung nach <em class="accent">Bauchgefühl.</em>
               </h2>
@@ -1393,21 +1451,21 @@ em.accent {
             </div>
 
             <div class="grid-3">
-              <div class="feat-card light">
+              <div class="feat-card light" data-a="2">
                 <div class="icon-box">🔍</div>
                 <div>
                   <div class="card-title" style="font-size:36px; margin-bottom:14px;">Was sollte dieses Team lassen?</div>
                   <div class="card-body" style="font-size:26px;">Energiefressende Tätigkeiten identifizieren, die gegen die natürlichen Stärken arbeiten.</div>
                 </div>
               </div>
-              <div class="feat-card orange">
+              <div class="feat-card orange" data-a="3">
                 <div class="icon-box" style="background:rgba(212,101,42,0.15);">🧩</div>
                 <div>
                   <div class="card-title" style="font-size:36px; margin-bottom:14px;">Wo brauchen wir ein anderes Profil?</div>
                   <div class="card-body" style="font-size:26px;">Capability-Gaps aufdecken, die kein aktuelles Teammitglied abdeckt.</div>
                 </div>
               </div>
-              <div class="feat-card light">
+              <div class="feat-card light" data-a="4">
                 <div class="icon-box" style="background:rgba(196,154,42,0.12);">⚖️</div>
                 <div>
                   <div class="card-title" style="font-size:36px; margin-bottom:14px;">Rolle anpassen oder neu besetzen?</div>
@@ -1438,7 +1496,7 @@ em.accent {
           </div>
 
           <div class="grid-2" style="gap:80px; align-items:center;">
-            <div>
+            <div data-a="1">
               <h2 class="h2" style="color:var(--ink); margin-bottom:36px;">
                 Einfache Rechnung.<br><em class="accent">CFO-tauglich.</em>
               </h2>
@@ -1447,7 +1505,7 @@ em.accent {
               </p>
             </div>
 
-            <div class="card-light" style="padding:52px 56px;">
+            <div class="card-light" data-a="2" style="padding:52px 56px;">
               <div style="margin-bottom:36px;">
                 <div style="font-family:var(--font-dm-serif); font-size:100px; line-height:0.9; letter-spacing:-4px; color:var(--orange);">60<span style="font-size:48px; letter-spacing:-1px;"> Min.</span></div>
                 <div style="font-size:28px; font-weight:500; color:var(--ink-2); margin-top:14px;">gespart pro Person pro Woche</div>
@@ -1487,12 +1545,12 @@ em.accent {
           </div>
 
           <div style="flex:1; min-height:0; display:flex; flex-direction:column; gap:40px;">
-            <h2 class="h2" style="color:var(--ink); text-align:center;">
+            <h2 class="h2" data-a="1" style="color:var(--ink); text-align:center;">
               Ein System, <em class="accent">keine Software.</em>
             </h2>
 
             <div class="grid-2" style="gap:40px; align-items:stretch; flex:1; min-height:0;">
-              <div class="pkg-card">
+              <div class="pkg-card" data-a="2">
                 <div class="pkg-name">Team Performance Sprint</div>
                 <div class="pkg-duration">2–3 Wochen</div>
                 <div class="pkg-desc">Schnelle Diagnose und Ausrichtung für Teams, die sofort Klarheit brauchen.</div>
@@ -1505,7 +1563,7 @@ em.accent {
                   <li>Follow-up-Check nach 2 Wochen</li>
                 </ul>
               </div>
-              <div class="pkg-card featured">
+              <div class="pkg-card featured" data-a="3">
                 <div class="pkg-name">Team Re-Design</div>
                 <div class="pkg-duration">6–8 Wochen</div>
                 <div class="pkg-desc">Tiefgreifende Neuaufstellung für Teams, die ihre Arbeitsweise nachhaltig verändern wollen.</div>
@@ -1542,11 +1600,11 @@ em.accent {
           </div>
 
           <div style="flex:1; min-height:0; display:flex; flex-direction:column; gap:36px;">
-            <h2 class="h2" style="color:var(--on-dark);">
+            <h2 class="h2" data-a="1" style="color:var(--on-dark);">
               Aufgebaut auf <em class="accent">1.000+ Stunden</em> echtem Coaching.
             </h2>
 
-            <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:28px; flex-shrink:0;">
+            <div data-a="2" style="display:grid; grid-template-columns:repeat(3,1fr); gap:28px; flex-shrink:0;">
               <div class="card-dark" style="padding:44px 40px; text-align:center;">
                 <div class="stat-big">500<span style="font-size:60px;">+</span></div>
                 <div class="stat-label">betreute Fachkräfte</div>
@@ -1561,7 +1619,7 @@ em.accent {
               </div>
             </div>
 
-            <div class="card-dark" style="padding:48px 56px; flex:1; min-height:0; display:flex; flex-direction:column; justify-content:center;">
+            <div class="card-dark" data-a="3" style="padding:48px 56px; flex:1; min-height:0; display:flex; flex-direction:column; justify-content:center;">
               <span class="quote-mark">"</span>
               <div class="quote-text">
                 Nach der Diagnose haben wir unsere Eskalations-Meetings halbiert. Ownership wurde klar, weil jeder die komplementären Stärken verstanden hat. Es ist ein System, das bleibt.
@@ -1592,7 +1650,7 @@ em.accent {
 
           <div class="grid-2" style="gap:80px; align-items:center; flex:1; min-height:0;">
             <div style="display:flex; flex-direction:column; gap:24px;">
-              <div>
+              <div data-a="1">
                 <h2 class="h2" style="color:var(--on-dark); font-size:48px; margin-bottom:18px;">
                   Das einfachste <em class="accent">„Ja"</em> dieses Quartals.
                 </h2>
@@ -1602,21 +1660,21 @@ em.accent {
               </div>
 
               <div style="display:flex; flex-direction:column; gap:10px;">
-                <div class="cta-card" style="padding:20px 28px;">
+                <div class="cta-card" data-a="2" style="padding:20px 28px;">
                   <div class="cta-icon" style="font-size:34px;">📞</div>
                   <div>
                     <div class="cta-title" style="font-size:30px;">45 Min. Discovery</div>
                     <div class="cta-sub" style="font-size:24px;">Euren Team-Kontext verstehen und einordnen</div>
                   </div>
                 </div>
-                <div class="cta-card" style="padding:20px 28px;">
+                <div class="cta-card" data-a="3" style="padding:20px 28px;">
                   <div class="cta-icon" style="font-size:34px;">🔬</div>
                   <div>
                     <div class="cta-title" style="font-size:30px;">2-Wochen-Diagnose</div>
                     <div class="cta-sub" style="font-size:24px;">Team-Map + Top-3-Reibungspunkte</div>
                   </div>
                 </div>
-                <div class="cta-card" style="padding:20px 28px;">
+                <div class="cta-card" data-a="4" style="padding:20px 28px;">
                   <div class="cta-icon" style="font-size:34px;">📋</div>
                   <div>
                     <div class="cta-title" style="font-size:30px;">30-Tage-Aktionsplan</div>
@@ -1625,12 +1683,12 @@ em.accent {
                 </div>
               </div>
 
-              <a href="https://calendar.app.google/rjkerVN3rhHKscfh8" target="_blank" class="btn-solid" style="width:fit-content; font-size:26px; padding:20px 44px;">
+              <a href="https://calendar.app.google/rjkerVN3rhHKscfh8" target="_blank" class="btn-solid" data-a="5" style="width:fit-content; font-size:26px; padding:20px 44px;">
                 Kostenloses Discovery-Gespräch buchen
               </a>
             </div>
 
-            <div class="hero-image">
+            <div class="hero-image" data-a="6">
               <img src="assets/milo-growth.jpg" alt="Milo">
             </div>
           </div>
@@ -1647,6 +1705,8 @@ em.accent {
   </main>
 
 </div><!-- /app -->
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
 
 <script>
   /* ============================================================
@@ -1683,16 +1743,23 @@ em.accent {
 
   /* ── Navigation ───────────────────────────────────────────── */
   function go(delta) {
-    const next = cur + delta;
-    if (next < 0 || next >= SLIDES.length) return;
-    goTo(next);
+    goTo(cur + delta);
   }
 
   function goTo(idx) {
-    SLIDES[cur].classList.remove('active');
+    if (idx < 0 || idx >= SLIDES.length || idx === cur) return;
+    const out = SLIDES[cur];
     cur = idx;
+    out.classList.add('exiting');
     SLIDES[cur].classList.add('active');
+    setTimeout(() => out.classList.remove('active', 'exiting'), 280);
     updateUI();
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const fill = document.getElementById('progressFill');
+    if (fill) fill.style.width = ((cur + 1) / SLIDES.length * 100) + '%';
   }
 
   function goChapter(ch) {
@@ -1749,6 +1816,7 @@ em.accent {
   buildDots();
   scaleSlides();
   updateUI();
+  updateProgress();
 </script>
 
 </body>
