@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Strength Hack — Coach Presentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   The Strength Hack — Coach Presentation
+   Canvas: 1920 × 1080 px, scaled to viewport by JS
+   Sidebar: 210 px | Stage: remainder
+   ============================================================ */
+
+:root {
+  --font-dm-serif: 'DM Serif Display', Georgia, 'Times New Roman', serif;
+  --font-outfit:   'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --orange:       #D4652A;
+  --orange-soft:  rgba(212,101,42,0.12);
+  --orange-line:  rgba(212,101,42,0.30);
+  --charcoal:     #1A1714;
+  --card-dark:    #242018;
+  --cream:        #FDFBF7;
+  --beige:        #F5F0E8;
+  --ink:          #2C2824;
+  --ink-2:        #7A7168;
+  --on-dark:      #F5F0E8;
+  --on-dark-2:    rgba(245,240,232,0.62);
+  --on-dark-3:    rgba(245,240,232,0.38);
+  --on-dark-line: rgba(245,240,232,0.10);
+
+  --type-h2:       72px;
+  --type-sub:      40px;
+  --type-body:     30px;
+  --type-small:    24px;
+  --type-eyebrow:  24px;
+
+  --pad-x:      120px;
+  --pad-top:    110px;
+  --pad-bottom:  90px;
+  --gap-title:   44px;
+  --gap-item:    28px;
+  --sidebar-w:  210px;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  height: 100vh; width: 100vw;
+  overflow: hidden;
+  background: #0E0C0A;
+  font-family: var(--font-outfit);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.app { display: flex; height: 100vh; width: 100vw; }
+
+/* ── Sidebar ── */
+.sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  background: #13110e;
+  border-right: 1px solid var(--on-dark-line);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 10;
+}
+.sb-logo { padding: 20px 18px 16px; border-bottom: 1px solid var(--on-dark-line); flex-shrink: 0; }
+.sb-logo-name { font-family: var(--font-dm-serif); font-size: 15px; color: var(--on-dark); letter-spacing: -0.2px; }
+.sb-logo-name span { color: var(--orange); }
+.sb-logo-sub { font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(245,240,232,0.22); margin-top: 3px; }
+
+.sb-chapters { flex: 1; overflow-y: auto; padding: 12px 0; }
+.sb-ch { padding: 9px 18px; cursor: pointer; border-left: 3px solid transparent; transition: all 0.2s; }
+.sb-ch:hover { background: rgba(245,240,232,0.04); }
+.sb-ch.active { border-left-color: var(--orange); background: rgba(212,101,42,0.08); }
+.sb-ch-num { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--orange); margin-bottom: 2px; }
+.sb-ch-title { font-size: 11px; font-weight: 500; color: rgba(245,240,232,0.42); line-height: 1.35; }
+.sb-ch.active .sb-ch-title { color: var(--on-dark); }
+
+.sb-dots { padding: 12px 18px; border-top: 1px solid var(--on-dark-line); flex-shrink: 0; }
+.sb-dots-wrap { display: flex; flex-wrap: wrap; gap: 4px; }
+.sb-dot {
+  width: 20px; height: 20px; border-radius: 6px;
+  background: rgba(245,240,232,0.07); border: 1px solid transparent;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 8px; font-weight: 700; color: rgba(245,240,232,0.3);
+  cursor: pointer; transition: all 0.2s;
+}
+.sb-dot:hover { background: rgba(245,240,232,0.14); }
+.sb-dot.active { background: var(--orange); color: #fff; border-color: var(--orange); }
+
+.sb-footer { padding: 12px 14px 16px; border-top: 1px solid var(--on-dark-line); flex-shrink: 0; display: flex; flex-direction: column; gap: 6px; }
+.mode-btn {
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  padding: 8px 12px; border-radius: 980px; border: 1px solid var(--on-dark-line);
+  background: rgba(245,240,232,0.05); cursor: pointer; font-family: var(--font-outfit);
+  font-size: 11px; font-weight: 600; color: rgba(245,240,232,0.45); letter-spacing: 0.3px;
+  transition: all 0.2s ease;
+}
+.mode-btn:hover { background: rgba(245,240,232,0.1); color: rgba(245,240,232,0.7); }
+
+/* ── Stage ── */
+.stage { flex: 1; position: relative; overflow: hidden; background: #0E0C0A; }
+.counter { position: absolute; top: 16px; right: 22px; z-index: 50; font-size: 12px; font-weight: 500; letter-spacing: 0.5px; color: rgba(245,240,232,0.25); pointer-events: none; }
+.counter .n { color: rgba(245,240,232,0.62); font-weight: 700; }
+.arr { position: absolute; bottom: 20px; z-index: 50; width: 38px; height: 38px; border-radius: 50%; background: rgba(245,240,232,0.06); border: 1px solid var(--on-dark-line); display: flex; align-items: center; justify-content: center; cursor: pointer; color: rgba(245,240,232,0.32); font-size: 15px; transition: all 0.2s; user-select: none; }
+.arr:hover { background: rgba(212,101,42,0.18); border-color: rgba(212,101,42,0.4); color: var(--orange); }
+.arr-prev { right: 64px; }
+.arr-next { right: 18px; }
+
+.slides-wrap { position: absolute; inset: 0; }
+
+/* ── Slide base ── */
+.slide {
+  position: absolute; width: 1920px; height: 1080px;
+  background: var(--charcoal); color: var(--on-dark);
+  overflow: hidden; opacity: 0; pointer-events: none;
+  will-change: transform; font-family: var(--font-outfit);
+  -webkit-font-smoothing: antialiased;
+}
+.slide.active { opacity: 1; pointer-events: auto; }
+.slide.beige  { background: var(--beige); color: var(--ink); }
+.slide.light  { background: var(--cream); color: var(--ink); }
+
+/* ── Frame ── */
+.frame {
+  position: absolute; top: 0; left: 0; right: 0;
+  bottom: var(--pad-bottom);
+  padding: var(--pad-top) var(--pad-x) 0;
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.frame.between { justify-content: space-between; }
+.frame.center  { justify-content: center; align-items: center; }
+
+/* ── Top / bottom bar ── */
+.top-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--gap-title); flex-shrink: 0; height: 30px; }
+.page-num { font-family: var(--font-outfit); font-size: var(--type-small); font-weight: 500; letter-spacing: 0.5px; color: var(--on-dark-3); }
+.slide.beige .page-num, .slide.light .page-num { color: var(--ink-2); }
+
+.bottom-bar { position: absolute; bottom: 22px; left: var(--pad-x); right: var(--pad-x); display: flex; align-items: center; justify-content: space-between; font-family: var(--font-outfit); font-size: var(--type-small); font-weight: 400; letter-spacing: 0.3px; color: var(--on-dark-3); }
+.slide.beige .bottom-bar, .slide.light .bottom-bar { color: var(--ink-2); }
+.source-line { font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; font-size: var(--type-small); }
+
+/* ── Typography ── */
+.eyebrow { font-family: var(--font-outfit); font-size: var(--type-eyebrow); font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: var(--orange); line-height: 1; }
+.h2 { font-family: var(--font-dm-serif); font-size: var(--type-h2); font-weight: 400; letter-spacing: -1.2px; line-height: 1.06; text-wrap: balance; }
+em.accent { font-style: italic; color: var(--orange); }
+.sub { font-family: var(--font-outfit); font-weight: 300; font-size: var(--type-sub); line-height: 1.35; color: var(--on-dark-2); text-wrap: pretty; }
+.slide.beige .sub, .slide.light .sub { color: var(--ink-2); }
+
+/* ── Layout helpers ── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; flex: 1; min-height: 0; }
+.grid-2-58 { display: grid; grid-template-columns: 58fr 42fr; gap: 100px; align-items: center; flex: 1; min-height: 0; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap-item); flex: 1; min-height: 0; align-items: stretch; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap-item); flex: 1; min-height: 0; align-items: stretch; }
+
+/* ── Hero image ── */
+.hero-image { align-self: stretch; width: 100%; border-radius: 28px; overflow: hidden; background: #20322F; box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+.hero-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* ── Cards ── */
+.card-dark  { background: var(--card-dark); border: 1px solid var(--on-dark-line); border-radius: 24px; padding: 44px 40px; }
+.card-light { background: #fff; border: 1px solid rgba(44,40,36,0.08); border-radius: 24px; padding: 44px 40px; }
+.card-orange { background: var(--orange-soft); border: 1.5px solid var(--orange-line); border-radius: 24px; padding: 44px 40px; }
+
+.feat-card { border-radius: 24px; padding: 44px 36px; display: flex; flex-direction: column; gap: 24px; }
+.feat-card.dark   { background: var(--card-dark); border: 1px solid var(--on-dark-line); }
+.feat-card.light  { background: #fff; border: 1px solid rgba(44,40,36,0.08); }
+.feat-card.orange { background: var(--orange-soft); border: 1.5px solid var(--orange-line); }
+
+.icon-box { width: 56px; height: 56px; border-radius: 16px; background: var(--orange-soft); display: flex; align-items: center; justify-content: center; font-size: 28px; flex-shrink: 0; }
+
+.card-title { font-family: var(--font-dm-serif); font-size: 38px; letter-spacing: -0.5px; line-height: 1.1; color: var(--on-dark); }
+.slide.beige .card-title, .slide.light .card-title { color: var(--ink); }
+.feat-card.light .card-title, .feat-card.orange .card-title { color: var(--ink); }
+.card-body { font-family: var(--font-outfit); font-size: 26px; line-height: 1.5; color: var(--on-dark-2); }
+.slide.beige .card-body, .slide.light .card-body { color: var(--ink-2); }
+.feat-card.light .card-body, .feat-card.orange .card-body { color: var(--ink-2); }
+
+/* ── Package cards (Preise) ── */
+.pkg-card { border-radius: 24px; padding: 44px 40px; display: flex; flex-direction: column; gap: 0; background: #fff; border: 1px solid rgba(44,40,36,0.08); }
+.pkg-card.featured { background: var(--orange-soft); border: 1.5px solid var(--orange-line); position: relative; }
+.pkg-card.featured::before { content: 'Empfohlen'; position: absolute; top: -18px; left: 50%; transform: translateX(-50%); padding: 8px 28px; font-size: var(--type-small); font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #fff; background: var(--orange); border-radius: 980px; }
+.pkg-name { font-family: var(--font-dm-serif); font-size: 44px; letter-spacing: -0.6px; color: var(--ink); margin-bottom: 6px; }
+.pkg-price { font-family: var(--font-dm-serif); font-size: 72px; line-height: 0.95; letter-spacing: -2px; color: var(--orange); }
+.pkg-price-sub { font-size: var(--type-small); font-weight: 600; color: var(--ink-2); margin-bottom: 28px; margin-top: 6px; }
+.pkg-list { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-top: 24px; padding-top: 24px; border-top: 1px solid rgba(44,40,36,0.10); }
+.pkg-list li { font-size: 26px; color: var(--ink-2); padding-left: 28px; position: relative; line-height: 1.4; }
+.pkg-list li::before { content: '✓'; position: absolute; left: 0; color: var(--orange); font-weight: 700; }
+
+/* ── Quote ── */
+.quote-mark { font-family: var(--font-dm-serif); font-size: 140px; line-height: 0.7; color: var(--orange); opacity: 0.35; display: block; margin-bottom: -12px; }
+.quote-text { font-family: var(--font-outfit); font-size: 30px; font-style: italic; line-height: 1.65; color: var(--on-dark-2); }
+.quote-attr { font-size: var(--type-small); font-weight: 600; color: var(--on-dark); margin-top: 24px; letter-spacing: 0.5px; }
+
+/* ── Step row ── */
+.step-row { display: flex; align-items: flex-start; gap: 0; flex: 1; min-height: 0; }
+.step-item { flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 40px; }
+.step-num { width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--orange); display: flex; align-items: center; justify-content: center; font-family: var(--font-dm-serif); font-size: 40px; color: var(--orange); margin-bottom: 32px; background: var(--charcoal); flex-shrink: 0; }
+.step-title { font-family: var(--font-dm-serif); font-size: 44px; letter-spacing: -0.5px; color: var(--on-dark); margin-bottom: 20px; line-height: 1.1; }
+.step-body { font-size: var(--type-body); line-height: 1.5; color: var(--on-dark-2); max-width: 420px; }
+.step-divider { flex-shrink: 0; align-self: center; font-size: 36px; color: rgba(245,240,232,0.15); margin-top: -60px; }
+
+/* ── Animations ── */
+.slide.exiting { opacity: 0; transition: opacity 0.25s cubic-bezier(0.25,0.46,0.45,0.94); }
+
+@keyframes staggerFadeUp {
+  from { opacity: 0; transform: translateY(26px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+[data-a] { opacity: 0; }
+.slide.active [data-a] { animation: staggerFadeUp 0.58s cubic-bezier(0.25,0.46,0.45,0.94) both; }
+.slide.active [data-a="1"] { animation-delay:   0ms; }
+.slide.active [data-a="2"] { animation-delay:  80ms; }
+.slide.active [data-a="3"] { animation-delay: 160ms; }
+.slide.active [data-a="4"] { animation-delay: 240ms; }
+.slide.active [data-a="5"] { animation-delay: 320ms; }
+.slide.active [data-a="6"] { animation-delay: 400ms; }
+
+.feat-card, .card-dark, .card-light, .card-orange, .pkg-card {
+  transition: transform 0.26s cubic-bezier(0.25,0.46,0.45,0.94),
+              box-shadow 0.26s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.feat-card:hover   { transform: translateY(-6px); box-shadow: 0 18px 44px rgba(0,0,0,0.14); }
+.card-dark:hover   { transform: translateY(-6px); box-shadow: 0 18px 44px rgba(0,0,0,0.28); }
+.card-light:hover  { transform: translateY(-6px); box-shadow: 0 18px 44px rgba(44,40,36,0.10); }
+.card-orange:hover { transform: translateY(-6px); box-shadow: 0 18px 44px rgba(212,101,42,0.16); }
+.pkg-card:hover    { transform: translateY(-6px); box-shadow: 0 18px 44px rgba(44,40,36,0.10); }
+
+.progress-bar { position: fixed; bottom: 0; left: var(--sidebar-w); right: 0; height: 3px; background: rgba(245,240,232,0.06); z-index: 200; pointer-events: none; }
+.progress-fill { height: 100%; background: var(--orange); width: 0%; transition: width 0.45s cubic-bezier(0.25,0.46,0.45,0.94); border-radius: 0 2px 2px 0; }
+
+/* ── Print / PDF ── */
+@media print {
+  @page { size: 1920px 1080px; margin: 0; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  .sidebar, .arr, .counter, #exportBtn { display: none !important; }
+  body, html { width: 1920px !important; height: auto !important; overflow: visible !important; }
+  .app { display: block !important; width: 1920px !important; height: auto !important; }
+  .stage { display: block !important; margin-left: 0 !important; overflow: visible !important; width: 1920px !important; height: auto !important; background: transparent !important; }
+  .slides-wrap { position: static !important; width: 1920px !important; height: auto !important; overflow: visible !important; }
+  .slide { position: relative !important; transform: none !important; left: 0 !important; top: 0 !important; opacity: 1 !important; pointer-events: auto !important; width: 1920px !important; height: 1080px !important; page-break-after: always; break-after: page; overflow: hidden !important; display: block !important; }
+  .hero-image { box-shadow: none !important; }
+  .btn-solid  { box-shadow: none !important; }
+  * { animation: none !important; transition: none !important; }
+  [data-a] { opacity: 1 !important; transform: none !important; }
+  .progress-bar { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <aside class="sidebar">
+    <div class="sb-logo">
+      <div class="sb-logo-name">The Strength <span>Hack</span></div>
+      <div class="sb-logo-sub">Coach Presentation</div>
+    </div>
+
+    <div class="sb-chapters" id="sbCh">
+      <div class="sb-ch active" onclick="goChapter(0)">
+        <div class="sb-ch-num">Teil 1</div>
+        <div class="sb-ch-title">Das Problem</div>
+      </div>
+      <div class="sb-ch" onclick="goChapter(1)">
+        <div class="sb-ch-num">Teil 2</div>
+        <div class="sb-ch-title">Die Plattform</div>
+      </div>
+      <div class="sb-ch" onclick="goChapter(2)">
+        <div class="sb-ch-num">Teil 3</div>
+        <div class="sb-ch-title">Die Features</div>
+      </div>
+      <div class="sb-ch" onclick="goChapter(3)">
+        <div class="sb-ch-num">Teil 4</div>
+        <div class="sb-ch-title">Das Angebot</div>
+      </div>
+    </div>
+
+    <div class="sb-dots">
+      <div class="sb-dots-wrap" id="sbDots"></div>
+    </div>
+
+    <div class="sb-footer">
+      <button class="mode-btn" id="exportBtn" onclick="exportPDF()">↓ Export PDF</button>
+    </div>
+  </aside>
+
+  <main class="stage">
+    <div class="counter"><span class="n" id="cCur">1</span> / <span id="cTot">12</span></div>
+    <button class="arr arr-prev" onclick="go(-1)">←</button>
+    <button class="arr arr-next" onclick="go(1)">→</button>
+
+    <div class="slides-wrap" id="slidesWrap">
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 1 · Titel — dark, hero split
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide active" data-ch="1">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">The Strength Hack</div>
+            <div class="page-num">1 / 12</div>
+          </div>
+
+          <div class="grid-2-58" style="gap:100px; align-items:center;">
+            <div>
+              <h1 class="h2" data-a="1" style="font-size:72px; margin-bottom:44px; max-width:860px;">
+                Ihr Team. Besser verstehen. <em class="accent">Besser zusammenarbeiten.</em>
+              </h1>
+              <p class="sub" data-a="2" style="max-width:640px; font-size:36px;">
+                [Euer Name] × The Strength Hack
+              </p>
+            </div>
+            <div class="hero-image" data-a="3">
+              <img src="assets/milo-strengths.jpg" alt="Milo">
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Discovery &amp; Proposal Meeting</div>
+          <div class="source-line">strength-hack.com</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 2 · Das Problem — dark, 3 feat-cards
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide" data-ch="1">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Das Problem</div>
+            <div class="page-num">2 / 12</div>
+          </div>
+
+          <div style="flex:1; min-height:0; display:flex; flex-direction:column; gap:40px;">
+            <h2 class="h2" data-a="1" style="font-size:56px; max-width:1300px;">
+              Teams scheitern nicht an fehlendem Know-how. Sie scheitern an <em class="accent">nicht verstandenen Unterschieden.</em>
+            </h2>
+
+            <div class="grid-3">
+              <div class="feat-card dark" data-a="2">
+                <div class="icon-box" style="background:rgba(212,101,42,0.14);">💬</div>
+                <div>
+                  <div class="card-title" style="font-size:32px; margin-bottom:14px;">70% der Team-Probleme</div>
+                  <div class="card-body" style="font-size:26px;">sind kein Wissensproblem — sondern ein Kommunikationsmuster, das alle spüren, aber niemand beim Namen nennt.</div>
+                </div>
+              </div>
+              <div class="feat-card dark" data-a="3">
+                <div class="icon-box" style="background:rgba(212,101,42,0.14);">🔄</div>
+                <div>
+                  <div class="card-title" style="font-size:32px; margin-bottom:14px;">Nach dem Workshop</div>
+                  <div class="card-body" style="font-size:26px;">fällt das Team in alte Muster zurück — weil nach dem Workshop nichts Greifbares bleibt.</div>
+                </div>
+              </div>
+              <div class="feat-card dark" data-a="4">
+                <div class="icon-box" style="background:rgba(212,101,42,0.14);">🗺️</div>
+                <div>
+                  <div class="card-title" style="font-size:32px; margin-bottom:14px;">Verschiedene Frameworks</div>
+                  <div class="card-body" style="font-size:26px;">"Der macht CliftonStrengths, sie macht MBTI" — eine Übersetzungsarbeit, die beim Coach hängenbleibt.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Die meisten Team-Probleme haben einen Namen — der fehlt nur.</div>
+          <div class="source-line">Forschungsbasiert</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 3 · Was ist The Strength Hack? — dark, 3 numbered cards
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide" data-ch="2">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Die Plattform</div>
+            <div class="page-num">3 / 12</div>
+          </div>
+
+          <div style="flex:1; min-height:0; display:flex; flex-direction:column; gap:40px;">
+            <h2 class="h2" data-a="1" style="font-size:60px;">
+              Eine KI-gestützte Plattform für <em class="accent">stärkenbasierte Teamentwicklung.</em>
+            </h2>
+
+            <div class="grid-3">
+              <div class="feat-card dark" data-a="2">
+                <div style="font-family:var(--font-dm-serif); font-size:88px; line-height:0.85; color:var(--orange); opacity:0.28; flex-shrink:0;">1</div>
+                <div>
+                  <div class="card-title" style="font-size:34px; margin-bottom:16px;">Assessments vereinheitlichen</div>
+                  <div class="card-body" style="font-size:26px;">CliftonStrengths, MBTI, VIA oder Big Five — alle Profile werden in eine gemeinsame Sprache übersetzt.</div>
+                </div>
+              </div>
+              <div class="feat-card dark" data-a="3">
+                <div style="font-family:var(--font-dm-serif); font-size:88px; line-height:0.85; color:var(--orange); opacity:0.28; flex-shrink:0;">2</div>
+                <div>
+                  <div class="card-title" style="font-size:34px; margin-bottom:16px;">Teams verstehen</div>
+                  <div class="card-body" style="font-size:26px;">Der Team Synergy Report zeigt, wie euer Team wirklich tickt — Stärken, Blind Spots, Reibungspunkte.</div>
+                </div>
+              </div>
+              <div class="feat-card dark" data-a="4">
+                <div style="font-family:var(--font-dm-serif); font-size:88px; line-height:0.85; color:var(--orange); opacity:0.28; flex-shrink:0;">3</div>
+                <div>
+                  <div class="card-title" style="font-size:34px; margin-bottom:16px;">Ergebnisse sichern</div>
+                  <div class="card-body" style="font-size:26px;">Ein KI-Coach hält die Workshop-Erkenntnisse lebendig — jederzeit, auf jede Person zugeschnitten.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Der Workshop-Effekt bleibt — auch ohne Nachfolge-Session.</div>
+          <div class="source-line">The Strength Hack</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 4 · Die unterstützten Assessments — beige, 5-row table
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide beige" data-ch="2">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Unterstützte Assessments</div>
+            <div class="page-num">4 / 12</div>
+          </div>
+
+          <div style="flex:1; min-height:0; display:flex; flex-direction:column; gap:32px;">
+            <h2 class="h2" data-a="1" style="color:var(--ink); font-size:58px;">
+              The Strength Hack arbeitet mit dem, <em class="accent">was euer Team bereits hat.</em>
+            </h2>
+
+            <!-- Table header -->
+            <div style="display:grid; grid-template-columns:300px 1fr 1fr; gap:40px; padding:0 40px; flex-shrink:0;">
+              <div style="font-size:var(--type-small); font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--ink-2);">Framework</div>
+              <div style="font-size:var(--type-small); font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--ink-2);">Hintergrund</div>
+              <div style="font-size:var(--type-small); font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--ink-2);">Einsatz im Tool</div>
+            </div>
+
+            <!-- 5 assessment rows -->
+            <div style="display:flex; flex-direction:column; gap:12px; flex:1; min-height:0;" data-a="2">
+              <div style="display:grid; grid-template-columns:300px 1fr 1fr; gap:40px; align-items:center; background:rgba(44,40,36,0.05); border:1px solid rgba(44,40,36,0.08); border-radius:18px; padding:22px 40px; flex-shrink:0;">
+                <div>
+                  <div style="font-family:var(--font-dm-serif); font-size:34px; letter-spacing:-0.3px; color:var(--ink); margin-bottom:3px;">CliftonStrengths</div>
+                  <div style="font-size:var(--type-small); font-weight:600; color:var(--orange);">Gallup</div>
+                </div>
+                <div style="font-size:26px; color:var(--ink-2);">34 Themes</div>
+                <div style="font-size:26px; color:var(--ink-2);">Direktimport der Top-5 oder Full-34</div>
+              </div>
+              <div style="display:grid; grid-template-columns:300px 1fr 1fr; gap:40px; align-items:center; background:rgba(44,40,36,0.05); border:1px solid rgba(44,40,36,0.08); border-radius:18px; padding:22px 40px; flex-shrink:0;">
+                <div>
+                  <div style="font-family:var(--font-dm-serif); font-size:34px; letter-spacing:-0.3px; color:var(--ink); margin-bottom:3px;">MBTI</div>
+                  <div style="font-size:var(--type-small); font-weight:600; color:var(--orange);">Myers-Briggs</div>
+                </div>
+                <div style="font-size:26px; color:var(--ink-2);">16 Typen</div>
+                <div style="font-size:26px; color:var(--ink-2);">Typ-Eingabe → Dimensionsübersetzung</div>
+              </div>
+              <div style="display:grid; grid-template-columns:300px 1fr 1fr; gap:40px; align-items:center; background:rgba(44,40,36,0.05); border:1px solid rgba(44,40,36,0.08); border-radius:18px; padding:22px 40px; flex-shrink:0;">
+                <div>
+                  <div style="font-family:var(--font-dm-serif); font-size:34px; letter-spacing:-0.3px; color:var(--ink); margin-bottom:3px;">VIA Character</div>
+                  <div style="font-size:var(--type-small); font-weight:600; color:var(--orange);">Positive Psychologie</div>
+                </div>
+                <div style="font-size:26px; color:var(--ink-2);">24 Charakterstärken</div>
+                <div style="font-size:26px; color:var(--ink-2);">Stärken-Import und Mapping</div>
+              </div>
+              <div style="display:grid; grid-template-columns:300px 1fr 1fr; gap:40px; align-items:center; background:rgba(44,40,36,0.05); border:1px solid rgba(44,40,36,0.08); border-radius:18px; padding:22px 40px; flex-shrink:0;">
+                <div>
+                  <div style="font-family:var(--font-dm-serif); font-size:34px; letter-spacing:-0.3px; color:var(--ink); margin-bottom:3px;">Big Five / IPIP-50</div>
+                  <div style="font-size:var(--type-small); font-weight:600; color:var(--orange);">Lewis Goldberg · kostenlos</div>
+                </div>
+                <div style="font-size:26px; color:var(--ink-2);">5 Dimensionen, ~5 Min.</div>
+                <div style="font-size:26px; color:var(--ink-2);">Direktimport der 5 Skalenwerte</div>
+              </div>
+              <div style="display:grid; grid-template-columns:300px 1fr 1fr; gap:40px; align-items:center; background:var(--orange-soft); border:1.5px solid var(--orange-line); border-radius:18px; padding:22px 40px; flex-shrink:0;">
+                <div>
+                  <div style="font-family:var(--font-dm-serif); font-size:34px; letter-spacing:-0.3px; color:var(--ink); margin-bottom:3px;">Big Five / IPIP-120</div>
+                  <div style="font-size:var(--type-small); font-weight:600; color:var(--orange);">Lewis Goldberg · kostenlos</div>
+                </div>
+                <div style="font-size:26px; color:var(--ink-2);">5 Dim. + 30 Facetten, ~15 Min.</div>
+                <div style="font-size:26px; color:var(--ink-2);">Detaillierter Import inkl. Facetten</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>IPIP-50 und IPIP-120 sind kostenlos, wissenschaftlich validiert — kein neues Assessment nötig.</div>
+          <div class="source-line">The Strength Hack</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 5 · Der Matching-Kompass — dark, 2-col (text | screenshot)
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide" data-ch="2">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Der Matching-Kompass</div>
+            <div class="page-num">5 / 12</div>
+          </div>
+
+          <div class="grid-2" style="gap:80px; align-items:stretch;">
+            <div data-a="1" style="display:flex; flex-direction:column; justify-content:center; gap:40px;">
+              <h2 class="h2" style="color:var(--on-dark); font-size:58px;">
+                6 Dimensionen. Ein Bild. <em class="accent">Die wichtigsten Team-Dynamiken auf einen Blick.</em>
+              </h2>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                <div style="background:rgba(245,240,232,0.05); border:1px solid var(--on-dark-line); border-radius:14px; padding:18px 24px;">
+                  <div style="font-family:var(--font-dm-serif); font-size:30px; color:var(--on-dark); margin-bottom:4px;">Introversion</div>
+                  <div style="font-size:var(--type-small); color:var(--on-dark-3);">Energiegewinnung: intern ↔ extern</div>
+                </div>
+                <div style="background:rgba(245,240,232,0.05); border:1px solid var(--on-dark-line); border-radius:14px; padding:18px 24px;">
+                  <div style="font-family:var(--font-dm-serif); font-size:30px; color:var(--on-dark); margin-bottom:4px;">Emotional</div>
+                  <div style="font-size:var(--type-small); color:var(--on-dark-3);">Emotionale Intensität &amp; Empathie</div>
+                </div>
+                <div style="background:rgba(245,240,232,0.05); border:1px solid var(--on-dark-line); border-radius:14px; padding:18px 24px;">
+                  <div style="font-family:var(--font-dm-serif); font-size:30px; color:var(--on-dark); margin-bottom:4px;">Visionary</div>
+                  <div style="font-size:var(--type-small); color:var(--on-dark-3);">Strategisches Denken &amp; Zukunft</div>
+                </div>
+                <div style="background:rgba(245,240,232,0.05); border:1px solid var(--on-dark-line); border-radius:14px; padding:18px 24px;">
+                  <div style="font-family:var(--font-dm-serif); font-size:30px; color:var(--on-dark); margin-bottom:4px;">Impulsive</div>
+                  <div style="font-size:var(--type-small); color:var(--on-dark-3);">Spontanität &amp; Risikobereitschaft</div>
+                </div>
+                <div style="background:rgba(245,240,232,0.05); border:1px solid var(--on-dark-line); border-radius:14px; padding:18px 24px;">
+                  <div style="font-family:var(--font-dm-serif); font-size:30px; color:var(--on-dark); margin-bottom:4px;">Agile</div>
+                  <div style="font-size:var(--type-small); color:var(--on-dark-3);">Anpassungsfähigkeit &amp; Flexibilität</div>
+                </div>
+                <div style="background:rgba(245,240,232,0.05); border:1px solid var(--on-dark-line); border-radius:14px; padding:18px 24px;">
+                  <div style="font-family:var(--font-dm-serif); font-size:30px; color:var(--on-dark); margin-bottom:4px;">Convinced</div>
+                  <div style="font-size:var(--type-small); color:var(--on-dark-3);">Überzeugungsstärke &amp; Hartnäckigkeit</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Screenshot placeholder -->
+            <div data-a="2" style="align-self:stretch; border-radius:28px; background:rgba(212,101,42,0.06); border:2px dashed rgba(212,101,42,0.22); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px;">
+              <div style="font-size:60px;">📊</div>
+              <div style="font-size:28px; color:var(--on-dark-3); text-align:center; line-height:1.5; max-width:400px;">Screenshot einfügen:<br><span style="color:var(--orange); font-weight:600;">Matching-Kompass-Ansicht</span><br>eines Teams (4–6 Personen)</div>
+              <div style="font-size:var(--type-small); color:var(--on-dark-3); margin-top:8px;">→ Demo-Kompass aus dem Free-Tier verwenden</div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>"Was überrascht euch, wenn ihr dieses Bild seht?"</div>
+          <div class="source-line">Matching-Kompass</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 6 · Der Team Synergy Report — dark, 2-col
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide" data-ch="3">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Team Synergy Report</div>
+            <div class="page-num">6 / 12</div>
+          </div>
+
+          <div class="grid-2" style="gap:80px; align-items:stretch;">
+            <div data-a="1" style="display:flex; flex-direction:column; justify-content:center; gap:32px;">
+              <h2 class="h2" style="color:var(--on-dark); font-size:60px;">
+                Nicht ein Durchschnitt — <em class="accent">ein Gesamtbild des Teams.</em>
+              </h2>
+              <p class="sub" style="max-width:660px; font-size:32px;">
+                Der Report beantwortet die Fragen, die in Team-Workshops meist ungestellt bleiben.
+              </p>
+            </div>
+
+            <div class="card-dark" data-a="2" style="padding:48px 52px; display:flex; flex-direction:column; gap:0; align-self:stretch;">
+              <div style="font-size:var(--type-small); font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:rgba(212,101,42,0.65); margin-bottom:32px;">Was der Report enthält</div>
+              <div style="display:flex; flex-direction:column; gap:24px; flex:1; justify-content:space-between;">
+                <div style="display:flex; align-items:flex-start; gap:20px;">
+                  <div style="width:8px; height:8px; border-radius:50%; background:var(--orange); margin-top:11px; flex-shrink:0;"></div>
+                  <div>
+                    <div style="font-family:var(--font-dm-serif); font-size:32px; color:var(--on-dark); margin-bottom:6px;">Executive Summary</div>
+                    <div style="font-size:26px; color:var(--on-dark-3); line-height:1.45;">Das dominanteste Muster in 3–5 Sätzen, klar und direkt</div>
+                  </div>
+                </div>
+                <div style="display:flex; align-items:flex-start; gap:20px;">
+                  <div style="width:8px; height:8px; border-radius:50%; background:var(--orange); margin-top:11px; flex-shrink:0;"></div>
+                  <div>
+                    <div style="font-family:var(--font-dm-serif); font-size:32px; color:var(--on-dark); margin-bottom:6px;">Key Strengths</div>
+                    <div style="font-size:26px; color:var(--on-dark-3); line-height:1.45;">Was dieses Team in der Kombination besonders gut kann</div>
+                  </div>
+                </div>
+                <div style="display:flex; align-items:flex-start; gap:20px;">
+                  <div style="width:8px; height:8px; border-radius:50%; background:var(--orange); margin-top:11px; flex-shrink:0;"></div>
+                  <div>
+                    <div style="font-family:var(--font-dm-serif); font-size:32px; color:var(--on-dark); margin-bottom:6px;">Blind Spots</div>
+                    <div style="font-size:26px; color:var(--on-dark-3); line-height:1.45;">Was das Team kollektiv übersieht</div>
+                  </div>
+                </div>
+                <div style="display:flex; align-items:flex-start; gap:20px;">
+                  <div style="width:8px; height:8px; border-radius:50%; background:var(--orange); margin-top:11px; flex-shrink:0;"></div>
+                  <div>
+                    <div style="font-family:var(--font-dm-serif); font-size:32px; color:var(--on-dark); margin-bottom:6px;">Gap Analysis</div>
+                    <div style="font-size:26px; color:var(--on-dark-3); line-height:1.45;">Wo das Team heute steht vs. wo es hin sollte</div>
+                  </div>
+                </div>
+                <div style="display:flex; align-items:flex-start; gap:20px;">
+                  <div style="width:8px; height:8px; border-radius:50%; background:var(--orange); margin-top:11px; flex-shrink:0;"></div>
+                  <div>
+                    <div style="font-family:var(--font-dm-serif); font-size:32px; color:var(--on-dark); margin-bottom:6px;">Member Contributions</div>
+                    <div style="font-size:26px; color:var(--on-dark-3); line-height:1.45;">Was jede Person spezifisch zum Team beiträgt</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Warum klappt Entscheidungsfindung nie? Warum fühlt sich jemand dauernd überhört?</div>
+          <div class="source-line">Team Synergy Report</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 7 · Der KI-Coach — dark, headline + 2×2 grid
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide" data-ch="3">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Der KI-Coach</div>
+            <div class="page-num">7 / 12</div>
+          </div>
+
+          <div style="flex:1; min-height:0; display:flex; flex-direction:column; gap:40px;">
+            <div data-a="1">
+              <h2 class="h2" style="font-size:60px; margin-bottom:14px;">
+                Was nach dem Workshop passiert — <em class="accent">endlich gelöst.</em>
+              </h2>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--gap-item); flex:1; min-height:0;">
+              <div class="feat-card dark" data-a="2">
+                <div class="icon-box" style="background:rgba(212,101,42,0.14);">🎯</div>
+                <div>
+                  <div class="card-title" style="font-size:32px; margin-bottom:14px;">Auf die Person zugeschnitten</div>
+                  <div class="card-body" style="font-size:26px;">Antwortet auf die Fragen jeder Person — auf Basis ihres eigenen Profils, nicht von der Stange.</div>
+                </div>
+              </div>
+              <div class="feat-card dark" data-a="3">
+                <div class="icon-box" style="background:rgba(212,101,42,0.14);">💡</div>
+                <div>
+                  <div class="card-title" style="font-size:32px; margin-bottom:14px;">Kontextspezifisch</div>
+                  <div class="card-body" style="font-size:26px;">"Du hast Introversion 80 — vor dem nächsten All-Hands könntest du..." Empfehlungen, die zur Person passen.</div>
+                </div>
+              </div>
+              <div class="feat-card dark" data-a="4">
+                <div class="icon-box" style="background:rgba(212,101,42,0.14);">🔔</div>
+                <div>
+                  <div class="card-title" style="font-size:32px; margin-bottom:14px;">Ziele im Blick</div>
+                  <div class="card-body" style="font-size:26px;">Erinnert an Entwicklungsziele, die im Workshop gesetzt wurden — zwischen euren Coaching-Sessions.</div>
+                </div>
+              </div>
+              <div class="feat-card dark" data-a="5">
+                <div class="icon-box" style="background:rgba(212,101,42,0.14);">🌐</div>
+                <div>
+                  <div class="card-title" style="font-size:32px; margin-bottom:14px;">24/7 verfügbar</div>
+                  <div class="card-body" style="font-size:26px;">Auf Deutsch, jederzeit — die Lücke zwischen euren Coaching-Sessions, die bisher niemand gefüllt hat.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Das ist der Grund, warum Workshops nicht 'kleben' — und wie wir das lösen.</div>
+          <div class="source-line">KI-Coach</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 8 · Use Case — beige, quote card
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide beige" data-ch="3">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Use Case</div>
+            <div class="page-num">8 / 12</div>
+          </div>
+
+          <div style="flex:1; min-height:0; display:flex; flex-direction:column; gap:36px;">
+            <div data-a="1">
+              <h2 class="h2" style="color:var(--ink); font-size:56px; margin-bottom:0;">
+                Ein Team. Drei Assessment-Hintergründe. <em class="accent">Ein einheitliches Bild.</em>
+              </h2>
+            </div>
+
+            <div data-a="2" style="flex:1; min-height:0; background:rgba(44,40,36,0.05); border:1px solid rgba(44,40,36,0.10); border-radius:28px; padding:52px 60px; display:flex; gap:80px; align-items:flex-start;">
+              <!-- Scenario -->
+              <div style="flex:1;">
+                <div style="font-size:var(--type-small); font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--ink-2); margin-bottom:28px;">Ausgangslage</div>
+                <div style="font-size:28px; line-height:1.65; color:var(--ink-2);">
+                  Ein Produktteam mit 6 Personen. <strong style="color:var(--ink);">Anna und Ben</strong> haben CliftonStrengths aus einem Workshop vor zwei Jahren. <strong style="color:var(--ink);">Caro</strong> hat kürzlich einen MBTI-Test gemacht: INFJ. Die drei anderen haben noch kein Assessment.
+                </div>
+                <div style="margin-top:28px; padding-top:28px; border-top:1px solid rgba(44,40,36,0.10); font-size:28px; line-height:1.65; color:var(--ink-2);">
+                  <strong style="color:var(--ink-2);">Bisher:</strong> Drei verschiedene "Sprachen" — keine gemeinsame Basis für Teamgespräche.
+                </div>
+              </div>
+              <!-- Divider -->
+              <div style="width:1.5px; align-self:stretch; background:rgba(44,40,36,0.12); flex-shrink:0;"></div>
+              <!-- Result -->
+              <div style="flex:1;">
+                <div style="font-size:var(--type-small); font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--orange); margin-bottom:28px;">Mit The Strength Hack</div>
+                <div style="display:flex; flex-direction:column; gap:18px;">
+                  <div style="display:flex; align-items:flex-start; gap:16px; font-size:28px; line-height:1.55; color:var(--ink-2);">
+                    <span style="color:var(--orange); font-weight:700; flex-shrink:0; margin-top:2px;">✓</span>
+                    Anna &amp; Ben importieren ihre CliftonStrengths
+                  </div>
+                  <div style="display:flex; align-items:flex-start; gap:16px; font-size:28px; line-height:1.55; color:var(--ink-2);">
+                    <span style="color:var(--orange); font-weight:700; flex-shrink:0; margin-top:2px;">✓</span>
+                    Caro gibt ihren MBTI-Typ ein
+                  </div>
+                  <div style="display:flex; align-items:flex-start; gap:16px; font-size:28px; line-height:1.55; color:var(--ink-2);">
+                    <span style="color:var(--orange); font-weight:700; flex-shrink:0; margin-top:2px;">✓</span>
+                    Die anderen machen das IPIP-50 direkt in der App — 7 Minuten
+                  </div>
+                  <div style="margin-top:8px; padding:20px 24px; background:var(--orange-soft); border:1.5px solid var(--orange-line); border-radius:16px; font-size:26px; font-weight:600; color:var(--ink);">
+                    → Ergebnis: Ein einheitlicher Matching-Kompass für alle 6 Personen + Team Synergy Report
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>"Plötzlich sehen alle dasselbe Bild — und reden über dasselbe."</div>
+          <div class="source-line">Praxisbeispiel</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 9 · CSRD / ESG — dark, 3 feat-cards
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide" data-ch="4">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">CSRD / ESG-Relevanz</div>
+            <div class="page-num">9 / 12</div>
+          </div>
+
+          <div style="flex:1; min-height:0; display:flex; flex-direction:column; gap:40px;">
+            <div data-a="1">
+              <h2 class="h2" style="font-size:58px; margin-bottom:12px;">
+                Teamentwicklung, die sich <em class="accent">messen und dokumentieren</em> lässt.
+              </h2>
+              <p class="sub" style="font-size:28px; color:rgba(245,240,232,0.42);">Nur relevant für CSRD-pflichtige Unternehmen (&gt;250 MA) oder ESG-getriebene Zielgruppen.</p>
+            </div>
+
+            <div class="grid-3">
+              <div class="feat-card dark" data-a="2">
+                <div class="icon-box" style="background:rgba(212,101,42,0.14);">📋</div>
+                <div>
+                  <div class="card-title" style="font-size:30px; margin-bottom:14px;">CSRD ab 2026</div>
+                  <div class="card-body" style="font-size:26px;">Die EU Corporate Sustainability Reporting Directive verpflichtet große Unternehmen zur Berichterstattung über Diversity, Inklusion und Mitarbeiterentwicklung.</div>
+                </div>
+              </div>
+              <div class="feat-card dark" data-a="3">
+                <div class="icon-box" style="background:rgba(212,101,42,0.14);">🔍</div>
+                <div>
+                  <div class="card-title" style="font-size:30px; margin-bottom:14px;">ESRS S1 — Own Workforce</div>
+                  <div class="card-body" style="font-size:26px;">Verlangt auditierbare Belege für systematische Kompetenzentwicklung. Nicht nur Absichtserklärungen — echte Dokumentation.</div>
+                </div>
+              </div>
+              <div class="feat-card orange" data-a="4">
+                <div class="icon-box" style="background:rgba(212,101,42,0.20);">📊</div>
+                <div>
+                  <div class="card-title" style="font-size:30px; margin-bottom:14px;">Automatisch als Nebenprodukt</div>
+                  <div class="card-body" style="font-size:26px;">Wer hat teilgenommen, wann, wie sich die Dimensionen verändern — alles als PDF exportierbar.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Euer ESG-Auditor braucht Belege — The Strength Hack liefert sie als Nebenprodukt.</div>
+          <div class="source-line">CSRD · ESRS S1</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 10 · Preise — light, 3 pricing cards
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide light" data-ch="4">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Preise</div>
+            <div class="page-num">10 / 12</div>
+          </div>
+
+          <div style="flex:1; min-height:0; display:flex; flex-direction:column; gap:40px;">
+            <h2 class="h2" data-a="1" style="color:var(--ink); text-align:center; font-size:60px;">
+              Kostenlos testen. <em class="accent">Sofort starten.</em>
+            </h2>
+
+            <div class="grid-3" style="gap:32px; align-items:stretch;">
+              <!-- Free -->
+              <div class="pkg-card" data-a="2">
+                <div class="pkg-name">Free</div>
+                <div class="pkg-price">€0</div>
+                <div class="pkg-price-sub">/Monat · kein Account nötig</div>
+                <ul class="pkg-list">
+                  <li>Eigenes Assessment</li>
+                  <li>Individuelles Profil</li>
+                  <li>KI-Grundzugang</li>
+                </ul>
+              </div>
+
+              <!-- Personal -->
+              <div class="pkg-card" data-a="3">
+                <div class="pkg-name">Personal</div>
+                <div class="pkg-price">€15</div>
+                <div class="pkg-price-sub">/Monat · pro Person</div>
+                <ul class="pkg-list">
+                  <li>Erweitertes Profil</li>
+                  <li>KI-Coach (vollständig)</li>
+                  <li>Vergleichs-Features</li>
+                </ul>
+              </div>
+
+              <!-- Team (featured) -->
+              <div class="pkg-card featured" data-a="4">
+                <div class="pkg-name">Team</div>
+                <div class="pkg-price">€99</div>
+                <div class="pkg-price-sub">/Monat · für das gesamte Team</div>
+                <ul class="pkg-list">
+                  <li>Matching-Kompass</li>
+                  <li>Team Synergy Report</li>
+                  <li>KI-Coach für alle Mitglieder</li>
+                  <li>ESG-Datenexport</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Der Free-Tier ist ein echtes Produkt — kein Trichter. Macht selbst den Test.</div>
+          <div class="source-line">thestrengthack.com</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 11 · Nächster Schritt — dark, 2-col (steps | offer)
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide" data-ch="4">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Euer nächster Schritt</div>
+            <div class="page-num">11 / 12</div>
+          </div>
+
+          <div style="flex:1; min-height:0; display:flex; flex-direction:column; gap:40px;">
+            <h2 class="h2" data-a="1" style="font-size:56px;">
+              Onboarding in 15 Minuten. <em class="accent">Euer Team live noch heute.</em>
+            </h2>
+
+            <div class="grid-2" style="gap:80px; align-items:stretch; flex:1; min-height:0;">
+              <!-- Steps -->
+              <div data-a="2" style="display:flex; flex-direction:column; gap:14px; justify-content:center;">
+                <div style="display:flex; align-items:flex-start; gap:24px; background:rgba(245,240,232,0.04); border:1px solid var(--on-dark-line); border-radius:18px; padding:24px 32px;">
+                  <div style="font-family:var(--font-dm-serif); font-size:52px; color:var(--orange); opacity:0.65; flex-shrink:0; line-height:0.9; width:52px;">1</div>
+                  <div>
+                    <div style="font-size:28px; font-weight:600; color:var(--on-dark); margin-bottom:6px;">Team-Account erstellen</div>
+                    <div style="font-size:var(--type-small); color:var(--on-dark-3);">thestrengthack.com — €99/Monat, läuft auf eurem Konto</div>
+                  </div>
+                </div>
+                <div style="display:flex; align-items:flex-start; gap:24px; background:rgba(245,240,232,0.04); border:1px solid var(--on-dark-line); border-radius:18px; padding:24px 32px;">
+                  <div style="font-family:var(--font-dm-serif); font-size:52px; color:var(--orange); opacity:0.65; flex-shrink:0; line-height:0.9; width:52px;">2</div>
+                  <div>
+                    <div style="font-size:28px; font-weight:600; color:var(--on-dark); margin-bottom:6px;">Assessments eingeben</div>
+                    <div style="font-size:var(--type-small); color:var(--on-dark-3);">Jedes Teammitglied: 10–20 Minuten, je nach Framework</div>
+                  </div>
+                </div>
+                <div style="display:flex; align-items:flex-start; gap:24px; background:rgba(245,240,232,0.04); border:1px solid var(--on-dark-line); border-radius:18px; padding:24px 32px;">
+                  <div style="font-family:var(--font-dm-serif); font-size:52px; color:var(--orange); opacity:0.65; flex-shrink:0; line-height:0.9; width:52px;">3</div>
+                  <div>
+                    <div style="font-size:28px; font-weight:600; color:var(--on-dark); margin-bottom:6px;">Report sofort verfügbar</div>
+                    <div style="font-size:var(--type-small); color:var(--on-dark-3);">Erster Team Synergy Report ist sofort nach Eingabe generiert</div>
+                  </div>
+                </div>
+                <div style="display:flex; align-items:flex-start; gap:24px; background:rgba(245,240,232,0.04); border:1px solid var(--on-dark-line); border-radius:18px; padding:24px 32px;">
+                  <div style="font-family:var(--font-dm-serif); font-size:52px; color:var(--orange); opacity:0.65; flex-shrink:0; line-height:0.9; width:52px;">4</div>
+                  <div>
+                    <div style="font-size:28px; font-weight:600; color:var(--on-dark); margin-bottom:6px;">Ich begleite den Debrief</div>
+                    <div style="font-size:var(--type-small); color:var(--on-dark-3);">Einrichtung + erster Debrief-Workshop — das ist mein Angebot</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Offer card + QR -->
+              <div data-a="3" style="display:flex; flex-direction:column; gap:20px; align-self:stretch; justify-content:center;">
+                <div class="card-dark" style="padding:44px 48px; flex:1; display:flex; flex-direction:column; justify-content:space-between;">
+                  <div>
+                    <div style="font-size:var(--type-small); font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:rgba(212,101,42,0.65); margin-bottom:20px;">Mein Angebot zum Start</div>
+                    <div style="font-size:28px; line-height:1.6; color:var(--on-dark); margin-bottom:20px;">Startet mit dem <strong style="color:var(--orange);">Free-Tier</strong> — macht selbst das IPIP-50 (5 Min., kein Account nötig) und seht euer Profil. Dann entscheidet ihr.</div>
+                    <div style="font-size:var(--type-small); color:var(--on-dark-3); padding:16px 20px; background:rgba(245,240,232,0.04); border-radius:12px; border:1px solid var(--on-dark-line);">
+                      <strong style="color:var(--on-dark);">Wichtig:</strong> Die Subscription gehört euch — nicht mir. Sie bleibt bestehen, ob wir zusammenarbeiten oder nicht. Das ist eure Infrastruktur.
+                    </div>
+                  </div>
+
+                  <!-- QR Placeholder -->
+                  <div style="margin-top:28px; display:flex; align-items:center; gap:28px;">
+                    <div style="width:140px; height:140px; background:#fff; border-radius:16px; flex-shrink:0; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:8px;">
+                      <div style="font-size:32px;">📱</div>
+                      <div style="font-size:11px; color:var(--ink-2); text-align:center; font-weight:600; letter-spacing:0.5px;">QR-CODE<br>EINFÜGEN</div>
+                    </div>
+                    <div>
+                      <div style="font-size:26px; color:var(--on-dark); font-weight:600; margin-bottom:8px;">Euer Affiliate-Link</div>
+                      <div style="font-size:var(--type-small); color:var(--on-dark-3); font-family:ui-monospace, monospace; background:rgba(245,240,232,0.06); padding:10px 16px; border-radius:8px;">[AFFILIATE_LINK]</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Die Subscription gehört euch — das unterscheidet dieses Angebot von Tool-Reselling.</div>
+          <div class="source-line">The Strength Hack</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 12 · Kontakt — dark, centered card
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide" data-ch="4">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Kontakt</div>
+            <div class="page-num">12 / 12</div>
+          </div>
+
+          <div style="flex:1; min-height:0; display:flex; align-items:center; justify-content:center;">
+            <div data-a="1" class="card-dark" style="padding:72px 88px; max-width:900px; width:100%; display:flex; flex-direction:column; gap:32px;">
+              <div style="font-size:var(--type-small); font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:rgba(212,101,42,0.65);">Eure Coach-Details</div>
+
+              <div style="display:flex; flex-direction:column; gap:20px;">
+                <div style="border-bottom:1px solid var(--on-dark-line); padding-bottom:20px;">
+                  <div style="font-size:var(--type-small); color:var(--on-dark-3); margin-bottom:6px;">Name</div>
+                  <div style="font-family:var(--font-dm-serif); font-size:52px; letter-spacing:-0.5px; color:var(--on-dark);">[Euer Name]</div>
+                </div>
+                <div style="border-bottom:1px solid var(--on-dark-line); padding-bottom:20px;">
+                  <div style="font-size:var(--type-small); color:var(--on-dark-3); margin-bottom:6px;">Positionierung</div>
+                  <div style="font-size:30px; color:var(--on-dark-2);">[Titel, z.B. "Agile Coach &amp; Teamentwickler"]</div>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:28px;">
+                  <div>
+                    <div style="font-size:var(--type-small); color:var(--on-dark-3); margin-bottom:6px;">E-Mail</div>
+                    <div style="font-size:26px; color:var(--on-dark-2);">[E-Mail]</div>
+                  </div>
+                  <div>
+                    <div style="font-size:var(--type-small); color:var(--on-dark-3); margin-bottom:6px;">LinkedIn</div>
+                    <div style="font-size:26px; color:var(--on-dark-2);">[LinkedIn-Profil]</div>
+                  </div>
+                  <div>
+                    <div style="font-size:var(--type-small); color:var(--on-dark-3); margin-bottom:6px;">Website</div>
+                    <div style="font-size:26px; color:var(--on-dark-2);">[Website]</div>
+                  </div>
+                </div>
+              </div>
+
+              <div style="padding-top:28px; border-top:1px solid var(--on-dark-line);">
+                <div style="font-size:26px; color:var(--on-dark-3); font-style:italic;">
+                  "Empfohlen von [Advisor Name] × <span style="color:var(--orange); font-style:normal; font-weight:600;">The Strength Hack</span>"
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Für Folgegespräche und Fragen</div>
+          <div class="source-line">strength-hack.com</div>
+        </div>
+      </div>
+
+
+    </div><!-- /slides-wrap -->
+  </main>
+
+</div><!-- /app -->
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<script>
+  const SLIDES   = Array.from(document.querySelectorAll('.slide'));
+  const CH_BTNS  = Array.from(document.querySelectorAll('.sb-ch'));
+  const DOT_WRAP = document.getElementById('sbDots');
+  const C_CUR    = document.getElementById('cCur');
+  const C_TOT    = document.getElementById('cTot');
+
+  const CH_START = [0, 2, 5, 8];
+  const NEW_SLIDE_INDICES = new Set([]);
+
+  let cur = 0;
+
+  function scaleSlides() {
+    const stageW = window.innerWidth - 210;
+    const stageH = window.innerHeight;
+    const scale  = Math.min(stageW / 1920, stageH / 1080);
+    const offX   = (stageW - 1920 * scale) / 2;
+    const offY   = (stageH - 1080 * scale) / 2;
+    SLIDES.forEach(s => {
+      s.style.transform       = `scale(${scale})`;
+      s.style.transformOrigin = 'top left';
+      s.style.left            = offX + 'px';
+      s.style.top             = offY + 'px';
+    });
+  }
+
+  function go(delta) { goTo(cur + delta); }
+
+  function goTo(idx) {
+    if (idx < 0 || idx >= SLIDES.length || idx === cur) return;
+    const out = SLIDES[cur];
+    cur = idx;
+    out.classList.add('exiting');
+    SLIDES[cur].classList.add('active');
+    setTimeout(() => out.classList.remove('active', 'exiting'), 280);
+    updateUI();
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const fill = document.getElementById('progressFill');
+    if (fill) fill.style.width = ((cur + 1) / SLIDES.length * 100) + '%';
+  }
+
+  function goChapter(ch) { goTo(CH_START[ch]); }
+
+  function updateUI() {
+    C_CUR.textContent = cur + 1;
+    C_TOT.textContent = SLIDES.length;
+    const ch = parseInt(SLIDES[cur].dataset.ch || '1') - 1;
+    CH_BTNS.forEach((btn, i) => btn.classList.toggle('active', i === ch));
+    document.querySelectorAll('.sb-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === cur);
+    });
+  }
+
+  function buildDots() {
+    SLIDES.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.className = 'sb-dot';
+      d.textContent = i + 1;
+      d.onclick = () => goTo(i);
+      DOT_WRAP.appendChild(d);
+    });
+  }
+
+  function exportPDF() { window.print(); }
+
+  document.addEventListener('keydown', e => {
+    switch (e.key) {
+      case 'ArrowRight': case 'ArrowDown': case ' ':
+        e.preventDefault(); go(1);  break;
+      case 'ArrowLeft': case 'ArrowUp':
+        e.preventDefault(); go(-1); break;
+      case 'Home':
+        e.preventDefault(); goTo(0); break;
+      case 'End':
+        e.preventDefault(); goTo(SLIDES.length - 1); break;
+    }
+  });
+
+  window.addEventListener('resize', scaleSlides);
+  buildDots();
+  scaleSlides();
+  updateUI();
+  updateProgress();
+</script>
+
+</body>
+</html>

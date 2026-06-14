@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Strength Hack — Coach Presentation (EN)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   The Strength Hack — Coach Presentation (EN)
+   Canvas: 1920 × 1080 px, scaled to viewport by JS
+   Sidebar: 210 px | Stage: remainder
+   ============================================================ */
+
+:root {
+  --font-dm-serif: 'DM Serif Display', Georgia, 'Times New Roman', serif;
+  --font-outfit:   'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --orange:       #D4652A;
+  --orange-soft:  rgba(212,101,42,0.12);
+  --orange-line:  rgba(212,101,42,0.30);
+  --charcoal:     #1A1714;
+  --card-dark:    #242018;
+  --cream:        #FDFBF7;
+  --beige:        #F5F0E8;
+  --ink:          #2C2824;
+  --ink-2:        #7A7168;
+  --on-dark:      #F5F0E8;
+  --on-dark-2:    rgba(245,240,232,0.62);
+  --on-dark-3:    rgba(245,240,232,0.38);
+  --on-dark-line: rgba(245,240,232,0.10);
+
+  --type-h2:       72px;
+  --type-sub:      40px;
+  --type-body:     30px;
+  --type-small:    24px;
+  --type-eyebrow:  24px;
+
+  --pad-x:      120px;
+  --pad-top:    110px;
+  --pad-bottom:  90px;
+  --gap-title:   44px;
+  --gap-item:    28px;
+  --sidebar-w:  210px;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  height: 100vh; width: 100vw;
+  overflow: hidden;
+  background: #0E0C0A;
+  font-family: var(--font-outfit);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.app { display: flex; height: 100vh; width: 100vw; }
+
+/* ── Sidebar ── */
+.sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  background: #13110e;
+  border-right: 1px solid var(--on-dark-line);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 10;
+}
+.sb-logo { padding: 20px 18px 16px; border-bottom: 1px solid var(--on-dark-line); flex-shrink: 0; }
+.sb-logo-name { font-family: var(--font-dm-serif); font-size: 15px; color: var(--on-dark); letter-spacing: -0.2px; }
+.sb-logo-name span { color: var(--orange); }
+.sb-logo-sub { font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(245,240,232,0.22); margin-top: 3px; }
+
+.sb-chapters { flex: 1; overflow-y: auto; padding: 12px 0; }
+.sb-ch { padding: 9px 18px; cursor: pointer; border-left: 3px solid transparent; transition: all 0.2s; }
+.sb-ch:hover { background: rgba(245,240,232,0.04); }
+.sb-ch.active { border-left-color: var(--orange); background: rgba(212,101,42,0.08); }
+.sb-ch-num { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--orange); margin-bottom: 2px; }
+.sb-ch-title { font-size: 11px; font-weight: 500; color: rgba(245,240,232,0.42); line-height: 1.35; }
+.sb-ch.active .sb-ch-title { color: var(--on-dark); }
+
+.sb-dots { padding: 12px 18px; border-top: 1px solid var(--on-dark-line); flex-shrink: 0; }
+.sb-dots-wrap { display: flex; flex-wrap: wrap; gap: 4px; }
+.sb-dot {
+  width: 20px; height: 20px; border-radius: 6px;
+  background: rgba(245,240,232,0.07); border: 1px solid transparent;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 8px; font-weight: 700; color: rgba(245,240,232,0.3);
+  cursor: pointer; transition: all 0.2s;
+}
+.sb-dot:hover { background: rgba(245,240,232,0.14); }
+.sb-dot.active { background: var(--orange); color: #fff; border-color: var(--orange); }
+
+.sb-footer { padding: 12px 14px 16px; border-top: 1px solid var(--on-dark-line); flex-shrink: 0; display: flex; flex-direction: column; gap: 6px; }
+.mode-btn {
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  padding: 8px 12px; border-radius: 980px; border: 1px solid var(--on-dark-line);
+  background: rgba(245,240,232,0.05); cursor: pointer; font-family: var(--font-outfit);
+  font-size: 11px; font-weight: 600; color: rgba(245,240,232,0.45); letter-spacing: 0.3px;
+  transition: all 0.2s ease;
+}
+.mode-btn:hover { background: rgba(245,240,232,0.1); color: rgba(245,240,232,0.7); }
+
+/* ── Stage ── */
+.stage { flex: 1; position: relative; overflow: hidden; background: #0E0C0A; }
+.counter { position: absolute; top: 16px; right: 22px; z-index: 50; font-size: 12px; font-weight: 500; letter-spacing: 0.5px; color: rgba(245,240,232,0.25); pointer-events: none; }
+.counter .n { color: rgba(245,240,232,0.62); font-weight: 700; }
+.arr { position: absolute; bottom: 20px; z-index: 50; width: 38px; height: 38px; border-radius: 50%; background: rgba(245,240,232,0.06); border: 1px solid var(--on-dark-line); display: flex; align-items: center; justify-content: center; cursor: pointer; color: rgba(245,240,232,0.32); font-size: 15px; transition: all 0.2s; user-select: none; }
+.arr:hover { background: rgba(212,101,42,0.18); border-color: rgba(212,101,42,0.4); color: var(--orange); }
+.arr-prev { right: 64px; }
+.arr-next { right: 18px; }
+
+.slides-wrap { position: absolute; inset: 0; }
+
+/* ── Slide base ── */
+.slide {
+  position: absolute; width: 1920px; height: 1080px;
+  background: var(--charcoal); color: var(--on-dark);
+  overflow: hidden; opacity: 0; pointer-events: none;
+  will-change: transform; font-family: var(--font-outfit);
+  -webkit-font-smoothing: antialiased;
+}
+.slide.active { opacity: 1; pointer-events: auto; }
+.slide.beige  { background: var(--beige); color: var(--ink); }
+.slide.light  { background: var(--cream); color: var(--ink); }
+
+/* ── Frame ── */
+.frame {
+  position: absolute; top: 0; left: 0; right: 0;
+  bottom: var(--pad-bottom);
+  padding: var(--pad-top) var(--pad-x) 0;
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.frame.between { justify-content: space-between; }
+.frame.center  { justify-content: center; align-items: center; }
+
+/* ── Top / bottom bar ── */
+.top-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--gap-title); flex-shrink: 0; height: 30px; }
+.page-num { font-family: var(--font-outfit); font-size: var(--type-small); font-weight: 500; letter-spacing: 0.5px; color: var(--on-dark-3); }
+.slide.beige .page-num, .slide.light .page-num { color: var(--ink-2); }
+
+.bottom-bar { position: absolute; bottom: 22px; left: var(--pad-x); right: var(--pad-x); display: flex; align-items: center; justify-content: space-between; font-family: var(--font-outfit); font-size: var(--type-small); font-weight: 400; letter-spacing: 0.3px; color: var(--on-dark-3); }
+.slide.beige .bottom-bar, .slide.light .bottom-bar { color: var(--ink-2); }
+.source-line { font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; font-size: var(--type-small); }
+
+/* ── Typography ── */
+.eyebrow { font-family: var(--font-outfit); font-size: var(--type-eyebrow); font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: var(--orange); line-height: 1; }
+.h2 { font-family: var(--font-dm-serif); font-size: var(--type-h2); font-weight: 400; letter-spacing: -1.2px; line-height: 1.06; text-wrap: balance; }
+em.accent { font-style: italic; color: var(--orange); }
+.sub { font-family: var(--font-outfit); font-weight: 300; font-size: var(--type-sub); line-height: 1.35; color: var(--on-dark-2); text-wrap: pretty; }
+.slide.beige .sub, .slide.light .sub { color: var(--ink-2); }
+
+/* ── Layout helpers ── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; flex: 1; min-height: 0; }
+.grid-2-58 { display: grid; grid-template-columns: 58fr 42fr; gap: 100px; align-items: center; flex: 1; min-height: 0; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap-item); flex: 1; min-height: 0; align-items: stretch; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap-item); flex: 1; min-height: 0; align-items: stretch; }
+
+/* ── Hero image ── */
+.hero-image { align-self: stretch; width: 100%; border-radius: 28px; overflow: hidden; background: #20322F; box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+.hero-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* ── Cards ── */
+.card-dark  { background: var(--card-dark); border: 1px solid var(--on-dark-line); border-radius: 24px; padding: 44px 40px; }
+.card-light { background: #fff; border: 1px solid rgba(44,40,36,0.08); border-radius: 24px; padding: 44px 40px; }
+.card-orange { background: var(--orange-soft); border: 1.5px solid var(--orange-line); border-radius: 24px; padding: 44px 40px; }
+
+.feat-card { border-radius: 24px; padding: 44px 36px; display: flex; flex-direction: column; gap: 24px; }
+.feat-card.dark   { background: var(--card-dark); border: 1px solid var(--on-dark-line); }
+.feat-card.light  { background: #fff; border: 1px solid rgba(44,40,36,0.08); }
+.feat-card.orange { background: var(--orange-soft); border: 1.5px solid var(--orange-line); }
+
+.icon-box { width: 56px; height: 56px; border-radius: 16px; background: var(--orange-soft); display: flex; align-items: center; justify-content: center; font-size: 28px; flex-shrink: 0; }
+
+.card-title { font-family: var(--font-dm-serif); font-size: 38px; letter-spacing: -0.5px; line-height: 1.1; color: var(--on-dark); }
+.slide.beige .card-title, .slide.light .card-title { color: var(--ink); }
+.feat-card.light .card-title, .feat-card.orange .card-title { color: var(--ink); }
+.card-body { font-family: var(--font-outfit); font-size: 26px; line-height: 1.5; color: var(--on-dark-2); }
+.slide.beige .card-body, .slide.light .card-body { color: var(--ink-2); }
+.feat-card.light .card-body, .feat-card.orange .card-body { color: var(--ink-2); }
+
+/* ── Package cards (Pricing) ── */
+.pkg-card { border-radius: 24px; padding: 44px 40px; display: flex; flex-direction: column; gap: 0; background: #fff; border: 1px solid rgba(44,40,36,0.08); }
+.pkg-card.featured { background: var(--orange-soft); border: 1.5px solid var(--orange-line); position: relative; }
+.pkg-card.featured::before { content: 'Recommended'; position: absolute; top: -18px; left: 50%; transform: translateX(-50%); padding: 8px 28px; font-size: var(--type-small); font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #fff; background: var(--orange); border-radius: 980px; }
+.pkg-name { font-family: var(--font-dm-serif); font-size: 44px; letter-spacing: -0.6px; color: var(--ink); margin-bottom: 6px; }
+.pkg-price { font-family: var(--font-dm-serif); font-size: 72px; line-height: 0.95; letter-spacing: -2px; color: var(--orange); }
+.pkg-price-sub { font-size: var(--type-small); font-weight: 600; color: var(--ink-2); margin-bottom: 28px; margin-top: 6px; }
+.pkg-list { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-top: 24px; padding-top: 24px; border-top: 1px solid rgba(44,40,36,0.10); }
+.pkg-list li { font-size: 26px; color: var(--ink-2); padding-left: 28px; position: relative; line-height: 1.4; }
+.pkg-list li::before { content: '✓'; position: absolute; left: 0; color: var(--orange); font-weight: 700; }
+
+/* ── Quote ── */
+.quote-mark { font-family: var(--font-dm-serif); font-size: 140px; line-height: 0.7; color: var(--orange); opacity: 0.35; display: block; margin-bottom: -12px; }
+.quote-text { font-family: var(--font-outfit); font-size: 30px; font-style: italic; line-height: 1.65; color: var(--on-dark-2); }
+.quote-attr { font-size: var(--type-small); font-weight: 600; color: var(--on-dark); margin-top: 24px; letter-spacing: 0.5px; }
+
+/* ── Step row ── */
+.step-row { display: flex; align-items: flex-start; gap: 0; flex: 1; min-height: 0; }
+.step-item { flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 40px; }
+.step-num { width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--orange); display: flex; align-items: center; justify-content: center; font-family: var(--font-dm-serif); font-size: 40px; color: var(--orange); margin-bottom: 32px; background: var(--charcoal); flex-shrink: 0; }
+.step-title { font-family: var(--font-dm-serif); font-size: 44px; letter-spacing: -0.5px; color: var(--on-dark); margin-bottom: 20px; line-height: 1.1; }
+.step-body { font-size: var(--type-body); line-height: 1.5; color: var(--on-dark-2); max-width: 420px; }
+.step-divider { flex-shrink: 0; align-self: center; font-size: 36px; color: rgba(245,240,232,0.15); margin-top: -60px; }
+
+/* ── Animations ── */
+.slide.exiting { opacity: 0; transition: opacity 0.25s cubic-bezier(0.25,0.46,0.45,0.94); }
+
+@keyframes staggerFadeUp {
+  from { opacity: 0; transform: translateY(26px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+[data-a] { opacity: 0; }
+.slide.active [data-a] { animation: staggerFadeUp 0.58s cubic-bezier(0.25,0.46,0.45,0.94) both; }
+.slide.active [data-a="1"] { animation-delay:   0ms; }
+.slide.active [data-a="2"] { animation-delay:  80ms; }
+.slide.active [data-a="3"] { animation-delay: 160ms; }
+.slide.active [data-a="4"] { animation-delay: 240ms; }
+.slide.active [data-a="5"] { animation-delay: 320ms; }
+.slide.active [data-a="6"] { animation-delay: 400ms; }
+
+.feat-card, .card-dark, .card-light, .card-orange, .pkg-card {
+  transition: transform 0.26s cubic-bezier(0.25,0.46,0.45,0.94),
+              box-shadow 0.26s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.feat-card:hover   { transform: translateY(-6px); box-shadow: 0 18px 44px rgba(0,0,0,0.14); }
+.card-dark:hover   { transform: translateY(-6px); box-shadow: 0 18px 44px rgba(0,0,0,0.28); }
+.card-light:hover  { transform: translateY(-6px); box-shadow: 0 18px 44px rgba(44,40,36,0.10); }
+.card-orange:hover { transform: translateY(-6px); box-shadow: 0 18px 44px rgba(212,101,42,0.16); }
+.pkg-card:hover    { transform: translateY(-6px); box-shadow: 0 18px 44px rgba(44,40,36,0.10); }
+
+.progress-bar { position: fixed; bottom: 0; left: var(--sidebar-w); right: 0; height: 3px; background: rgba(245,240,232,0.06); z-index: 200; pointer-events: none; }
+.progress-fill { height: 100%; background: var(--orange); width: 0%; transition: width 0.45s cubic-bezier(0.25,0.46,0.45,0.94); border-radius: 0 2px 2px 0; }
+
+/* ── Print / PDF ── */
+@media print {
+  @page { size: 1920px 1080px; margin: 0; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  .sidebar, .arr, .counter, #exportBtn { display: none !important; }
+  body, html { width: 1920px !important; height: auto !important; overflow: visible !important; }
+  .app { display: block !important; width: 1920px !important; height: auto !important; }
+  .stage { display: block !important; margin-left: 0 !important; overflow: visible !important; width: 1920px !important; height: auto !important; background: transparent !important; }
+  .slides-wrap { position: static !important; width: 1920px !important; height: auto !important; overflow: visible !important; }
+  .slide { position: relative !important; transform: none !important; left: 0 !important; top: 0 !important; opacity: 1 !important; pointer-events: auto !important; width: 1920px !important; height: 1080px !important; page-break-after: always; break-after: page; overflow: hidden !important; display: block !important; }
+  .hero-image { box-shadow: none !important; }
+  .btn-solid  { box-shadow: none !important; }
+  * { animation: none !important; transition: none !important; }
+  [data-a] { opacity: 1 !important; transform: none !important; }
+  .progress-bar { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <aside class="sidebar">
+    <div class="sb-logo">
+      <div class="sb-logo-name">The Strength <span>Hack</span></div>
+      <div class="sb-logo-sub">Coach Presentation</div>
+    </div>
+
+    <div class="sb-chapters" id="sbCh">
+      <div class="sb-ch active" onclick="goChapter(0)">
+        <div class="sb-ch-num">Part 1</div>
+        <div class="sb-ch-title">The Problem</div>
+      </div>
+      <div class="sb-ch" onclick="goChapter(1)">
+        <div class="sb-ch-num">Part 2</div>
+        <div class="sb-ch-title">The Platform</div>
+      </div>
+      <div class="sb-ch" onclick="goChapter(2)">
+        <div class="sb-ch-num">Part 3</div>
+        <div class="sb-ch-title">Features</div>
+      </div>
+      <div class="sb-ch" onclick="goChapter(3)">
+        <div class="sb-ch-num">Part 4</div>
+        <div class="sb-ch-title">The Offer</div>
+      </div>
+    </div>
+
+    <div class="sb-dots">
+      <div class="sb-dots-wrap" id="sbDots"></div>
+    </div>
+
+    <div class="sb-footer">
+      <button class="mode-btn" id="exportBtn" onclick="exportPDF()">↓ Export PDF</button>
+    </div>
+  </aside>
+
+  <main class="stage">
+    <div class="counter"><span class="n" id="cCur">1</span> / <span id="cTot">12</span></div>
+    <button class="arr arr-prev" onclick="go(-1)">←</button>
+    <button class="arr arr-next" onclick="go(1)">→</button>
+
+    <div class="slides-wrap" id="slidesWrap">
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 1 · Title — dark, hero split
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide active" data-ch="1">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">The Strength Hack</div>
+            <div class="page-num">1 / 12</div>
+          </div>
+
+          <div class="grid-2-58" style="gap:100px; align-items:center;">
+            <div>
+              <h1 class="h2" data-a="1" style="font-size:72px; margin-bottom:44px; max-width:860px;">
+                Your Team. Finally Understood. <em class="accent">Actually Working Together.</em>
+              </h1>
+              <p class="sub" data-a="2" style="max-width:640px; font-size:36px;">
+                [Your Name] × The Strength Hack
+              </p>
+            </div>
+            <div class="hero-image" data-a="3">
+              <img src="assets/milo-strengths.jpg" alt="Milo">
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Discovery &amp; Proposal Meeting</div>
+          <div class="source-line">strength-hack.com</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 2 · The Problem — dark, 3 feat-cards
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide" data-ch="1">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">The Problem</div>
+            <div class="page-num">2 / 12</div>
+          </div>
+
+          <div style="flex:1; min-height:0; display:flex; flex-direction:column; gap:40px;">
+            <h2 class="h2" data-a="1" style="font-size:56px; max-width:1300px;">
+              Teams don't fail because of missing skills. They fail because of <em class="accent">differences nobody has named yet.</em>
+            </h2>
+
+            <div class="grid-3">
+              <div class="feat-card dark" data-a="2">
+                <div class="icon-box" style="background:rgba(212,101,42,0.14);">💬</div>
+                <div>
+                  <div class="card-title" style="font-size:32px; margin-bottom:14px;">70% of Team Problems</div>
+                  <div class="card-body" style="font-size:26px;">aren't a skill problem — they're a communication pattern everyone feels but nobody puts into words.</div>
+                </div>
+              </div>
+              <div class="feat-card dark" data-a="3">
+                <div class="icon-box" style="background:rgba(212,101,42,0.14);">🔄</div>
+                <div>
+                  <div class="card-title" style="font-size:32px; margin-bottom:14px;">After the Workshop</div>
+                  <div class="card-body" style="font-size:26px;">teams slip back into old patterns — because nothing tangible is left behind.</div>
+                </div>
+              </div>
+              <div class="feat-card dark" data-a="4">
+                <div class="icon-box" style="background:rgba(212,101,42,0.14);">🗺️</div>
+                <div>
+                  <div class="card-title" style="font-size:32px; margin-bottom:14px;">Different Frameworks</div>
+                  <div class="card-body" style="font-size:26px;">"He's doing CliftonStrengths, she's doing MBTI" — the translation burden lands squarely on the coach.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Most team problems have a name — it's just missing.</div>
+          <div class="source-line">Research-based</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 3 · What is The Strength Hack? — dark, 3 numbered cards
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide" data-ch="2">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">The Platform</div>
+            <div class="page-num">3 / 12</div>
+          </div>
+
+          <div style="flex:1; min-height:0; display:flex; flex-direction:column; gap:40px;">
+            <h2 class="h2" data-a="1" style="font-size:60px;">
+              An AI-powered platform for <em class="accent">strengths-based team development.</em>
+            </h2>
+
+            <div class="grid-3">
+              <div class="feat-card dark" data-a="2">
+                <div style="font-family:var(--font-dm-serif); font-size:88px; line-height:0.85; color:var(--orange); opacity:0.28; flex-shrink:0;">1</div>
+                <div>
+                  <div class="card-title" style="font-size:34px; margin-bottom:16px;">Bring All Assessments Together</div>
+                  <div class="card-body" style="font-size:26px;">CliftonStrengths, MBTI, VIA or Big Five — every profile translated into a shared language.</div>
+                </div>
+              </div>
+              <div class="feat-card dark" data-a="3">
+                <div style="font-family:var(--font-dm-serif); font-size:88px; line-height:0.85; color:var(--orange); opacity:0.28; flex-shrink:0;">2</div>
+                <div>
+                  <div class="card-title" style="font-size:34px; margin-bottom:16px;">Really Understand Your Team</div>
+                  <div class="card-body" style="font-size:26px;">The Team Synergy Report shows how your team actually ticks — strengths, blind spots, friction points.</div>
+                </div>
+              </div>
+              <div class="feat-card dark" data-a="4">
+                <div style="font-family:var(--font-dm-serif); font-size:88px; line-height:0.85; color:var(--orange); opacity:0.28; flex-shrink:0;">3</div>
+                <div>
+                  <div class="card-title" style="font-size:34px; margin-bottom:16px;">Lock in the Results</div>
+                  <div class="card-body" style="font-size:26px;">An AI coach keeps workshop insights alive — anytime, shaped around each individual person.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>The workshop effect sticks — even without a follow-up session.</div>
+          <div class="source-line">The Strength Hack</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 4 · Supported Assessments — beige, 5-row table
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide beige" data-ch="2">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Supported Assessments</div>
+            <div class="page-num">4 / 12</div>
+          </div>
+
+          <div style="flex:1; min-height:0; display:flex; flex-direction:column; gap:32px;">
+            <h2 class="h2" data-a="1" style="color:var(--ink); font-size:58px;">
+              The Strength Hack works with <em class="accent">what your team already has.</em>
+            </h2>
+
+            <!-- Table header -->
+            <div style="display:grid; grid-template-columns:300px 1fr 1fr; gap:40px; padding:0 40px; flex-shrink:0;">
+              <div style="font-size:var(--type-small); font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--ink-2);">Framework</div>
+              <div style="font-size:var(--type-small); font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--ink-2);">Background</div>
+              <div style="font-size:var(--type-small); font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--ink-2);">How it's used</div>
+            </div>
+
+            <!-- 5 assessment rows -->
+            <div style="display:flex; flex-direction:column; gap:12px; flex:1; min-height:0;" data-a="2">
+              <div style="display:grid; grid-template-columns:300px 1fr 1fr; gap:40px; align-items:center; background:rgba(44,40,36,0.05); border:1px solid rgba(44,40,36,0.08); border-radius:18px; padding:22px 40px; flex-shrink:0;">
+                <div>
+                  <div style="font-family:var(--font-dm-serif); font-size:34px; letter-spacing:-0.3px; color:var(--ink); margin-bottom:3px;">CliftonStrengths</div>
+                  <div style="font-size:var(--type-small); font-weight:600; color:var(--orange);">Gallup</div>
+                </div>
+                <div style="font-size:26px; color:var(--ink-2);">34 Themes</div>
+                <div style="font-size:26px; color:var(--ink-2);">Direct import of Top-5 or Full-34</div>
+              </div>
+              <div style="display:grid; grid-template-columns:300px 1fr 1fr; gap:40px; align-items:center; background:rgba(44,40,36,0.05); border:1px solid rgba(44,40,36,0.08); border-radius:18px; padding:22px 40px; flex-shrink:0;">
+                <div>
+                  <div style="font-family:var(--font-dm-serif); font-size:34px; letter-spacing:-0.3px; color:var(--ink); margin-bottom:3px;">MBTI</div>
+                  <div style="font-size:var(--type-small); font-weight:600; color:var(--orange);">Myers-Briggs</div>
+                </div>
+                <div style="font-size:26px; color:var(--ink-2);">16 Types</div>
+                <div style="font-size:26px; color:var(--ink-2);">Type input → dimension mapping</div>
+              </div>
+              <div style="display:grid; grid-template-columns:300px 1fr 1fr; gap:40px; align-items:center; background:rgba(44,40,36,0.05); border:1px solid rgba(44,40,36,0.08); border-radius:18px; padding:22px 40px; flex-shrink:0;">
+                <div>
+                  <div style="font-family:var(--font-dm-serif); font-size:34px; letter-spacing:-0.3px; color:var(--ink); margin-bottom:3px;">VIA Character</div>
+                  <div style="font-size:var(--type-small); font-weight:600; color:var(--orange);">Positive Psychology</div>
+                </div>
+                <div style="font-size:26px; color:var(--ink-2);">24 Character Strengths</div>
+                <div style="font-size:26px; color:var(--ink-2);">Strengths import and mapping</div>
+              </div>
+              <div style="display:grid; grid-template-columns:300px 1fr 1fr; gap:40px; align-items:center; background:rgba(44,40,36,0.05); border:1px solid rgba(44,40,36,0.08); border-radius:18px; padding:22px 40px; flex-shrink:0;">
+                <div>
+                  <div style="font-family:var(--font-dm-serif); font-size:34px; letter-spacing:-0.3px; color:var(--ink); margin-bottom:3px;">Big Five / IPIP-50</div>
+                  <div style="font-size:var(--type-small); font-weight:600; color:var(--orange);">Lewis Goldberg · free</div>
+                </div>
+                <div style="font-size:26px; color:var(--ink-2);">5 dimensions, ~5 min.</div>
+                <div style="font-size:26px; color:var(--ink-2);">Direct import of 5 scale scores</div>
+              </div>
+              <div style="display:grid; grid-template-columns:300px 1fr 1fr; gap:40px; align-items:center; background:var(--orange-soft); border:1.5px solid var(--orange-line); border-radius:18px; padding:22px 40px; flex-shrink:0;">
+                <div>
+                  <div style="font-family:var(--font-dm-serif); font-size:34px; letter-spacing:-0.3px; color:var(--ink); margin-bottom:3px;">Big Five / IPIP-120</div>
+                  <div style="font-size:var(--type-small); font-weight:600; color:var(--orange);">Lewis Goldberg · free</div>
+                </div>
+                <div style="font-size:26px; color:var(--ink-2);">5 dim. + 30 facets, ~15 min.</div>
+                <div style="font-size:26px; color:var(--ink-2);">Detailed import including facets</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>IPIP-50 and IPIP-120 are free and scientifically validated — no new assessment needed.</div>
+          <div class="source-line">The Strength Hack</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 5 · The Matching Compass — dark, 2-col (text | screenshot)
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide" data-ch="2">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">The Matching Compass</div>
+            <div class="page-num">5 / 12</div>
+          </div>
+
+          <div class="grid-2" style="gap:80px; align-items:stretch;">
+            <div data-a="1" style="display:flex; flex-direction:column; justify-content:center; gap:40px;">
+              <h2 class="h2" style="color:var(--on-dark); font-size:58px;">
+                6 Dimensions. One Picture. <em class="accent">Your team's key dynamics at a glance.</em>
+              </h2>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                <div style="background:rgba(245,240,232,0.05); border:1px solid var(--on-dark-line); border-radius:14px; padding:18px 24px;">
+                  <div style="font-family:var(--font-dm-serif); font-size:30px; color:var(--on-dark); margin-bottom:4px;">Introversion</div>
+                  <div style="font-size:var(--type-small); color:var(--on-dark-3);">Energy source: internal ↔ external</div>
+                </div>
+                <div style="background:rgba(245,240,232,0.05); border:1px solid var(--on-dark-line); border-radius:14px; padding:18px 24px;">
+                  <div style="font-family:var(--font-dm-serif); font-size:30px; color:var(--on-dark); margin-bottom:4px;">Emotional</div>
+                  <div style="font-size:var(--type-small); color:var(--on-dark-3);">Emotional intensity &amp; empathy</div>
+                </div>
+                <div style="background:rgba(245,240,232,0.05); border:1px solid var(--on-dark-line); border-radius:14px; padding:18px 24px;">
+                  <div style="font-family:var(--font-dm-serif); font-size:30px; color:var(--on-dark); margin-bottom:4px;">Visionary</div>
+                  <div style="font-size:var(--type-small); color:var(--on-dark-3);">Strategic thinking &amp; big picture</div>
+                </div>
+                <div style="background:rgba(245,240,232,0.05); border:1px solid var(--on-dark-line); border-radius:14px; padding:18px 24px;">
+                  <div style="font-family:var(--font-dm-serif); font-size:30px; color:var(--on-dark); margin-bottom:4px;">Impulsive</div>
+                  <div style="font-size:var(--type-small); color:var(--on-dark-3);">Spontaneity &amp; risk appetite</div>
+                </div>
+                <div style="background:rgba(245,240,232,0.05); border:1px solid var(--on-dark-line); border-radius:14px; padding:18px 24px;">
+                  <div style="font-family:var(--font-dm-serif); font-size:30px; color:var(--on-dark); margin-bottom:4px;">Agile</div>
+                  <div style="font-size:var(--type-small); color:var(--on-dark-3);">Adaptability &amp; flexibility</div>
+                </div>
+                <div style="background:rgba(245,240,232,0.05); border:1px solid var(--on-dark-line); border-radius:14px; padding:18px 24px;">
+                  <div style="font-family:var(--font-dm-serif); font-size:30px; color:var(--on-dark); margin-bottom:4px;">Convinced</div>
+                  <div style="font-size:var(--type-small); color:var(--on-dark-3);">Conviction &amp; persistence</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Screenshot placeholder -->
+            <div data-a="2" style="align-self:stretch; border-radius:28px; background:rgba(212,101,42,0.06); border:2px dashed rgba(212,101,42,0.22); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px;">
+              <div style="font-size:60px;">📊</div>
+              <div style="font-size:28px; color:var(--on-dark-3); text-align:center; line-height:1.5; max-width:400px;">Insert screenshot:<br><span style="color:var(--orange); font-weight:600;">Matching Compass view</span><br>of a team (4–6 people)</div>
+              <div style="font-size:var(--type-small); color:var(--on-dark-3); margin-top:8px;">→ Use demo compass from the Free tier</div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>"What surprises you when you see this picture?"</div>
+          <div class="source-line">Matching Compass</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 6 · Team Synergy Report — dark, 2-col
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide" data-ch="3">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Team Synergy Report</div>
+            <div class="page-num">6 / 12</div>
+          </div>
+
+          <div class="grid-2" style="gap:80px; align-items:stretch;">
+            <div data-a="1" style="display:flex; flex-direction:column; justify-content:center; gap:32px;">
+              <h2 class="h2" style="color:var(--on-dark); font-size:60px;">
+                Not an average — <em class="accent">a whole picture of the team.</em>
+              </h2>
+              <p class="sub" style="max-width:660px; font-size:32px;">
+                The report answers the questions that usually go unasked in team workshops.
+              </p>
+            </div>
+
+            <div class="card-dark" data-a="2" style="padding:48px 52px; display:flex; flex-direction:column; gap:0; align-self:stretch;">
+              <div style="font-size:var(--type-small); font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:rgba(212,101,42,0.65); margin-bottom:32px;">What the report contains</div>
+              <div style="display:flex; flex-direction:column; gap:24px; flex:1; justify-content:space-between;">
+                <div style="display:flex; align-items:flex-start; gap:20px;">
+                  <div style="width:8px; height:8px; border-radius:50%; background:var(--orange); margin-top:11px; flex-shrink:0;"></div>
+                  <div>
+                    <div style="font-family:var(--font-dm-serif); font-size:32px; color:var(--on-dark); margin-bottom:6px;">Executive Summary</div>
+                    <div style="font-size:26px; color:var(--on-dark-3); line-height:1.45;">The dominant pattern in 3–5 sentences, plain and direct</div>
+                  </div>
+                </div>
+                <div style="display:flex; align-items:flex-start; gap:20px;">
+                  <div style="width:8px; height:8px; border-radius:50%; background:var(--orange); margin-top:11px; flex-shrink:0;"></div>
+                  <div>
+                    <div style="font-family:var(--font-dm-serif); font-size:32px; color:var(--on-dark); margin-bottom:6px;">Key Strengths</div>
+                    <div style="font-size:26px; color:var(--on-dark-3); line-height:1.45;">What this team is uniquely good at together</div>
+                  </div>
+                </div>
+                <div style="display:flex; align-items:flex-start; gap:20px;">
+                  <div style="width:8px; height:8px; border-radius:50%; background:var(--orange); margin-top:11px; flex-shrink:0;"></div>
+                  <div>
+                    <div style="font-family:var(--font-dm-serif); font-size:32px; color:var(--on-dark); margin-bottom:6px;">Blind Spots</div>
+                    <div style="font-size:26px; color:var(--on-dark-3); line-height:1.45;">What the team collectively misses</div>
+                  </div>
+                </div>
+                <div style="display:flex; align-items:flex-start; gap:20px;">
+                  <div style="width:8px; height:8px; border-radius:50%; background:var(--orange); margin-top:11px; flex-shrink:0;"></div>
+                  <div>
+                    <div style="font-family:var(--font-dm-serif); font-size:32px; color:var(--on-dark); margin-bottom:6px;">Gap Analysis</div>
+                    <div style="font-size:26px; color:var(--on-dark-3); line-height:1.45;">Where the team is today vs. where it needs to be</div>
+                  </div>
+                </div>
+                <div style="display:flex; align-items:flex-start; gap:20px;">
+                  <div style="width:8px; height:8px; border-radius:50%; background:var(--orange); margin-top:11px; flex-shrink:0;"></div>
+                  <div>
+                    <div style="font-family:var(--font-dm-serif); font-size:32px; color:var(--on-dark); margin-bottom:6px;">Member Contributions</div>
+                    <div style="font-size:26px; color:var(--on-dark-3); line-height:1.45;">What each person specifically brings to the team</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Why does every decision turn into a debate? Why does someone always feel unheard?</div>
+          <div class="source-line">Team Synergy Report</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 7 · The AI Coach — dark, headline + 2×2 grid
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide" data-ch="3">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">The AI Coach</div>
+            <div class="page-num">7 / 12</div>
+          </div>
+
+          <div style="flex:1; min-height:0; display:flex; flex-direction:column; gap:40px;">
+            <div data-a="1">
+              <h2 class="h2" style="font-size:60px; margin-bottom:14px;">
+                What happens after the workshop — <em class="accent">finally solved.</em>
+              </h2>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--gap-item); flex:1; min-height:0;">
+              <div class="feat-card dark" data-a="2">
+                <div class="icon-box" style="background:rgba(212,101,42,0.14);">🎯</div>
+                <div>
+                  <div class="card-title" style="font-size:32px; margin-bottom:14px;">Built Around Each Person</div>
+                  <div class="card-body" style="font-size:26px;">Answers each team member's questions based on their own profile — not off the shelf.</div>
+                </div>
+              </div>
+              <div class="feat-card dark" data-a="3">
+                <div class="icon-box" style="background:rgba(212,101,42,0.14);">💡</div>
+                <div>
+                  <div class="card-title" style="font-size:32px; margin-bottom:14px;">Context-Aware</div>
+                  <div class="card-body" style="font-size:26px;">"You score 80 on Introversion — before the next all-hands you could…" Advice that actually fits the person.</div>
+                </div>
+              </div>
+              <div class="feat-card dark" data-a="4">
+                <div class="icon-box" style="background:rgba(212,101,42,0.14);">🔔</div>
+                <div>
+                  <div class="card-title" style="font-size:32px; margin-bottom:14px;">Goals in View</div>
+                  <div class="card-body" style="font-size:26px;">Keeps development goals set in the workshop front of mind — between your coaching sessions.</div>
+                </div>
+              </div>
+              <div class="feat-card dark" data-a="5">
+                <div class="icon-box" style="background:rgba(212,101,42,0.14);">🌐</div>
+                <div>
+                  <div class="card-title" style="font-size:32px; margin-bottom:14px;">Always On</div>
+                  <div class="card-body" style="font-size:26px;">In English, any time — the gap between coaching sessions that nobody has filled until now.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>This is why workshops don't stick — and how we fix that.</div>
+          <div class="source-line">AI Coach</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 8 · Use Case — beige, scenario card
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide beige" data-ch="3">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Use Case</div>
+            <div class="page-num">8 / 12</div>
+          </div>
+
+          <div style="flex:1; min-height:0; display:flex; flex-direction:column; gap:36px;">
+            <div data-a="1">
+              <h2 class="h2" style="color:var(--ink); font-size:56px; margin-bottom:0;">
+                One Team. Three Assessment Backgrounds. <em class="accent">One shared picture.</em>
+              </h2>
+            </div>
+
+            <div data-a="2" style="flex:1; min-height:0; background:rgba(44,40,36,0.05); border:1px solid rgba(44,40,36,0.10); border-radius:28px; padding:52px 60px; display:flex; gap:80px; align-items:flex-start;">
+              <!-- Scenario -->
+              <div style="flex:1;">
+                <div style="font-size:var(--type-small); font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--ink-2); margin-bottom:28px;">Starting Point</div>
+                <div style="font-size:28px; line-height:1.65; color:var(--ink-2);">
+                  A product team of 6. <strong style="color:var(--ink);">Anna and Ben</strong> have CliftonStrengths from a workshop two years ago. <strong style="color:var(--ink);">Caro</strong> recently took an MBTI: INFJ. The other three haven't done any assessment yet.
+                </div>
+                <div style="margin-top:28px; padding-top:28px; border-top:1px solid rgba(44,40,36,0.10); font-size:28px; line-height:1.65; color:var(--ink-2);">
+                  <strong style="color:var(--ink-2);">Until now:</strong> Three different "languages" — no common ground for team conversations.
+                </div>
+              </div>
+              <!-- Divider -->
+              <div style="width:1.5px; align-self:stretch; background:rgba(44,40,36,0.12); flex-shrink:0;"></div>
+              <!-- Result -->
+              <div style="flex:1;">
+                <div style="font-size:var(--type-small); font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--orange); margin-bottom:28px;">With The Strength Hack</div>
+                <div style="display:flex; flex-direction:column; gap:18px;">
+                  <div style="display:flex; align-items:flex-start; gap:16px; font-size:28px; line-height:1.55; color:var(--ink-2);">
+                    <span style="color:var(--orange); font-weight:700; flex-shrink:0; margin-top:2px;">✓</span>
+                    Anna &amp; Ben import their CliftonStrengths
+                  </div>
+                  <div style="display:flex; align-items:flex-start; gap:16px; font-size:28px; line-height:1.55; color:var(--ink-2);">
+                    <span style="color:var(--orange); font-weight:700; flex-shrink:0; margin-top:2px;">✓</span>
+                    Caro enters her MBTI type
+                  </div>
+                  <div style="display:flex; align-items:flex-start; gap:16px; font-size:28px; line-height:1.55; color:var(--ink-2);">
+                    <span style="color:var(--orange); font-weight:700; flex-shrink:0; margin-top:2px;">✓</span>
+                    The others take the IPIP-50 directly in the app — 7 minutes
+                  </div>
+                  <div style="margin-top:8px; padding:20px 24px; background:var(--orange-soft); border:1.5px solid var(--orange-line); border-radius:16px; font-size:26px; font-weight:600; color:var(--ink);">
+                    → Result: A unified Matching Compass for all 6 + Team Synergy Report
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>"Suddenly everyone's looking at the same picture — and talking about the same thing."</div>
+          <div class="source-line">Real-world example</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 9 · CSRD / ESG — dark, 3 feat-cards
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide" data-ch="4">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">CSRD / ESG Relevance</div>
+            <div class="page-num">9 / 12</div>
+          </div>
+
+          <div style="flex:1; min-height:0; display:flex; flex-direction:column; gap:40px;">
+            <div data-a="1">
+              <h2 class="h2" style="font-size:58px; margin-bottom:12px;">
+                Team development that's <em class="accent">measurable and documented.</em>
+              </h2>
+              <p class="sub" style="font-size:28px; color:rgba(245,240,232,0.42);">Only relevant for CSRD-obligated organisations (&gt;250 employees) or ESG-driven clients.</p>
+            </div>
+
+            <div class="grid-3">
+              <div class="feat-card dark" data-a="2">
+                <div class="icon-box" style="background:rgba(212,101,42,0.14);">📋</div>
+                <div>
+                  <div class="card-title" style="font-size:30px; margin-bottom:14px;">CSRD from 2026</div>
+                  <div class="card-body" style="font-size:26px;">The EU Corporate Sustainability Reporting Directive requires large companies to report on diversity, inclusion and employee development.</div>
+                </div>
+              </div>
+              <div class="feat-card dark" data-a="3">
+                <div class="icon-box" style="background:rgba(212,101,42,0.14);">🔍</div>
+                <div>
+                  <div class="card-title" style="font-size:30px; margin-bottom:14px;">ESRS S1 — Own Workforce</div>
+                  <div class="card-body" style="font-size:26px;">Requires auditable evidence of systematic skills development. Not just statements of intent — real documentation.</div>
+                </div>
+              </div>
+              <div class="feat-card orange" data-a="4">
+                <div class="icon-box" style="background:rgba(212,101,42,0.20);">📊</div>
+                <div>
+                  <div class="card-title" style="font-size:30px; margin-bottom:14px;">Automatic as a By-product</div>
+                  <div class="card-body" style="font-size:26px;">Who participated, when, how dimensions shift over time — all exportable as PDF.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Your ESG auditor needs evidence — The Strength Hack generates it as a by-product.</div>
+          <div class="source-line">CSRD · ESRS S1</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 10 · Pricing — light, 3 pricing cards
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide light" data-ch="4">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Pricing</div>
+            <div class="page-num">10 / 12</div>
+          </div>
+
+          <div style="flex:1; min-height:0; display:flex; flex-direction:column; gap:40px;">
+            <h2 class="h2" data-a="1" style="color:var(--ink); text-align:center; font-size:60px;">
+              Try it for free. <em class="accent">Start today.</em>
+            </h2>
+
+            <div class="grid-3" style="gap:32px; align-items:stretch;">
+              <!-- Free -->
+              <div class="pkg-card" data-a="2">
+                <div class="pkg-name">Free</div>
+                <div class="pkg-price">€0</div>
+                <div class="pkg-price-sub">/month · no account needed</div>
+                <ul class="pkg-list">
+                  <li>Your own assessment</li>
+                  <li>Individual profile</li>
+                  <li>Basic AI access</li>
+                </ul>
+              </div>
+
+              <!-- Personal -->
+              <div class="pkg-card" data-a="3">
+                <div class="pkg-name">Personal</div>
+                <div class="pkg-price">€15</div>
+                <div class="pkg-price-sub">/month · per person</div>
+                <ul class="pkg-list">
+                  <li>Extended profile</li>
+                  <li>Full AI Coach</li>
+                  <li>Comparison features</li>
+                </ul>
+              </div>
+
+              <!-- Team (featured) -->
+              <div class="pkg-card featured" data-a="4">
+                <div class="pkg-name">Team</div>
+                <div class="pkg-price">€99</div>
+                <div class="pkg-price-sub">/month · for the whole team</div>
+                <ul class="pkg-list">
+                  <li>Matching Compass</li>
+                  <li>Team Synergy Report</li>
+                  <li>AI Coach for all members</li>
+                  <li>ESG data export</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>The Free tier is a real product — not a funnel. Try it yourself.</div>
+          <div class="source-line">thestrengthack.com</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 11 · Next Steps — dark, 2-col (steps | offer)
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide" data-ch="4">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Your Next Step</div>
+            <div class="page-num">11 / 12</div>
+          </div>
+
+          <div style="flex:1; min-height:0; display:flex; flex-direction:column; gap:40px;">
+            <h2 class="h2" data-a="1" style="font-size:56px;">
+              Onboarding in 15 minutes. <em class="accent">Your team live today.</em>
+            </h2>
+
+            <div class="grid-2" style="gap:80px; align-items:stretch; flex:1; min-height:0;">
+              <!-- Steps -->
+              <div data-a="2" style="display:flex; flex-direction:column; gap:14px; justify-content:center;">
+                <div style="display:flex; align-items:flex-start; gap:24px; background:rgba(245,240,232,0.04); border:1px solid var(--on-dark-line); border-radius:18px; padding:24px 32px;">
+                  <div style="font-family:var(--font-dm-serif); font-size:52px; color:var(--orange); opacity:0.65; flex-shrink:0; line-height:0.9; width:52px;">1</div>
+                  <div>
+                    <div style="font-size:28px; font-weight:600; color:var(--on-dark); margin-bottom:6px;">Create a team account</div>
+                    <div style="font-size:var(--type-small); color:var(--on-dark-3);">thestrengthack.com — €99/month, runs on your account</div>
+                  </div>
+                </div>
+                <div style="display:flex; align-items:flex-start; gap:24px; background:rgba(245,240,232,0.04); border:1px solid var(--on-dark-line); border-radius:18px; padding:24px 32px;">
+                  <div style="font-family:var(--font-dm-serif); font-size:52px; color:var(--orange); opacity:0.65; flex-shrink:0; line-height:0.9; width:52px;">2</div>
+                  <div>
+                    <div style="font-size:28px; font-weight:600; color:var(--on-dark); margin-bottom:6px;">Enter assessments</div>
+                    <div style="font-size:var(--type-small); color:var(--on-dark-3);">Each team member: 10–20 minutes, depending on framework</div>
+                  </div>
+                </div>
+                <div style="display:flex; align-items:flex-start; gap:24px; background:rgba(245,240,232,0.04); border:1px solid var(--on-dark-line); border-radius:18px; padding:24px 32px;">
+                  <div style="font-family:var(--font-dm-serif); font-size:52px; color:var(--orange); opacity:0.65; flex-shrink:0; line-height:0.9; width:52px;">3</div>
+                  <div>
+                    <div style="font-size:28px; font-weight:600; color:var(--on-dark); margin-bottom:6px;">Report ready immediately</div>
+                    <div style="font-size:var(--type-small); color:var(--on-dark-3);">Your first Team Synergy Report generates as soon as you're done</div>
+                  </div>
+                </div>
+                <div style="display:flex; align-items:flex-start; gap:24px; background:rgba(245,240,232,0.04); border:1px solid var(--on-dark-line); border-radius:18px; padding:24px 32px;">
+                  <div style="font-family:var(--font-dm-serif); font-size:52px; color:var(--orange); opacity:0.65; flex-shrink:0; line-height:0.9; width:52px;">4</div>
+                  <div>
+                    <div style="font-size:28px; font-weight:600; color:var(--on-dark); margin-bottom:6px;">I lead the debrief</div>
+                    <div style="font-size:var(--type-small); color:var(--on-dark-3);">Setup + first debrief workshop — that's my offer to you</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Offer card + QR -->
+              <div data-a="3" style="display:flex; flex-direction:column; gap:20px; align-self:stretch; justify-content:center;">
+                <div class="card-dark" style="padding:44px 48px; flex:1; display:flex; flex-direction:column; justify-content:space-between;">
+                  <div>
+                    <div style="font-size:var(--type-small); font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:rgba(212,101,42,0.65); margin-bottom:20px;">My offer to get you started</div>
+                    <div style="font-size:28px; line-height:1.6; color:var(--on-dark); margin-bottom:20px;">Start with the <strong style="color:var(--orange);">Free tier</strong> — take the IPIP-50 yourself (5 min., no account needed) and see your profile. Then you decide.</div>
+                    <div style="font-size:var(--type-small); color:var(--on-dark-3); padding:16px 20px; background:rgba(245,240,232,0.04); border-radius:12px; border:1px solid var(--on-dark-line);">
+                      <strong style="color:var(--on-dark);">Important:</strong> The subscription is yours — not mine. It stays whether we work together or not. This is your infrastructure.
+                    </div>
+                  </div>
+
+                  <!-- QR Placeholder -->
+                  <div style="margin-top:28px; display:flex; align-items:center; gap:28px;">
+                    <div style="width:140px; height:140px; background:#fff; border-radius:16px; flex-shrink:0; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:8px;">
+                      <div style="font-size:32px;">📱</div>
+                      <div style="font-size:11px; color:var(--ink-2); text-align:center; font-weight:600; letter-spacing:0.5px;">INSERT<br>QR CODE</div>
+                    </div>
+                    <div>
+                      <div style="font-size:26px; color:var(--on-dark); font-weight:600; margin-bottom:8px;">Your Affiliate Link</div>
+                      <div style="font-size:var(--type-small); color:var(--on-dark-3); font-family:ui-monospace, monospace; background:rgba(245,240,232,0.06); padding:10px 16px; border-radius:8px;">[AFFILIATE_LINK]</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>The subscription is yours — that's what makes this different from tool reselling.</div>
+          <div class="source-line">The Strength Hack</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 12 · Contact — dark, centered card
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide" data-ch="4">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Contact</div>
+            <div class="page-num">12 / 12</div>
+          </div>
+
+          <div style="flex:1; min-height:0; display:flex; align-items:center; justify-content:center;">
+            <div data-a="1" class="card-dark" style="padding:72px 88px; max-width:900px; width:100%; display:flex; flex-direction:column; gap:32px;">
+              <div style="font-size:var(--type-small); font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:rgba(212,101,42,0.65);">Your Coach Details</div>
+
+              <div style="display:flex; flex-direction:column; gap:20px;">
+                <div style="border-bottom:1px solid var(--on-dark-line); padding-bottom:20px;">
+                  <div style="font-size:var(--type-small); color:var(--on-dark-3); margin-bottom:6px;">Name</div>
+                  <div style="font-family:var(--font-dm-serif); font-size:52px; letter-spacing:-0.5px; color:var(--on-dark);">[Your Name]</div>
+                </div>
+                <div style="border-bottom:1px solid var(--on-dark-line); padding-bottom:20px;">
+                  <div style="font-size:var(--type-small); color:var(--on-dark-3); margin-bottom:6px;">Positioning</div>
+                  <div style="font-size:30px; color:var(--on-dark-2);">[Title, e.g. "Agile Coach &amp; Team Developer"]</div>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:28px;">
+                  <div>
+                    <div style="font-size:var(--type-small); color:var(--on-dark-3); margin-bottom:6px;">Email</div>
+                    <div style="font-size:26px; color:var(--on-dark-2);">[Email]</div>
+                  </div>
+                  <div>
+                    <div style="font-size:var(--type-small); color:var(--on-dark-3); margin-bottom:6px;">LinkedIn</div>
+                    <div style="font-size:26px; color:var(--on-dark-2);">[LinkedIn profile]</div>
+                  </div>
+                  <div>
+                    <div style="font-size:var(--type-small); color:var(--on-dark-3); margin-bottom:6px;">Website</div>
+                    <div style="font-size:26px; color:var(--on-dark-2);">[Website]</div>
+                  </div>
+                </div>
+              </div>
+
+              <div style="padding-top:28px; border-top:1px solid var(--on-dark-line);">
+                <div style="font-size:26px; color:var(--on-dark-3); font-style:italic;">
+                  "Recommended by [Advisor Name] × <span style="color:var(--orange); font-style:normal; font-weight:600;">The Strength Hack</span>"
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>For follow-up conversations and questions</div>
+          <div class="source-line">strength-hack.com</div>
+        </div>
+      </div>
+
+
+    </div><!-- /slides-wrap -->
+  </main>
+
+</div><!-- /app -->
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<script>
+  const SLIDES   = Array.from(document.querySelectorAll('.slide'));
+  const CH_BTNS  = Array.from(document.querySelectorAll('.sb-ch'));
+  const DOT_WRAP = document.getElementById('sbDots');
+  const C_CUR    = document.getElementById('cCur');
+  const C_TOT    = document.getElementById('cTot');
+
+  const CH_START = [0, 2, 5, 8];
+  const NEW_SLIDE_INDICES = new Set([]);
+
+  let cur = 0;
+
+  function scaleSlides() {
+    const stageW = window.innerWidth - 210;
+    const stageH = window.innerHeight;
+    const scale  = Math.min(stageW / 1920, stageH / 1080);
+    const offX   = (stageW - 1920 * scale) / 2;
+    const offY   = (stageH - 1080 * scale) / 2;
+    SLIDES.forEach(s => {
+      s.style.transform       = `scale(${scale})`;
+      s.style.transformOrigin = 'top left';
+      s.style.left            = offX + 'px';
+      s.style.top             = offY + 'px';
+    });
+  }
+
+  function go(delta) { goTo(cur + delta); }
+
+  function goTo(idx) {
+    if (idx < 0 || idx >= SLIDES.length || idx === cur) return;
+    const out = SLIDES[cur];
+    cur = idx;
+    out.classList.add('exiting');
+    SLIDES[cur].classList.add('active');
+    setTimeout(() => out.classList.remove('active', 'exiting'), 280);
+    updateUI();
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const fill = document.getElementById('progressFill');
+    if (fill) fill.style.width = ((cur + 1) / SLIDES.length * 100) + '%';
+  }
+
+  function goChapter(ch) { goTo(CH_START[ch]); }
+
+  function updateUI() {
+    C_CUR.textContent = cur + 1;
+    C_TOT.textContent = SLIDES.length;
+    const ch = parseInt(SLIDES[cur].dataset.ch || '1') - 1;
+    CH_BTNS.forEach((btn, i) => btn.classList.toggle('active', i === ch));
+    document.querySelectorAll('.sb-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === cur);
+    });
+  }
+
+  function buildDots() {
+    SLIDES.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.className = 'sb-dot';
+      d.textContent = i + 1;
+      d.onclick = () => goTo(i);
+      DOT_WRAP.appendChild(d);
+    });
+  }
+
+  function exportPDF() { window.print(); }
+
+  document.addEventListener('keydown', e => {
+    switch (e.key) {
+      case 'ArrowRight': case 'ArrowDown': case ' ':
+        e.preventDefault(); go(1);  break;
+      case 'ArrowLeft': case 'ArrowUp':
+        e.preventDefault(); go(-1); break;
+      case 'Home':
+        e.preventDefault(); goTo(0); break;
+      case 'End':
+        e.preventDefault(); goTo(SLIDES.length - 1); break;
+    }
+  });
+
+  window.addEventListener('resize', scaleSlides);
+  buildDots();
+  scaleSlides();
+  updateUI();
+  updateProgress();
+</script>
+
+</body>
+</html>
