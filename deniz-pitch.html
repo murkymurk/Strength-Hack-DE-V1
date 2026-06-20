@@ -1,0 +1,1547 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Echte Teams Digital — Kooperations-Pitch 2025</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   Echte Teams Digital — Kooperations-Pitch
+   Canvas: 1920 × 1080 px, scaled to viewport by JS
+   Sidebar: 210 px | Stage: remainder
+   ============================================================ */
+
+:root {
+  --font-dm-serif: 'DM Serif Display', Georgia, 'Times New Roman', serif;
+  --font-outfit:   'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Brand */
+  --orange:       #D4652A;
+  --orange-soft:  rgba(212,101,42,0.12);
+  --orange-line:  rgba(212,101,42,0.30);
+  --charcoal:     #1A1714;
+  --card-dark:    #242018;
+  --cream:        #FDFBF7;
+  --beige:        #F5F0E8;
+  --ink:          #2C2824;
+  --ink-2:        #7A7168;
+  --on-dark:      #F5F0E8;
+  --on-dark-2:    rgba(245,240,232,0.62);
+  --on-dark-3:    rgba(245,240,232,0.38);
+  --on-dark-line: rgba(245,240,232,0.10);
+
+  /* Type scale — 1920 × 1080 projection */
+  --type-display: 132px;
+  --type-title:    88px;
+  --type-h2:       72px;
+  --type-quote:    56px;
+  --type-stat:    220px;
+  --type-sub:      40px;
+  --type-body:     30px;
+  --type-small:    24px;
+  --type-eyebrow:  24px;
+
+  /* Spacing */
+  --pad-x:      120px;
+  --pad-top:    110px;
+  --pad-bottom:  90px;
+  --gap-title:   44px;
+  --gap-item:    28px;
+
+  --sidebar-w:  210px;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  height: 100vh; width: 100vw;
+  overflow: hidden;
+  background: #0E0C0A;
+  font-family: var(--font-outfit);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   APP SHELL
+   ══════════════════════════════════════════════════════════════ */
+.app { display: flex; height: 100vh; width: 100vw; }
+
+/* ══════════════════════════════════════════════════════════════
+   SIDEBAR
+   ══════════════════════════════════════════════════════════════ */
+.sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  background: #13110e;
+  border-right: 1px solid var(--on-dark-line);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.sb-logo {
+  padding: 20px 18px 16px;
+  border-bottom: 1px solid var(--on-dark-line);
+  flex-shrink: 0;
+}
+.sb-logo-name {
+  font-family: var(--font-dm-serif);
+  font-size: 15px;
+  color: var(--on-dark);
+  letter-spacing: -0.2px;
+}
+.sb-logo-name span { color: var(--orange); }
+.sb-logo-sub {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(245,240,232,0.22);
+  margin-top: 3px;
+}
+
+.sb-chapters { flex: 1; overflow-y: auto; padding: 12px 0; }
+.sb-ch {
+  padding: 9px 18px;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: all 0.2s;
+}
+.sb-ch:hover { background: rgba(245,240,232,0.04); }
+.sb-ch.active {
+  border-left-color: var(--orange);
+  background: rgba(212,101,42,0.08);
+}
+.sb-ch-num {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 2px;
+}
+.sb-ch-title {
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(245,240,232,0.42);
+  line-height: 1.35;
+}
+.sb-ch.active .sb-ch-title { color: var(--on-dark); }
+
+.sb-dots {
+  padding: 12px 18px;
+  border-top: 1px solid var(--on-dark-line);
+  flex-shrink: 0;
+}
+.sb-dots-wrap { display: flex; flex-wrap: wrap; gap: 4px; }
+.sb-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  background: rgba(245,240,232,0.07);
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  font-weight: 700;
+  color: rgba(245,240,232,0.3);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.sb-dot:hover { background: rgba(245,240,232,0.14); }
+.sb-dot.active { background: var(--orange); color: #fff; border-color: var(--orange); }
+
+.sb-footer {
+  padding: 12px 14px 16px;
+  border-top: 1px solid var(--on-dark-line);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.mode-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 8px 12px;
+  border-radius: 980px;
+  border: 1px solid var(--on-dark-line);
+  background: rgba(245,240,232,0.05);
+  cursor: pointer;
+  font-family: var(--font-outfit);
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(245,240,232,0.45);
+  letter-spacing: 0.3px;
+  transition: all 0.2s ease;
+}
+.mode-btn:hover { background: rgba(245,240,232,0.1); color: rgba(245,240,232,0.7); }
+
+/* ══════════════════════════════════════════════════════════════
+   STAGE
+   ══════════════════════════════════════════════════════════════ */
+.stage {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: #0E0C0A;
+}
+
+.counter {
+  position: absolute;
+  top: 16px;
+  right: 22px;
+  z-index: 50;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: rgba(245,240,232,0.25);
+  pointer-events: none;
+}
+.counter .n { color: rgba(245,240,232,0.62); font-weight: 700; }
+
+.arr {
+  position: absolute;
+  bottom: 20px;
+  z-index: 50;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(245,240,232,0.06);
+  border: 1px solid var(--on-dark-line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: rgba(245,240,232,0.32);
+  font-size: 15px;
+  transition: all 0.2s;
+  user-select: none;
+}
+.arr:hover { background: rgba(212,101,42,0.18); border-color: rgba(212,101,42,0.4); color: var(--orange); }
+.arr-prev { right: 64px; }
+.arr-next { right: 18px; }
+
+/* ══════════════════════════════════════════════════════════════
+   SLIDES WRAPPER
+   ══════════════════════════════════════════════════════════════ */
+.slides-wrap {
+  position: absolute;
+  inset: 0;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SLIDE BASE — 1920 × 1080 fixed canvas
+   ══════════════════════════════════════════════════════════════ */
+.slide {
+  position: absolute;
+  width: 1920px;
+  height: 1080px;
+  background: var(--charcoal);
+  color: var(--on-dark);
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform;
+  font-family: var(--font-outfit);
+  -webkit-font-smoothing: antialiased;
+}
+.slide.active { opacity: 1; pointer-events: auto; }
+.slide.beige  { background: var(--beige);  color: var(--ink); }
+.slide.light  { background: var(--cream);  color: var(--ink); }
+
+/* ══════════════════════════════════════════════════════════════
+   FRAME — clipped above the bottom-bar zone
+   ══════════════════════════════════════════════════════════════ */
+.frame {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  bottom: var(--pad-bottom);
+  padding: var(--pad-top) var(--pad-x) 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.frame.between { justify-content: space-between; }
+.frame.center  { justify-content: center; align-items: center; }
+
+/* ══════════════════════════════════════════════════════════════
+   TOP BAR — first child of .frame
+   ══════════════════════════════════════════════════════════════ */
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--gap-title);
+  flex-shrink: 0;
+  height: 30px;
+}
+
+.page-num {
+  font-family: var(--font-outfit);
+  font-size: var(--type-small);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: var(--on-dark-3);
+}
+.slide.beige .page-num,
+.slide.light .page-num { color: var(--ink-2); }
+
+/* ══════════════════════════════════════════════════════════════
+   BOTTOM BAR — OUTSIDE .frame, sibling
+   ══════════════════════════════════════════════════════════════ */
+.bottom-bar {
+  position: absolute;
+  bottom: 22px;
+  left: var(--pad-x);
+  right: var(--pad-x);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-outfit);
+  font-size: var(--type-small);
+  font-weight: 400;
+  letter-spacing: 0.3px;
+  color: var(--on-dark-3);
+}
+.slide.beige .bottom-bar,
+.slide.light .bottom-bar { color: var(--ink-2); }
+
+.source-line {
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  font-size: var(--type-small);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   TYPOGRAPHY
+   ══════════════════════════════════════════════════════════════ */
+.eyebrow {
+  font-family: var(--font-outfit);
+  font-size: var(--type-eyebrow);
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--orange);
+  line-height: 1;
+}
+
+.display {
+  font-family: var(--font-dm-serif);
+  font-size: var(--type-display);
+  font-weight: 400;
+  letter-spacing: -3px;
+  line-height: 1.0;
+  text-wrap: balance;
+}
+.h2 {
+  font-family: var(--font-dm-serif);
+  font-size: var(--type-h2);
+  font-weight: 400;
+  letter-spacing: -1.2px;
+  line-height: 1.06;
+  text-wrap: balance;
+}
+em.accent {
+  font-style: italic;
+  color: var(--orange);
+}
+
+.sub {
+  font-family: var(--font-outfit);
+  font-weight: 300;
+  font-size: var(--type-sub);
+  line-height: 1.35;
+  color: var(--on-dark-2);
+  text-wrap: pretty;
+}
+.slide.beige .sub,
+.slide.light .sub { color: var(--ink-2); }
+
+.body {
+  font-family: var(--font-outfit);
+  font-size: var(--type-body);
+  line-height: 1.55;
+  color: var(--on-dark-2);
+}
+.slide.beige .body,
+.slide.light .body { color: var(--ink-2); }
+
+.small {
+  font-family: var(--font-outfit);
+  font-size: var(--type-small);
+  line-height: 1.5;
+  color: var(--on-dark-3);
+}
+.slide.beige .small,
+.slide.light .small { color: var(--ink-2); }
+
+/* ══════════════════════════════════════════════════════════════
+   LAYOUT HELPERS
+   ══════════════════════════════════════════════════════════════ */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  flex: 1;
+  min-height: 0;
+}
+.grid-2-58 {
+  display: grid;
+  grid-template-columns: 58fr 42fr;
+  gap: 100px;
+  align-items: center;
+  flex: 1;
+  min-height: 0;
+}
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap-item);
+  flex: 1;
+  min-height: 0;
+  align-items: stretch;
+}
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--gap-item);
+  flex: 1;
+  min-height: 0;
+  align-items: stretch;
+}
+.stack { display: flex; flex-direction: column; }
+
+/* ══════════════════════════════════════════════════════════════
+   HERO IMAGE FRAME
+   ══════════════════════════════════════════════════════════════ */
+.hero-image {
+  align-self: stretch;
+  width: 100%;
+  border-radius: 28px;
+  overflow: hidden;
+  background: #20322F;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+.hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   CARDS
+   ══════════════════════════════════════════════════════════════ */
+.card-dark {
+  background: var(--card-dark);
+  border: 1px solid var(--on-dark-line);
+  border-radius: 24px;
+  padding: 36px 36px;
+}
+.card-dark-accent {
+  background: var(--orange-soft);
+  border: 1.5px solid var(--orange-line);
+  border-radius: 24px;
+  padding: 36px 36px;
+}
+.card-light {
+  background: #fff;
+  border: 1px solid rgba(44,40,36,0.08);
+  border-radius: 24px;
+  padding: 36px 36px;
+}
+.card-beige {
+  background: var(--beige);
+  border-radius: 24px;
+  padding: 36px 36px;
+}
+
+/* Feature cards in grid-3 */
+.feat-card {
+  border-radius: 24px;
+  padding: 44px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.feat-card.dark  { background: var(--card-dark); border: 1px solid var(--on-dark-line); }
+.feat-card.orange { background: var(--orange-soft); border: 1.5px solid var(--orange-line); }
+.feat-card.white { background: #fff; border: 1px solid rgba(44,40,36,0.08); }
+
+.card-label {
+  font-family: var(--font-outfit);
+  font-size: var(--type-small);
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+.card-title {
+  font-family: var(--font-dm-serif);
+  font-size: 48px;
+  font-weight: 400;
+  letter-spacing: -0.8px;
+  color: var(--on-dark);
+  line-height: 1.1;
+}
+.slide.beige .card-title,
+.slide.light .card-title { color: var(--ink); }
+.feat-card.white .card-title,
+.feat-card.orange .card-title { color: var(--ink); }
+
+.card-body {
+  font-family: var(--font-outfit);
+  font-size: var(--type-body);
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--on-dark-2);
+}
+.slide.beige .card-body,
+.slide.light .card-body { color: var(--ink-2); }
+.feat-card.white .card-body,
+.feat-card.orange .card-body { color: var(--ink-2); }
+
+/* ══════════════════════════════════════════════════════════════
+   PILL TAGS
+   ══════════════════════════════════════════════════════════════ */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-outfit);
+  font-size: var(--type-small);
+  font-weight: 600;
+  background: rgba(245,240,232,0.08);
+  color: var(--on-dark-2);
+  border: 1px solid rgba(245,240,232,0.14);
+  border-radius: 980px;
+  padding: 12px 28px;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   FEATURE ROW (S04 product match)
+   ══════════════════════════════════════════════════════════════ */
+.feat-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 24px 0;
+  border-bottom: 1px solid rgba(44,40,36,0.10);
+}
+.feat-row:last-child { border-bottom: none; }
+.feat-row-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--orange-soft);
+  border: 1px solid var(--orange-line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.feat-row-title {
+  font-family: var(--font-dm-serif);
+  font-size: 36px;
+  letter-spacing: -0.4px;
+  color: var(--ink);
+  line-height: 1.1;
+  margin-bottom: 6px;
+}
+.feat-row-sub {
+  font-size: var(--type-body);
+  color: var(--ink-2);
+  line-height: 1.4;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   STEP ROW (S08 phase 1 model)
+   ══════════════════════════════════════════════════════════════ */
+.step-row {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  padding: 28px 40px;
+  border-radius: 20px;
+  background: var(--card-dark);
+  border: 1px solid var(--on-dark-line);
+}
+.step-row.hl {
+  background: var(--orange-soft);
+  border: 1.5px solid var(--orange-line);
+}
+.step-num {
+  font-family: var(--font-dm-serif);
+  font-size: 56px;
+  color: var(--orange);
+  line-height: 1;
+  flex-shrink: 0;
+  letter-spacing: -1px;
+  width: 72px;
+}
+.step-title {
+  font-family: var(--font-dm-serif);
+  font-size: 40px;
+  letter-spacing: -0.5px;
+  color: var(--on-dark);
+  margin-bottom: 8px;
+  line-height: 1.1;
+}
+.step-body {
+  font-size: var(--type-body);
+  line-height: 1.4;
+  color: var(--on-dark-2);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SPLIT BAR (S09 revenue)
+   ══════════════════════════════════════════════════════════════ */
+.split-bar {
+  display: flex;
+  align-items: stretch;
+  border-radius: 14px;
+  overflow: hidden;
+  height: 100px;
+  margin: 4px 0;
+}
+.split-seg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+}
+.split-pct {
+  font-family: var(--font-dm-serif);
+  font-size: 44px;
+  letter-spacing: -1px;
+  line-height: 1;
+  font-weight: 400;
+}
+.split-lbl {
+  font-family: var(--font-outfit);
+  font-size: var(--type-small);
+  font-weight: 500;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PHASE BOXES (S10 GmbH roadmap)
+   ══════════════════════════════════════════════════════════════ */
+.phase-box {
+  border-radius: 24px;
+  border: 2px solid;
+  padding: 44px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.phase-box.active-phase {
+  border-color: var(--orange-line);
+  background: var(--orange-soft);
+}
+.phase-box.future-phase {
+  border-color: var(--on-dark-line);
+  background: rgba(245,240,232,0.03);
+}
+.phase-label {
+  font-family: var(--font-outfit);
+  font-size: var(--type-small);
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+.phase-box.active-phase .phase-label { color: var(--orange); }
+.phase-box.future-phase .phase-label { color: var(--on-dark-3); }
+.phase-heading {
+  font-family: var(--font-dm-serif);
+  font-size: 56px;
+  font-weight: 400;
+  letter-spacing: -1px;
+  line-height: 1.1;
+}
+.phase-box.active-phase .phase-heading { color: var(--on-dark); }
+.phase-box.future-phase .phase-heading { color: var(--on-dark-2); }
+.phase-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.phase-list li {
+  font-family: var(--font-outfit);
+  font-size: var(--type-body);
+  font-weight: 300;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  line-height: 1.4;
+}
+.phase-list li::before {
+  content: '→';
+  color: var(--orange);
+  font-size: var(--type-body);
+  flex-shrink: 0;
+}
+.phase-box.active-phase .phase-list li { color: var(--on-dark-2); }
+.phase-box.future-phase .phase-list li { color: var(--on-dark-3); }
+
+/* ══════════════════════════════════════════════════════════════
+   CTA BUTTON
+   ══════════════════════════════════════════════════════════════ */
+.btn-solid {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 56px;
+  font-family: var(--font-outfit);
+  font-weight: 600;
+  font-size: 28px;
+  color: #fff;
+  background: var(--orange);
+  border: none;
+  border-radius: 980px;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 8px 32px rgba(212,101,42,0.28);
+  letter-spacing: 0.3px;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   DIVIDER LINE
+   ══════════════════════════════════════════════════════════════ */
+.divider {
+  width: 80px;
+  height: 3px;
+  background: var(--orange);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ANIMATIONS
+   ══════════════════════════════════════════════════════════════ */
+.slide.exiting {
+  opacity: 0;
+  transition: opacity 0.25s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+
+@keyframes staggerFadeUp {
+  from { opacity: 0; transform: translateY(26px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+[data-a] { opacity: 0; }
+.slide.active [data-a] {
+  animation: staggerFadeUp 0.58s cubic-bezier(0.25,0.46,0.45,0.94) both;
+}
+.slide.active [data-a="1"] { animation-delay:   0ms; }
+.slide.active [data-a="2"] { animation-delay:  80ms; }
+.slide.active [data-a="3"] { animation-delay: 160ms; }
+.slide.active [data-a="4"] { animation-delay: 240ms; }
+.slide.active [data-a="5"] { animation-delay: 320ms; }
+.slide.active [data-a="6"] { animation-delay: 400ms; }
+
+.feat-card, .card-dark, .card-dark-accent, .card-light, .card-beige, .step-row {
+  transition: transform 0.26s cubic-bezier(0.25,0.46,0.45,0.94),
+              box-shadow 0.26s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.feat-card:hover  { transform: translateY(-6px); box-shadow: 0 18px 44px rgba(0,0,0,0.16); }
+.card-dark:hover  { transform: translateY(-6px); box-shadow: 0 18px 44px rgba(0,0,0,0.28); }
+.card-light:hover { transform: translateY(-6px); box-shadow: 0 18px 44px rgba(44,40,36,0.10); }
+
+/* ══════════════════════════════════════════════════════════════
+   PROGRESS BAR
+   ══════════════════════════════════════════════════════════════ */
+.progress-bar {
+  position: fixed; bottom: 0;
+  left: var(--sidebar-w); right: 0;
+  height: 3px;
+  background: rgba(245,240,232,0.06);
+  z-index: 200; pointer-events: none;
+}
+.progress-fill {
+  height: 100%; background: var(--orange);
+  width: 0%;
+  transition: width 0.45s cubic-bezier(0.25,0.46,0.45,0.94);
+  border-radius: 0 2px 2px 0;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PRINT / PDF EXPORT
+   ══════════════════════════════════════════════════════════════ */
+@media print {
+  @page { size: 1920px 1080px; margin: 0; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  .sidebar, .arr, .counter, #exportBtn { display: none !important; }
+  body, html { width: 1920px !important; height: auto !important; overflow: visible !important; }
+  .app { display: block !important; width: 1920px !important; height: auto !important; }
+  .stage {
+    display: block !important;
+    margin-left: 0 !important;
+    overflow: visible !important;
+    width: 1920px !important;
+    height: auto !important;
+    background: transparent !important;
+  }
+  .slides-wrap {
+    position: static !important;
+    width: 1920px !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+  .slide {
+    position: relative !important;
+    transform: none !important;
+    left: 0 !important;
+    top: 0 !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    width: 1920px !important;
+    height: 1080px !important;
+    page-break-after: always;
+    break-after: page;
+    overflow: hidden !important;
+    display: block !important;
+  }
+  .slide[data-skip-print] { display: none !important; }
+  .hero-image { box-shadow: none !important; }
+  .btn-solid  { box-shadow: none !important; }
+  * { animation: none !important; transition: none !important; }
+  [data-a] { opacity: 1 !important; transform: none !important; }
+  .progress-bar { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ════════════════════════════════════════════════════════════
+       SIDEBAR
+       ════════════════════════════════════════════════════════════ -->
+  <aside class="sidebar">
+    <div class="sb-logo">
+      <div class="sb-logo-name">The Strength <span>Hack</span></div>
+      <div class="sb-logo-sub">Kooperations-Pitch · 2025</div>
+    </div>
+
+    <div class="sb-chapters" id="sbCh">
+      <div class="sb-ch active" onclick="goChapter(0)">
+        <div class="sb-ch-num">Teil 1</div>
+        <div class="sb-ch-title">Intro &amp; Problem</div>
+      </div>
+      <div class="sb-ch" onclick="goChapter(1)">
+        <div class="sb-ch-num">Teil 2</div>
+        <div class="sb-ch-title">Produkt &amp; Partnerschaft</div>
+      </div>
+      <div class="sb-ch" onclick="goChapter(2)">
+        <div class="sb-ch-num">Teil 3</div>
+        <div class="sb-ch-title">Modell &amp; Next Steps</div>
+      </div>
+    </div>
+
+    <div class="sb-dots">
+      <div class="sb-dots-wrap" id="sbDots"></div>
+    </div>
+
+    <div class="sb-footer">
+      <button class="mode-btn" id="exportBtn" onclick="exportPDF()">↓ Export PDF</button>
+    </div>
+  </aside>
+
+  <!-- ════════════════════════════════════════════════════════════
+       STAGE
+       ════════════════════════════════════════════════════════════ -->
+  <main class="stage">
+    <div class="counter"><span class="n" id="cCur">1</span> / <span id="cTot">12</span></div>
+    <button class="arr arr-prev" onclick="go(-1)">←</button>
+    <button class="arr arr-next" onclick="go(1)">→</button>
+
+    <div class="slides-wrap" id="slidesWrap">
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 01 · Titel — dark, hero split
+           Ch1: Intro & Problem
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide active" data-ch="1">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Die Allianz · DACH-Markt</div>
+            <div class="page-num">1 / 12</div>
+          </div>
+
+          <div class="grid-2-58" style="gap:100px; align-items:center;">
+            <div style="display:flex; flex-direction:column; gap:36px;">
+              <h1 class="display" data-a="1" style="font-size:96px; max-width:860px;">
+                Echte Teams<br/><em class="accent">skalieren.</em>
+              </h1>
+              <p class="sub" data-a="2" style="max-width:720px;">
+                Deniz Aytekin × Prof. Dr. Utho Creusen × Murk Creusen — Storytelling, Wissenschaft und KI-Infrastruktur. Ein Produkt.
+              </p>
+              <div data-a="3" style="display:flex; gap:16px; flex-wrap:wrap;">
+                <span class="pill">🏆 DAX-Enterprise-Ready</span>
+                <span class="pill">🤖 KI-Team-Coach</span>
+              </div>
+            </div>
+            <div class="hero-image" data-a="4">
+              <img src="assets/milo-hero.jpg" alt="Milo">
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Echte Teams Digital · Kooperations-Pitch 2025</div>
+          <div class="source-line">strength-hack.com</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 02 · Problem — light, split + problem cards
+           Ch1: Intro & Problem
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide light" data-ch="1">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Workshop-Amnesie</div>
+            <div class="page-num">2 / 12</div>
+          </div>
+
+          <div class="grid-2-58" style="gap:100px; align-items:center;">
+            <div style="display:flex; flex-direction:column; gap:32px;">
+              <h2 class="h2" data-a="1" style="max-width:760px;">
+                Exzellente Keynotes. Und dann? <em class="accent">Schweigen.</em>
+              </h2>
+              <p class="sub" data-a="2" style="max-width:680px;">
+                Coaching-Plattformen und Live-Workshops verpuffen nach wenigen Wochen. Der Alltag verschluckt die besten Impulse.
+              </p>
+              <div class="divider" data-a="3"></div>
+              <p class="body" data-a="3" style="max-width:680px;">
+                CoachHub, BetterUp, Gallup — alle fokussieren auf das <strong>Individuum</strong>. Niemand digitalisiert das wichtigste Asset moderner Unternehmen: <strong>Team-Performance.</strong>
+              </p>
+            </div>
+            <div data-a="4" style="display:flex; flex-direction:column; gap:28px; align-self:center;">
+              <div class="card-light" style="border-color:rgba(44,40,36,0.10);">
+                <div class="card-label" style="margin-bottom:12px;">Problem 01</div>
+                <div class="card-title">Zeit gegen Geld</div>
+                <div class="card-body" style="margin-top:12px;">Keynotes und Workshops sind an Deniz' Präsenz gebunden — nicht skalierbar, nicht persistent.</div>
+              </div>
+              <div class="card-beige">
+                <div class="card-label" style="margin-bottom:12px;">Problem 02</div>
+                <div class="card-title">Keine Persistenz</div>
+                <div class="card-body" style="margin-top:12px;">Ohne digitales Betriebssystem verschwinden Erkenntnisse nach 3 Wochen im Unternehmensalltag.</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Das Problem</div>
+          <div class="source-line">strength-hack.com</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 03 · Synergie — dark, centered header + grid-3
+           Ch1: Intro & Problem
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide" data-ch="1">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Das Credibility-Kraftwerk</div>
+            <div class="page-num">3 / 12</div>
+          </div>
+
+          <div data-a="1" style="text-align:center; flex-shrink:0;">
+            <h2 class="h2" style="font-size:64px; max-width:1300px; margin:0 auto;">
+              Storytelling + Wissenschaft + Tech =<br/><em class="accent">unschlagbare Marktposition.</em>
+            </h2>
+          </div>
+
+          <div class="grid-3" data-a="2">
+            <div class="feat-card dark">
+              <div class="card-label">Deniz Aytekin</div>
+              <div class="card-title">Emotionale Bühne</div>
+              <div class="card-body">Mitreißendes Storytelling, direkter C-Level-Zugang, Praxiserfahrung unter absolutem Druck.</div>
+            </div>
+            <div class="feat-card orange">
+              <div class="card-label">Prof. Dr. Utho Creusen</div>
+              <div class="card-title" style="color:var(--ink);">Akademisches Fundament</div>
+              <div class="card-body" style="color:var(--ink-2);">SpringerGabler-Bücher, Positive Psychologie, universitäre Verankerung — die Schwere, die HR-Einkäufer brauchen.</div>
+            </div>
+            <div class="feat-card dark">
+              <div class="card-label">Murk Creusen</div>
+              <div class="card-title">KI-Infrastruktur</div>
+              <div class="card-body">Schlüsselfertige Enterprise-SaaS, DAX-skalierfähig ab Tag 1, vollständige Tech-Integration.</div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Drei Stärken · Ein Produkt</div>
+          <div class="source-line">strength-hack.com</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 04 · Produkt-Match — beige, hero split
+           Ch2: Produkt & Partnerschaft
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide beige" data-ch="2">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Nahtlose Integration</div>
+            <div class="page-num">4 / 12</div>
+          </div>
+
+          <div class="grid-2-58" style="gap:100px; align-items:center;">
+            <div>
+              <h2 class="h2" data-a="1" style="margin-bottom:36px; max-width:720px;">
+                Gebaut für<br/><em class="accent">Echte Teams.</em>
+              </h2>
+              <p class="sub" data-a="2" style="margin-bottom:40px; max-width:680px;">
+                Die Plattform ist technologisch exakt auf das Framework von Echte Teams zugeschnitten — kein Umbau, keine Kompromisse.
+              </p>
+              <div data-a="3">
+                <div class="feat-row">
+                  <div class="feat-row-icon">🔵</div>
+                  <div>
+                    <div class="feat-row-title">Visueller Matching-Kompass</div>
+                    <div class="feat-row-sub">Stärken-Gaps auf einen Blick — sofort handlungsfähig</div>
+                  </div>
+                </div>
+                <div class="feat-row">
+                  <div class="feat-row-icon">⚡</div>
+                  <div>
+                    <div class="feat-row-title">Tuckman-Turbo</div>
+                    <div class="feat-row-sub">Storming &amp; Norming — verkürzt auf Rekordzeit</div>
+                  </div>
+                </div>
+                <div class="feat-row">
+                  <div class="feat-row-icon">🛡️</div>
+                  <div>
+                    <div class="feat-row-title">Psychological Safety</div>
+                    <div class="feat-row-sub">Messbar, moderierbar, für jeden Workshop direkt nutzbar</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="hero-image" data-a="4">
+              <img src="assets/milo-teamwork.jpg" alt="Milo Teamwork">
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Produkt-Match</div>
+          <div class="source-line">strength-hack.com</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 05 · KI-Coach — dark, hero split (image right)
+           Ch2: Produkt & Partnerschaft
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide" data-ch="2">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">24/7 · Always-On</div>
+            <div class="page-num">5 / 12</div>
+          </div>
+
+          <div class="grid-2-58" style="gap:100px; align-items:center;">
+            <div style="display:flex; flex-direction:column; gap:32px;">
+              <h2 class="h2" data-a="1" style="max-width:720px;">
+                Deine Impulse.<br/><em class="accent">Immer präsent.</em>
+              </h2>
+              <p class="sub" data-a="2" style="max-width:680px;">
+                Der integrierte KI-Team-Coach hält Deniz' Keynote-Erkenntnisse im Unternehmensalltag am Leben — ohne dass Deniz im Raum sein muss.
+              </p>
+              <div class="divider" data-a="3"></div>
+              <p class="body" data-a="3" style="max-width:680px;">
+                Personalisierte Stärken-Nudges, wöchentliche Fokus-Hinweise, Konflikt-Coaching — direkt aus der App, in Echtzeit.
+              </p>
+            </div>
+            <div class="hero-image" data-a="4">
+              <img src="assets/milo-strengths.jpg" alt="Milo Strengths">
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>KI-Team-Coach</div>
+          <div class="source-line">strength-hack.com</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 06 · Enterprise Ready — light, header + 2×2 cards
+           Ch2: Produkt & Partnerschaft
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide light" data-ch="2">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Kein Startup-Risiko</div>
+            <div class="page-num">6 / 12</div>
+          </div>
+
+          <div data-a="1" style="flex-shrink:0;">
+            <h2 class="h2" style="font-size:60px; margin-bottom:8px; max-width:1200px;">
+              DAX-Konzern morgen. 10.000 Mitarbeiter.<br/><em class="accent">Kein Problem.</em>
+            </h2>
+          </div>
+
+          <div class="grid-4" data-a="2">
+            <div class="feat-card white">
+              <div class="card-label">🚀 Sofort einsatzbereit</div>
+              <div class="card-title">Vollständige Kern-Features</div>
+              <div class="card-body">Matching-Kompass, Tuckman-Tracker, Psych-Safety-Dashboard — alles live und bereit für den ersten Enterprise-Pitch.</div>
+            </div>
+            <div class="feat-card white" style="background:var(--beige); border-color:transparent;">
+              <div class="card-label">📈 Beliebig skalierbar</div>
+              <div class="card-title">Tiefe Org-Hierarchie</div>
+              <div class="card-body">Konzerne mit hunderten Unter-Teams lassen sich sauber abbilden. Deniz kann DAX-Entscheider morgen anrufen.</div>
+            </div>
+            <div class="feat-card white" style="background:var(--beige); border-color:transparent;">
+              <div class="card-label">🏷️ Flexible Marke</div>
+              <div class="card-title">White-Label bereit</div>
+              <div class="card-body">Co-Branding oder vollständige White-Label-Lösung — fügt sich organisch in Echte Teams' Markenwelt ein.</div>
+            </div>
+            <div class="feat-card white">
+              <div class="card-label">🛠️ Jetzt gestaltbar</div>
+              <div class="card-title">Noch formbar</div>
+              <div class="card-body">Spezifische Wünsche — z.B. exklusive Cohort-Features — können noch leicht integriert werden.</div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Enterprise-Ready ab Tag 1</div>
+          <div class="source-line">strength-hack.com</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 07 · Warum Deniz — dark, split + 3 cards
+           Ch2: Produkt & Partnerschaft
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide" data-ch="2">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Einzigartige Position</div>
+            <div class="page-num">7 / 12</div>
+          </div>
+
+          <div class="grid-2" style="gap:100px; align-items:center;">
+            <div style="display:flex; flex-direction:column; gap:32px;">
+              <h2 class="h2" data-a="1" style="max-width:700px;">
+                Deniz ist das<br/><em class="accent">Missing Link.</em>
+              </h2>
+              <p class="sub" data-a="2" style="max-width:680px;">
+                Kein Wettbewerber im DACH-Raum kombiniert Elite-Storytelling aus dem Profisport mit wissenschaftlich validierter Team-Coaching-Software.
+              </p>
+              <div class="divider" data-a="3"></div>
+              <p class="body" data-a="3" style="max-width:660px;">
+                Deniz liefert die emotionale Bühne und den C-Level-Zugang, den kein Produkt erkaufen kann.
+              </p>
+            </div>
+            <div data-a="4" style="display:flex; flex-direction:column; gap:24px; align-self:center;">
+              <div class="card-dark-accent">
+                <div class="card-label" style="margin-bottom:12px;">🎤 Storytelling</div>
+                <div class="card-body">Praxiserfahrung unter absolutem Druck — Entscheidungen im Fußball, übertragen auf Unternehmens-Teams.</div>
+              </div>
+              <div class="card-dark">
+                <div class="card-label" style="margin-bottom:12px;">🤝 C-Level-Netzwerk</div>
+                <div class="card-body">Direktzugang zu Entscheidern, die kein Kaltakquise-Tool erreicht.</div>
+              </div>
+              <div class="card-dark">
+                <div class="card-label" style="margin-bottom:12px;">🏟️ Marke &amp; Reichweite</div>
+                <div class="card-body">Echte Teams als Marke ist im DACH-Raum bekannt — ideale Grundlage für ein Co-Branding-Produkt.</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Warum Deniz?</div>
+          <div class="source-line">strength-hack.com</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 08 · Phase 1 Modell — dark, header + stack
+           Ch3: Modell & Next Steps
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide" data-ch="3">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Speed-to-Market · Phase 1</div>
+            <div class="page-num">8 / 12</div>
+          </div>
+
+          <div data-a="1" style="flex-shrink:0;">
+            <h2 class="h2" style="margin-bottom:16px;">
+              Risikofreier <em class="accent">Sofortstart.</em>
+            </h2>
+            <p class="sub" style="max-width:860px;">
+              Keine GmbH-Gründung. Keine Bürokratie. Schlanke Kooperationsvereinbarung — und wir legen los.
+            </p>
+          </div>
+
+          <div data-a="2" style="display:flex; flex-direction:column; gap:18px; flex:1; min-height:0; justify-content:flex-end; padding-bottom:8px;">
+            <div class="step-row">
+              <div class="step-num">01</div>
+              <div>
+                <div class="step-title">Deniz öffnet den Sales-Funnel</div>
+                <div class="step-body">Keynotes, Netzwerk, Pitches bei C-Level-Entscheidern</div>
+              </div>
+            </div>
+            <div class="step-row hl">
+              <div class="step-num">02</div>
+              <div>
+                <div class="step-title">Wir liefern Technologie + Wissenschaft</div>
+                <div class="step-body">App, KI-Coach, akademisches Fundament — alles inklusive, kein Risiko für Deniz</div>
+              </div>
+            </div>
+            <div class="step-row">
+              <div class="step-num">03</div>
+              <div>
+                <div class="step-title">Umsatz nach Verursacherprinzip aufteilen</div>
+                <div class="step-body">Fair, transparent, vertraglich gesichert — ab dem ersten Euro</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Modell Phase 1</div>
+          <div class="source-line">strength-hack.com</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 09 · Revenue Split — light, header + 2 cards
+           Ch3: Modell & Next Steps
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide light" data-ch="3">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Faire Aufteilung · Verursacherprinzip</div>
+            <div class="page-num">9 / 12</div>
+          </div>
+
+          <div data-a="1" style="flex-shrink:0;">
+            <h2 class="h2" style="margin-bottom:8px;">
+              Wer macht, <em class="accent">der verdient.</em>
+            </h2>
+          </div>
+
+          <div data-a="2" class="grid-2" style="gap:48px; align-items:stretch; flex:1; min-height:0;">
+            <div class="card-light" style="display:flex; flex-direction:column; gap:20px; padding:44px 44px;">
+              <div class="card-label">💻 Software-Lizenzen (SaaS)</div>
+              <div class="split-bar">
+                <div class="split-seg" style="flex:1; background:var(--orange); border-radius:10px 0 0 10px;">
+                  <span class="split-pct" style="color:#fff;">50%</span>
+                  <span class="split-lbl" style="color:rgba(255,255,255,0.75);">Deniz</span>
+                </div>
+                <div class="split-seg" style="flex:1; background:var(--beige); border-radius:0 10px 10px 0;">
+                  <span class="split-pct" style="color:var(--ink);">50%</span>
+                  <span class="split-lbl" style="color:var(--ink-2);">Strength Hack</span>
+                </div>
+              </div>
+              <p class="body">Passives Einkommen auf alle Jahresabos, für die Deniz den Lead besorgt — auch wenn er gerade auf der Bühne steht.</p>
+            </div>
+            <div class="card-beige" style="display:flex; flex-direction:column; gap:20px; padding:44px 44px;">
+              <div class="card-label">🎤 Coaching &amp; Live-Sessions</div>
+              <div class="split-bar">
+                <div class="split-seg" style="flex:4; background:var(--orange); border-radius:10px 0 0 10px;">
+                  <span class="split-pct" style="color:#fff;">80%</span>
+                  <span class="split-lbl" style="color:rgba(255,255,255,0.75);">Session-Leiter</span>
+                </div>
+                <div class="split-seg" style="flex:1; background:#fff; border-radius:0 10px 10px 0;">
+                  <span class="split-pct" style="color:var(--ink);">20%</span>
+                  <span class="split-lbl" style="color:var(--ink-2);">Vertrieb</span>
+                </div>
+              </div>
+              <p class="body">Wer die operative Arbeit leistet, bekommt den Löwenanteil. Verhältnis dreht sich um, wenn unsere Trainer übernehmen.</p>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Revenue-Split</div>
+          <div class="source-line">strength-hack.com</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 10 · Phase 2 GmbH — dark, header + 2 phase boxes
+           Ch3: Modell & Next Steps
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide" data-ch="3">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Die Zukunftsvision</div>
+            <div class="page-num">10 / 12</div>
+          </div>
+
+          <div data-a="1" style="flex-shrink:0;">
+            <h2 class="h2" style="margin-bottom:8px;">
+              Von der Allianz zur <em class="accent">gemeinsamen GmbH.</em>
+            </h2>
+          </div>
+
+          <div data-a="2" class="grid-2" style="gap:40px; align-items:stretch; flex:1; min-height:0;">
+            <div class="phase-box active-phase">
+              <div class="phase-label">Phase 1 · Sofortstart</div>
+              <div class="phase-heading">Revenue Share<br/>Allianz</div>
+              <ul class="phase-list">
+                <li>Schlanke Kooperationsvereinbarung</li>
+                <li>Keine GmbH-Gründung nötig</li>
+                <li>Sofortige Marktvalidierung</li>
+                <li>50/50 auf SaaS-Lizenzen</li>
+                <li>80/20 auf Live-Sessions</li>
+              </ul>
+            </div>
+            <div class="phase-box future-phase">
+              <div class="phase-label">Phase 2 · Die Zukunft</div>
+              <div class="phase-heading">Echte Teams<br/>Digital GmbH</div>
+              <ul class="phase-list">
+                <li>Sobald Marktvalidierung erfolgt</li>
+                <li>Gewinne aus Phase 1 als Kapital</li>
+                <li>Investition in Performance-Marketing</li>
+                <li>Festes Support-Personal</li>
+                <li>Exklusive Feature-Entwicklung</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Phase 2 · GmbH-Vision</div>
+          <div class="source-line">strength-hack.com</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 11 · Vorteile — beige, split + 3 cards
+           Ch3: Modell & Next Steps
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide beige" data-ch="3">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Warum das unwiderstehlich ist</div>
+            <div class="page-num">11 / 12</div>
+          </div>
+
+          <div class="grid-2-58" style="gap:100px; align-items:center;">
+            <div style="display:flex; flex-direction:column; gap:32px;">
+              <h2 class="h2" data-a="1" style="max-width:720px;">
+                Für Deniz<br/><em class="accent">nur Upside.</em>
+              </h2>
+              <p class="sub" data-a="2" style="max-width:680px;">
+                Null Entwicklungsrisiko. Volle Skalierung. Fokus auf die eigene Genie-Zone.
+              </p>
+            </div>
+            <div data-a="3" style="display:flex; flex-direction:column; gap:24px; align-self:center;">
+              <div class="card-light">
+                <div class="card-label" style="margin-bottom:12px;">🚀 Kein Entwicklungsrisiko</div>
+                <div class="card-body">DAX-taugliche Enterprise-Software inklusive KI ab Tag 1 — ohne einen Euro in Programmierer zu investieren.</div>
+              </div>
+              <div class="card-beige">
+                <div class="card-label" style="margin-bottom:12px;">📈 Passives Einkommen</div>
+                <div class="card-body">Software-Jahresabos laufen weiter, während Deniz auf der Bühne steht oder im Urlaub ist.</div>
+              </div>
+              <div class="card-light">
+                <div class="card-label" style="margin-bottom:12px;">🎯 Fokus auf Genie-Zone</div>
+                <div class="card-body">Sales, Storytelling, Keynotes — das ist Deniz' Job. Tech, Support und wissenschaftliches Backend: unser Job.</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Deine Vorteile</div>
+          <div class="source-line">strength-hack.com</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 12 · CTA — dark, display + hero image
+           Ch3: Modell & Next Steps
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide" data-ch="3">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Lass uns starten</div>
+            <div class="page-num">12 / 12</div>
+          </div>
+
+          <div class="grid-2-58" style="gap:100px; align-items:center;">
+            <div style="display:flex; flex-direction:column; gap:36px;">
+              <h1 class="display" data-a="1" style="font-size:96px; max-width:840px;">
+                Gemeinsam den<br/><em class="accent">DACH-Markt</em><br/>definieren.
+              </h1>
+              <p class="sub" data-a="2" style="max-width:700px;">
+                Ein Gespräch. Eine Vereinbarung. Und wir bringen Echte Teams auf jedes Unternehmens-Dashboard im DACH-Raum.
+              </p>
+              <div data-a="3" style="display:flex; gap:32px; align-items:center;">
+                <a class="btn-solid" href="https://strength-hack.com">Kooperation starten</a>
+                <span class="small">strength-hack.com</span>
+              </div>
+            </div>
+            <div class="hero-image" data-a="4">
+              <img src="assets/milo-growth.jpg" alt="Milo Growth">
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Prof. Dr. Utho Creusen × Murk Creusen</div>
+          <div class="source-line">strength-hack.com</div>
+        </div>
+      </div>
+
+
+    </div><!-- /slides-wrap -->
+  </main>
+
+</div><!-- /app -->
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<script>
+  /* ============================================================
+     Navigation System
+     ============================================================ */
+  const SLIDES   = Array.from(document.querySelectorAll('.slide'));
+  const CH_BTNS  = Array.from(document.querySelectorAll('.sb-ch'));
+  const DOT_WRAP = document.getElementById('sbDots');
+  const C_CUR    = document.getElementById('cCur');
+  const C_TOT    = document.getElementById('cTot');
+
+  /* Chapter start indices (0-based): Ch1=0, Ch2=3, Ch3=7 */
+  const CH_START = [0, 3, 7];
+
+  /* No 2h-only slides — all slides are core */
+  const NEW_SLIDE_INDICES = new Set([]);
+
+  let cur = 0;
+
+  /* ── Scaling ──────────────────────────────────────────────── */
+  function scaleSlides() {
+    const stageW = window.innerWidth - 210;
+    const stageH = window.innerHeight;
+    const scale  = Math.min(stageW / 1920, stageH / 1080);
+    const offX   = (stageW - 1920 * scale) / 2;
+    const offY   = (stageH - 1080 * scale) / 2;
+    SLIDES.forEach(s => {
+      s.style.transform       = `scale(${scale})`;
+      s.style.transformOrigin = 'top left';
+      s.style.left            = offX + 'px';
+      s.style.top             = offY + 'px';
+    });
+  }
+
+  /* ── Navigation ───────────────────────────────────────────── */
+  function go(delta) { goTo(cur + delta); }
+
+  function goTo(idx) {
+    if (idx < 0 || idx >= SLIDES.length || idx === cur) return;
+    const out = SLIDES[cur];
+    cur = idx;
+    out.classList.add('exiting');
+    SLIDES[cur].classList.add('active');
+    setTimeout(() => out.classList.remove('active', 'exiting'), 280);
+    updateUI();
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const fill = document.getElementById('progressFill');
+    if (fill) fill.style.width = ((cur + 1) / SLIDES.length * 100) + '%';
+  }
+
+  function goChapter(ch) { goTo(CH_START[ch]); }
+
+  /* ── UI sync ──────────────────────────────────────────────── */
+  function updateUI() {
+    C_CUR.textContent = cur + 1;
+    C_TOT.textContent = SLIDES.length;
+    const ch = parseInt(SLIDES[cur].dataset.ch || '1') - 1;
+    CH_BTNS.forEach((btn, i) => btn.classList.toggle('active', i === ch));
+    document.querySelectorAll('.sb-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === cur);
+    });
+  }
+
+  /* ── Build dot grid ───────────────────────────────────────── */
+  function buildDots() {
+    SLIDES.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.className = 'sb-dot';
+      d.textContent = i + 1;
+      d.onclick = () => goTo(i);
+      DOT_WRAP.appendChild(d);
+    });
+  }
+
+  /* ── PDF Export ───────────────────────────────────────────── */
+  function exportPDF() {
+    window.print();
+  }
+
+  /* ── Keyboard ─────────────────────────────────────────────── */
+  document.addEventListener('keydown', e => {
+    switch (e.key) {
+      case 'ArrowRight': case 'ArrowDown': case ' ':
+        e.preventDefault(); go(1);  break;
+      case 'ArrowLeft':  case 'ArrowUp':
+        e.preventDefault(); go(-1); break;
+      case 'Home': e.preventDefault(); goTo(0); break;
+      case 'End':  e.preventDefault(); goTo(SLIDES.length - 1); break;
+    }
+  });
+
+  /* ── Init ─────────────────────────────────────────────────── */
+  window.addEventListener('resize', scaleSlides);
+  buildDots();
+  scaleSlides();
+  updateUI();
+  updateProgress();
+</script>
+
+</body>
+</html>
