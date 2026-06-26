@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Echte Teams × Strength Hack — Lernmodul</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   Echte Teams × Strength Hack — Interaktives Lernmodul
+   Canvas: 1920 × 1080 px, scaled to viewport by JS
+   Sidebar: 210 px | Stage: remainder
+   ============================================================ */
+
+:root {
+  --font-dm-serif: 'DM Serif Display', Georgia, 'Times New Roman', serif;
+  --font-outfit:   'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Brand */
+  --orange:       #D4652A;
+  --orange-soft:  rgba(212,101,42,0.12);
+  --orange-line:  rgba(212,101,42,0.30);
+  --charcoal:     #1A1714;
+  --card-dark:    #242018;
+  --cream:        #FDFBF7;
+  --beige:        #F5F0E8;
+  --ink:          #2C2824;
+  --ink-2:        #7A7168;
+  --on-dark:      #F5F0E8;
+  --on-dark-2:    rgba(245,240,232,0.62);
+  --on-dark-3:    rgba(245,240,232,0.38);
+  --on-dark-line: rgba(245,240,232,0.10);
+
+  /* Type scale — 1920 × 1080 projection */
+  --type-display: 132px;
+  --type-title:    88px;
+  --type-h2:       72px;
+  --type-quote:    56px;
+  --type-stat:    220px;
+  --type-sub:      40px;
+  --type-body:     30px;
+  --type-small:    24px;
+  --type-eyebrow:  24px;
+
+  /* Spacing */
+  --pad-x:      120px;
+  --pad-top:    110px;
+  --pad-bottom:  90px;
+  --gap-title:   44px;
+  --gap-item:    28px;
+
+  --sidebar-w:  210px;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  height: 100vh; width: 100vw;
+  overflow: hidden;
+  background: #0E0C0A;
+  font-family: var(--font-outfit);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   APP SHELL
+   ══════════════════════════════════════════════════════════════ */
+.app { display: flex; height: 100vh; width: 100vw; }
+
+/* ══════════════════════════════════════════════════════════════
+   SIDEBAR
+   ══════════════════════════════════════════════════════════════ */
+.sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  background: #13110e;
+  border-right: 1px solid var(--on-dark-line);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.sb-logo {
+  padding: 20px 18px 16px;
+  border-bottom: 1px solid var(--on-dark-line);
+  flex-shrink: 0;
+}
+.sb-logo-name {
+  font-family: var(--font-dm-serif);
+  font-size: 15px;
+  color: var(--on-dark);
+  letter-spacing: -0.2px;
+}
+.sb-logo-name span { color: var(--orange); }
+.sb-logo-sub {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(245,240,232,0.22);
+  margin-top: 3px;
+}
+
+.sb-chapters { flex: 1; overflow-y: auto; padding: 12px 0; }
+.sb-ch {
+  padding: 9px 18px;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: all 0.2s;
+}
+.sb-ch:hover { background: rgba(245,240,232,0.04); }
+.sb-ch.active {
+  border-left-color: var(--orange);
+  background: rgba(212,101,42,0.08);
+}
+.sb-ch-num {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 2px;
+}
+.sb-ch-title {
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(245,240,232,0.42);
+  line-height: 1.35;
+}
+.sb-ch.active .sb-ch-title { color: var(--on-dark); }
+
+.sb-dots {
+  padding: 12px 18px;
+  border-top: 1px solid var(--on-dark-line);
+  flex-shrink: 0;
+}
+.sb-dots-wrap { display: flex; flex-wrap: wrap; gap: 4px; }
+.sb-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  background: rgba(245,240,232,0.07);
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  font-weight: 700;
+  color: rgba(245,240,232,0.3);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.sb-dot:hover { background: rgba(245,240,232,0.14); }
+.sb-dot.active { background: var(--orange); color: #fff; border-color: var(--orange); }
+
+.sb-footer {
+  padding: 12px 14px 16px;
+  border-top: 1px solid var(--on-dark-line);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.mode-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 8px 12px;
+  border-radius: 980px;
+  border: 1px solid var(--on-dark-line);
+  background: rgba(245,240,232,0.05);
+  cursor: pointer;
+  font-family: var(--font-outfit);
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(245,240,232,0.45);
+  letter-spacing: 0.3px;
+  transition: all 0.2s ease;
+}
+.mode-btn:hover { background: rgba(245,240,232,0.1); color: rgba(245,240,232,0.7); }
+
+/* ══════════════════════════════════════════════════════════════
+   STAGE
+   ══════════════════════════════════════════════════════════════ */
+.stage {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: #0E0C0A;
+}
+
+.counter {
+  position: absolute;
+  top: 16px;
+  right: 22px;
+  z-index: 50;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: rgba(245,240,232,0.25);
+  pointer-events: none;
+}
+.counter .n { color: rgba(245,240,232,0.62); font-weight: 700; }
+
+.arr {
+  position: absolute;
+  bottom: 20px;
+  z-index: 50;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(245,240,232,0.06);
+  border: 1px solid var(--on-dark-line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: rgba(245,240,232,0.32);
+  font-size: 15px;
+  transition: all 0.2s;
+  user-select: none;
+}
+.arr:hover { background: rgba(212,101,42,0.18); border-color: rgba(212,101,42,0.4); color: var(--orange); }
+.arr-prev { right: 64px; }
+.arr-next { right: 18px; }
+
+/* ══════════════════════════════════════════════════════════════
+   SLIDES WRAPPER
+   ══════════════════════════════════════════════════════════════ */
+.slides-wrap { position: absolute; inset: 0; }
+
+/* ══════════════════════════════════════════════════════════════
+   SLIDE BASE
+   ══════════════════════════════════════════════════════════════ */
+.slide {
+  position: absolute;
+  width: 1920px;
+  height: 1080px;
+  background: var(--charcoal);
+  color: var(--on-dark);
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform;
+  font-family: var(--font-outfit);
+  -webkit-font-smoothing: antialiased;
+  transition: opacity 0.25s ease;
+}
+.slide.active { opacity: 1; pointer-events: auto; }
+.slide.beige  { background: var(--beige); color: var(--ink); }
+.slide.light  { background: var(--cream); color: var(--ink); }
+
+/* ══════════════════════════════════════════════════════════════
+   FRAME
+   ══════════════════════════════════════════════════════════════ */
+.frame {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  bottom: var(--pad-bottom);
+  padding: var(--pad-top) var(--pad-x) 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.frame.between { justify-content: space-between; }
+.frame.center  { justify-content: center; align-items: center; }
+
+/* ══════════════════════════════════════════════════════════════
+   TOP BAR
+   ══════════════════════════════════════════════════════════════ */
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--gap-title);
+  flex-shrink: 0;
+  height: 30px;
+}
+
+.page-num {
+  font-family: var(--font-outfit);
+  font-size: var(--type-small);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: var(--on-dark-3);
+}
+.slide.beige .page-num,
+.slide.light .page-num { color: var(--ink-2); }
+
+/* ══════════════════════════════════════════════════════════════
+   BOTTOM BAR — MUST be OUTSIDE .frame
+   ══════════════════════════════════════════════════════════════ */
+.bottom-bar {
+  position: absolute;
+  bottom: 22px;
+  left: var(--pad-x);
+  right: var(--pad-x);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-outfit);
+  font-size: var(--type-small);
+  font-weight: 400;
+  letter-spacing: 0.3px;
+  color: var(--on-dark-3);
+}
+.slide.beige .bottom-bar,
+.slide.light .bottom-bar { color: var(--ink-2); }
+
+.source-line {
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  font-size: var(--type-small);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   TYPOGRAPHY
+   ══════════════════════════════════════════════════════════════ */
+.eyebrow {
+  font-family: var(--font-outfit);
+  font-size: var(--type-eyebrow);
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--orange);
+  line-height: 1;
+}
+
+.display {
+  font-family: var(--font-dm-serif);
+  font-size: var(--type-display);
+  font-weight: 400;
+  letter-spacing: -3px;
+  line-height: 1.0;
+  text-wrap: balance;
+}
+.h2 {
+  font-family: var(--font-dm-serif);
+  font-size: var(--type-h2);
+  font-weight: 400;
+  letter-spacing: -1.2px;
+  line-height: 1.06;
+  text-wrap: balance;
+}
+em.accent { font-style: italic; color: var(--orange); }
+
+.sub {
+  font-family: var(--font-outfit);
+  font-weight: 300;
+  font-size: var(--type-sub);
+  line-height: 1.35;
+  color: var(--on-dark-2);
+  text-wrap: pretty;
+}
+.slide.beige .sub,
+.slide.light .sub { color: var(--ink-2); }
+
+.body {
+  font-family: var(--font-outfit);
+  font-size: var(--type-body);
+  line-height: 1.55;
+  color: var(--on-dark-2);
+}
+.slide.beige .body,
+.slide.light .body { color: var(--ink-2); }
+
+.small {
+  font-family: var(--font-outfit);
+  font-size: var(--type-small);
+  line-height: 1.5;
+  color: var(--on-dark-3);
+}
+.slide.beige .small,
+.slide.light .small { color: var(--ink-2); }
+
+/* ══════════════════════════════════════════════════════════════
+   LAYOUT HELPERS
+   ══════════════════════════════════════════════════════════════ */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  flex: 1;
+  min-height: 0;
+}
+.grid-2-58 {
+  display: grid;
+  grid-template-columns: 58fr 42fr;
+  gap: 100px;
+  align-items: flex-start;
+  flex: 1;
+  min-height: 0;
+}
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap-item);
+  flex: 1;
+  min-height: 0;
+  align-items: stretch;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   HERO IMAGE FRAME
+   ══════════════════════════════════════════════════════════════ */
+.hero-image {
+  align-self: stretch;
+  width: 100%;
+  border-radius: 28px;
+  overflow: hidden;
+  background: #20322F;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+.hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   CARDS
+   ══════════════════════════════════════════════════════════════ */
+.card-dark {
+  background: var(--card-dark);
+  border: 1px solid var(--on-dark-line);
+  border-radius: 24px;
+  padding: 36px 40px;
+}
+.card-orange {
+  background: var(--orange-soft);
+  border: 1.5px solid var(--orange-line);
+  border-radius: 24px;
+  padding: 44px 48px;
+}
+.feat-card {
+  border-radius: 24px;
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.feat-card.dark  { background: var(--card-dark); border: 1px solid var(--on-dark-line); }
+.feat-card.light { background: #fff; border: 1px solid rgba(44,40,36,0.08); }
+.feat-card.orange { background: var(--orange-soft); border: 1.5px solid var(--orange-line); }
+
+.card-title {
+  font-family: var(--font-dm-serif);
+  font-size: 38px;
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+  color: var(--on-dark);
+}
+.slide.beige .card-title,
+.slide.light .card-title { color: var(--ink); }
+.feat-card.light .card-title,
+.feat-card.orange .card-title { color: var(--ink); }
+
+.card-body {
+  font-family: var(--font-outfit);
+  font-size: 26px;
+  line-height: 1.5;
+  color: var(--on-dark-2);
+}
+.slide.beige .card-body,
+.slide.light .card-body { color: var(--ink-2); }
+.feat-card.light .card-body,
+.feat-card.orange .card-body { color: var(--ink-2); }
+
+/* ══════════════════════════════════════════════════════════════
+   MODULE-SPECIFIC: Quote block, Theory row, CTA button
+   ══════════════════════════════════════════════════════════════ */
+
+/* Deniz quote card */
+.quote-block {
+  background: var(--card-dark);
+  border: 1px solid var(--on-dark-line);
+  border-left: 3px solid var(--orange);
+  border-radius: 20px;
+  padding: 28px 36px;
+}
+.quote-text {
+  font-family: var(--font-dm-serif);
+  font-style: italic;
+  font-size: 30px;
+  line-height: 1.45;
+  color: var(--on-dark);
+}
+.quote-attr {
+  font-size: var(--type-small);
+  font-weight: 600;
+  color: var(--orange);
+  margin-top: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Theory bullet row */
+.theory-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 14px 0;
+  border-top: 1px solid var(--on-dark-line);
+}
+.theory-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--orange);
+  flex-shrink: 0;
+  margin-top: 10px;
+}
+.theory-text {
+  font-size: var(--type-body);
+  line-height: 1.45;
+  color: var(--on-dark-2);
+}
+
+/* Praxis CTA button */
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 26px 48px;
+  background: var(--orange);
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  font-family: var(--font-outfit);
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  text-decoration: none;
+}
+.cta-btn:hover { opacity: 0.88; }
+
+/* Chapter badge on praxis slides */
+.ch-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 24px;
+  background: var(--orange-soft);
+  border: 1px solid var(--orange-line);
+  border-radius: 980px;
+  font-size: var(--type-small);
+  font-weight: 600;
+  color: var(--orange);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* Action target label */
+.action-label {
+  font-size: var(--type-small);
+  font-weight: 600;
+  color: var(--ink-2);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 20px;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PROGRESS BAR
+   ══════════════════════════════════════════════════════════════ */
+.progress-bar {
+  position: fixed;
+  bottom: 0;
+  left: var(--sidebar-w);
+  right: 0;
+  height: 3px;
+  background: rgba(245,240,232,0.06);
+  z-index: 100;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--orange);
+  transition: width 0.3s ease;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   TUCKMAN PHASE CARDS (Kap 3)
+   ══════════════════════════════════════════════════════════════ */
+.phase-card {
+  border-radius: 20px;
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+.phase-card.forming   { background: rgba(44,40,36,0.20); border: 1px solid rgba(245,240,232,0.08); }
+.phase-card.storming  { background: rgba(212,101,42,0.12); border: 1.5px solid rgba(212,101,42,0.32); }
+.phase-card.norming   { background: rgba(196,154,42,0.10); border: 1px solid rgba(196,154,42,0.26); }
+.phase-card.performing { background: rgba(58,146,104,0.10); border: 1px solid rgba(58,146,104,0.28); }
+.phase-name {
+  font-family: var(--font-dm-serif);
+  font-size: 40px;
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+}
+.phase-card.forming .phase-name  { color: var(--on-dark-2); }
+.phase-card.storming .phase-name { color: var(--orange); }
+.phase-card.norming .phase-name  { color: #C49A2A; }
+.phase-card.performing .phase-name { color: #3A9268; }
+.phase-desc {
+  font-size: 26px;
+  line-height: 1.45;
+  color: var(--on-dark-2);
+}
+.phase-hack {
+  margin-top: auto;
+  font-size: var(--type-small);
+  font-weight: 700;
+  color: var(--orange);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   STAT TILES (Kap 5 Match-Report)
+   ══════════════════════════════════════════════════════════════ */
+.stat-tile {
+  background: var(--card-dark);
+  border: 1px solid var(--on-dark-line);
+  border-radius: 20px;
+  padding: 32px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.stat-tile.accent {
+  background: var(--orange-soft);
+  border-color: var(--orange-line);
+}
+.stat-num {
+  font-family: var(--font-dm-serif);
+  font-size: 80px;
+  letter-spacing: -2px;
+  line-height: 0.95;
+  color: var(--orange);
+}
+.stat-desc {
+  font-size: var(--type-body);
+  line-height: 1.4;
+  color: var(--on-dark-2);
+}
+.stat-source {
+  font-size: var(--type-small);
+  color: var(--on-dark-3);
+  margin-top: 4px;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PDF EXPORT
+   ══════════════════════════════════════════════════════════════ */
+@media print {
+  @page { size: 1920px 1080px; margin: 0; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  .sidebar, .arr, .counter, #exportBtn, .progress-bar { display: none !important; }
+  body, html { width: 1920px !important; height: auto !important; overflow: visible !important; }
+  .app { display: block !important; width: 1920px !important; height: auto !important; }
+  .stage {
+    display: block !important;
+    margin-left: 0 !important;
+    overflow: visible !important;
+    width: 1920px !important;
+    height: auto !important;
+    background: transparent !important;
+  }
+  .slides-wrap {
+    position: static !important;
+    width: 1920px !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+  .slide {
+    position: relative !important;
+    transform: none !important;
+    left: 0 !important; top: 0 !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    width: 1920px !important; height: 1080px !important;
+    page-break-after: always; break-after: page;
+    overflow: hidden !important;
+    display: block !important;
+  }
+  .slide[data-skip-print] { display: none !important; }
+  .hero-image { box-shadow: none !important; }
+}
+
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ══════════════════════════════════════════════════════════
+       SIDEBAR
+       ══════════════════════════════════════════════════════════ -->
+  <aside class="sidebar">
+    <div class="sb-logo">
+      <div class="sb-logo-name">The <span>Strength Hack</span></div>
+      <div class="sb-logo-sub">Lernmodul · Echte Teams</div>
+    </div>
+    <div class="sb-chapters">
+      <div class="sb-ch active" onclick="goChapter(0)">
+        <div class="sb-ch-num">Intro</div>
+        <div class="sb-ch-title">Echte Teams × Strength Hack</div>
+      </div>
+      <div class="sb-ch" onclick="goChapter(1)">
+        <div class="sb-ch-num">Kap 1</div>
+        <div class="sb-ch-title">Die Arena des Drucks</div>
+      </div>
+      <div class="sb-ch" onclick="goChapter(2)">
+        <div class="sb-ch-num">Kap 2</div>
+        <div class="sb-ch-title">Das Line-Up</div>
+      </div>
+      <div class="sb-ch" onclick="goChapter(3)">
+        <div class="sb-ch-num">Kap 3</div>
+        <div class="sb-ch-title">Der Taktik-Kompass</div>
+      </div>
+      <div class="sb-ch" onclick="goChapter(4)">
+        <div class="sb-ch-num">Kap 4</div>
+        <div class="sb-ch-title">Der VAR · KI-Coach</div>
+      </div>
+      <div class="sb-ch" onclick="goChapter(5)">
+        <div class="sb-ch-num">Kap 5</div>
+        <div class="sb-ch-title">Der Match-Report</div>
+      </div>
+    </div>
+    <div class="sb-dots">
+      <div class="sb-dots-wrap" id="sbDots"></div>
+    </div>
+    <div class="sb-footer">
+      <button class="mode-btn" id="exportBtn" style="margin-top:4px; opacity:0.7;" onclick="exportPDF()">↓ Export PDF</button>
+    </div>
+  </aside>
+
+  <!-- ══════════════════════════════════════════════════════════
+       STAGE
+       ══════════════════════════════════════════════════════════ -->
+  <main class="stage">
+    <div class="counter"><span class="n" id="cCur">1</span> / <span id="cTot">11</span></div>
+    <div class="arr arr-prev" onclick="go(-1)">&#8592;</div>
+    <div class="arr arr-next" onclick="go(1)">&#8594;</div>
+
+    <div class="slides-wrap">
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 01 · Titel — dark, hero split
+           Ch1: Intro
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide active" data-ch="1">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Das digitale Betriebssystem · DACH-Teams</div>
+            <div class="page-num">1 / 11</div>
+          </div>
+
+          <div class="grid-2-58" style="gap:120px; align-items:center;">
+            <div style="display:flex; flex-direction:column; gap:40px;">
+              <h1 class="display" data-a="1" style="font-size:100px; max-width:900px; letter-spacing:-2px;">
+                Echte Teams<br/>×<br/><em class="accent">Strength Hack.</em>
+              </h1>
+              <p class="sub" data-a="2" style="max-width:760px;">
+                Fünf Kapitel. Echte Wissenschaft. Ein Ziel: dein Team auf Hochleistung bringen — und dort halten.
+              </p>
+              <div data-a="3" style="display:flex; align-items:center; gap:28px; flex-wrap:wrap;">
+                <div class="ch-badge">🏆 Lernmodul</div>
+                <span class="small">Psychologische Sicherheit · Stärkenorientierung · KI-Coaching</span>
+              </div>
+            </div>
+            <div class="hero-image" data-a="4">
+              <img src="assets/milo-hero.jpg" alt="Milo">
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Deniz Aytekin × Prof. Dr. Utho Creusen × Murk Creusen</div>
+          <div class="source-line">strength-hack.com</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 02 · Kap 1 Story + Theorie — dark, grid-2-58
+           Ch2: Kap 1 · Arena des Drucks
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide" data-ch="2">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Kapitel 1 · Die Arena des Drucks</div>
+            <div class="page-num">2 / 11</div>
+          </div>
+
+          <div class="grid-2-58" style="gap:100px;">
+            <div style="display:flex; flex-direction:column; gap:24px;">
+              <h2 class="h2" data-a="1" style="font-size:60px; margin-bottom:4px;">
+                Psychologische Sicherheit ist kein<br/><em class="accent">Soft Skill.</em>
+              </h2>
+              <div class="quote-block" data-a="2">
+                <div class="quote-text">
+                  „In der 90. Minute triffst du als Schiedsrichter Fehlentscheidungen — das ist menschlich. Du überlebst sie nur, wenn ein echtes Team hinter dir steht. Eines, bei dem kein Finger-Pointing stattfindet."
+                </div>
+                <div class="quote-attr">— Deniz Aytekin · Bundesliga-Schiedsrichter</div>
+              </div>
+              <div data-a="3">
+                <div class="theory-row">
+                  <div class="theory-dot"></div>
+                  <div class="theory-text"><strong style="color:var(--on-dark);">Amy Edmondson (Harvard):</strong> Psychological Safety ist der stärkste Prädiktor für Team-Erfolg — gemessen in über 180 Google-Teams.</div>
+                </div>
+                <div class="theory-row">
+                  <div class="theory-dot"></div>
+                  <div class="theory-text">Erst wenn die Angst vor Fehlern verschwindet, wechselt das Gehirn vom <strong style="color:var(--on-dark);">Überlebensmodus</strong> in den Kreativ- und Leistungsmodus.</div>
+                </div>
+              </div>
+            </div>
+            <div class="hero-image" data-a="4">
+              <img src="assets/milo-teamwork.jpg" alt="Milo Teamwork">
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Psychological Safety · Fundament jedes Hochleistungsteams</div>
+          <div class="source-line">Prof. Amy Edmondson · Harvard Business School</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 03 · Kap 1 Praxis — beige, CTA
+           Ch2: Kap 1 · Arena des Drucks
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide beige" data-ch="2">
+        <div class="frame center">
+
+          <div style="display:flex; flex-direction:column; align-items:center; text-align:center; gap:36px; max-width:1200px;">
+            <div class="ch-badge" style="background:rgba(212,101,42,0.08); border-color:rgba(212,101,42,0.22);" data-a="1">
+              Kap 1 · Praxis
+            </div>
+            <h2 class="h2" data-a="2" style="color:var(--ink); max-width:900px;">
+              Baue jetzt euer <em class="accent">Spielfeld.</em>
+            </h2>
+            <p class="sub" data-a="3" style="max-width:800px;">
+              Ein echtes Team entsteht nicht allein. Lade deine wichtigsten Mitspieler ein und eröffnet gemeinsam eure digitale Arena.
+            </p>
+            <div class="card-orange" data-a="4" style="width:100%; padding:36px 48px; text-align:left; display:flex; align-items:center; gap:40px; justify-content:space-between;">
+              <div>
+                <div style="font-size:var(--type-small); font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--orange); margin-bottom:12px;">Deine Aktion</div>
+                <div style="font-family:var(--font-dm-serif); font-size:44px; letter-spacing:-0.5px; color:var(--ink); line-height:1.1;">Teammitglieder einladen</div>
+                <div style="font-size:28px; color:var(--ink-2); margin-top:10px; line-height:1.4;">Starte den gemeinsamen Prozess — direkt in der Plattform.</div>
+              </div>
+              <div class="cta-btn">👉 Spielfeld aufbauen</div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Kap 1 · Absprungpunkt</div>
+          <div class="source-line">→ Teammitglieder einladen</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 04 · Kap 2 Story + Theorie — dark, grid-2-58
+           Ch3: Kap 2 · Das Line-Up
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide" data-ch="3">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Kapitel 2 · Das Line-Up</div>
+            <div class="page-num">4 / 11</div>
+          </div>
+
+          <div class="grid-2-58" style="gap:100px;">
+            <div style="display:flex; flex-direction:column; gap:24px;">
+              <h2 class="h2" data-a="1" style="font-size:60px; margin-bottom:4px;">
+                Stärken skalieren —<br/><em class="accent">nicht Schwächen reparieren.</em>
+              </h2>
+              <div class="quote-block" data-a="2">
+                <div class="quote-text">
+                  „Du gewinnst kein Spiel mit elf Stürmern. Im Business stecken wir Menschen täglich in Rollen, die gegen ihre Natur gehen — und wundern uns, warum sie erschöpft sind."
+                </div>
+                <div class="quote-attr">— Deniz Aytekin · Bundesliga-Schiedsrichter</div>
+              </div>
+              <div data-a="3">
+                <div class="theory-row">
+                  <div class="theory-dot"></div>
+                  <div class="theory-text">Die klassische Entwicklung repariert Schwächen von Note 3 auf 4. <strong style="color:var(--on-dark);">Spitzenleistung</strong> entsteht, wenn man eine Stärke von 8 auf 10 skaliert.</div>
+                </div>
+                <div class="theory-row">
+                  <div class="theory-dot"></div>
+                  <div class="theory-text">Kognitive Profile werden datengestützt über das <strong style="color:var(--on-dark);">Big-Five-Modell (IPIP-50)</strong> erfasst — wissenschaftlich validiert, direkt nutzbar.</div>
+                </div>
+              </div>
+            </div>
+            <div class="hero-image" data-a="4">
+              <img src="assets/milo-strengths.jpg" alt="Milo Strengths">
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Stärkenorientierung · Von der Diagnose zur Hochleistung</div>
+          <div class="source-line">Big Five · IPIP-50 · Positive Psychologie</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 05 · Kap 2 Praxis — beige, CTA
+           Ch3: Kap 2 · Das Line-Up
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide beige" data-ch="3">
+        <div class="frame center">
+
+          <div style="display:flex; flex-direction:column; align-items:center; text-align:center; gap:36px; max-width:1200px;">
+            <div class="ch-badge" style="background:rgba(212,101,42,0.08); border-color:rgba(212,101,42,0.22);" data-a="1">
+              Kap 2 · Praxis
+            </div>
+            <h2 class="h2" data-a="2" style="color:var(--ink); max-width:900px;">
+              Finde deine echte <em class="accent">Aufstellung.</em>
+            </h2>
+            <p class="sub" data-a="3" style="max-width:800px;">
+              Entdecke, wo deine kognitiven Stärken liegen — oder bringe das Profil deines Teams auf den Platz.
+            </p>
+            <div class="card-orange" data-a="4" style="width:100%; padding:36px 48px; text-align:left; display:flex; align-items:center; gap:40px; justify-content:space-between;">
+              <div>
+                <div style="font-size:var(--type-small); font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--orange); margin-bottom:12px;">Deine Aktion</div>
+                <div style="font-family:var(--font-dm-serif); font-size:44px; letter-spacing:-0.5px; color:var(--ink); line-height:1.1;">Assessment durchführen</div>
+                <div style="font-size:28px; color:var(--ink-2); margin-top:10px; line-height:1.4;">Ergebnisse hochladen (PDF-Import) oder Test direkt starten.</div>
+              </div>
+              <div class="cta-btn">👉 Aufstellung prüfen</div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Kap 2 · Absprungpunkt</div>
+          <div class="source-line">→ Assessment oder PDF-Import</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 06 · Kap 3 Story + Theorie — dark, grid + Tuckman
+           Ch4: Kap 3 · Taktik-Kompass
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide" data-ch="4">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Kapitel 3 · Der Taktik-Kompass</div>
+            <div class="page-num">6 / 11</div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:24px; flex:1; min-height:0;">
+            <div style="display:flex; gap:20px; align-items:flex-start; flex-shrink:0;">
+              <div style="flex:1;">
+                <h2 class="h2" data-a="1" style="font-size:56px; margin-bottom:16px;">
+                  Reibung in <em class="accent">Performance</em> verwandeln.
+                </h2>
+                <div class="quote-block" data-a="2" style="padding:22px 32px;">
+                  <div class="quote-text" style="font-size:26px;">
+                    „Jedes neue Gespann kracht in den ersten Spielen aufeinander — das ist Storming. Wenn du diese Phase nicht aktiv moderierst, bleibt das Team im Dauerkonflikt."
+                  </div>
+                  <div class="quote-attr">— Deniz Aytekin</div>
+                </div>
+              </div>
+              <div style="flex:1; padding-left:40px;">
+                <p class="body" data-a="3" style="margin-bottom:16px;">
+                  Nach <strong style="color:var(--on-dark);">Tuckmans Phasenmodell</strong> verlieren die meisten Teams wertvolle Monate im Storming und Norming. Der <strong style="color:var(--orange);">6-dimensionale Matching-Kompass</strong> macht kognitive Overlaps und blinde Flecken sofort visuell sichtbar — Konflikte werden objektiviert und entpersonalisiert.
+                </p>
+              </div>
+            </div>
+            <div data-a="4" style="display:flex; gap:16px; flex:1; min-height:0;">
+              <div class="phase-card forming">
+                <div class="phase-name">Forming</div>
+                <div class="phase-desc">Orientierung, unklare Rollen, vorsichtiges Abtasten</div>
+              </div>
+              <div class="phase-card storming">
+                <div class="phase-name">Storming</div>
+                <div class="phase-desc">Konflikte, Machtfragen, unterschiedliche Kommunikationsstile</div>
+                <div class="phase-hack">⚡ Kompass verkürzt diese Phase radikal</div>
+              </div>
+              <div class="phase-card norming">
+                <div class="phase-name">Norming</div>
+                <div class="phase-desc">Regeln entstehen, Rollen klären sich, Vertrauen wächst</div>
+              </div>
+              <div class="phase-card performing">
+                <div class="phase-name">Performing</div>
+                <div class="phase-desc">Blindes Vertrauen, Hochleistung, gemeinsames Flow-Erleben</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Tuckman-Modell · 6-dimensionaler Matching-Kompass</div>
+          <div class="source-line">Bruce Tuckman · 1965</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 07 · Kap 3 Praxis — beige, CTA
+           Ch4: Kap 3 · Taktik-Kompass
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide beige" data-ch="4">
+        <div class="frame center">
+
+          <div style="display:flex; flex-direction:column; align-items:center; text-align:center; gap:36px; max-width:1200px;">
+            <div class="ch-badge" style="background:rgba(212,101,42,0.08); border-color:rgba(212,101,42,0.22);" data-a="1">
+              Kap 3 · Praxis
+            </div>
+            <h2 class="h2" data-a="2" style="color:var(--ink); max-width:900px;">
+              Macht eure Zusammenarbeit <em class="accent">transparent.</em>
+            </h2>
+            <p class="sub" data-a="3" style="max-width:800px;">
+              Definiert Rollen, Stärken und Spielregeln im System — um Reibungsverluste sofort zu eliminieren.
+            </p>
+            <div class="card-orange" data-a="4" style="width:100%; padding:36px 48px; text-align:left; display:flex; align-items:center; gap:40px; justify-content:space-between;">
+              <div>
+                <div style="font-size:var(--type-small); font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--orange); margin-bottom:12px;">Deine Aktion</div>
+                <div style="font-family:var(--font-dm-serif); font-size:44px; letter-spacing:-0.5px; color:var(--ink); line-height:1.1;">Team Canvas &amp; Kompass analysieren</div>
+                <div style="font-size:28px; color:var(--ink-2); margin-top:10px; line-height:1.4;">Blinde Flecken sichtbar machen — bevor sie zum Konflikt werden.</div>
+              </div>
+              <div class="cta-btn">👉 Zum Taktik-Board</div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Kap 3 · Absprungpunkt</div>
+          <div class="source-line">→ Team Canvas befüllen</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 08 · Kap 4 Story + Theorie — dark, grid-2-58
+           Ch5: Kap 4 · Der VAR / KI-Coach
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide" data-ch="5">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Kapitel 4 · Der Video-Assistent</div>
+            <div class="page-num">8 / 11</div>
+          </div>
+
+          <div class="grid-2-58" style="gap:100px;">
+            <div style="display:flex; flex-direction:column; gap:24px;">
+              <h2 class="h2" data-a="1" style="font-size:58px; margin-bottom:4px;">
+                Coaching im Alltag —<br/>nicht nur in der <em class="accent">Kabine.</em>
+              </h2>
+              <div class="quote-block" data-a="2">
+                <div class="quote-text">
+                  „Ein genialer Workshop ist wie ein Kabinengespräch in der Halbzeit — er gibt Energie. Aber das Spiel gewinnst du auf dem Rasen, Minute für Minute."
+                </div>
+                <div class="quote-attr">— Deniz Aytekin</div>
+              </div>
+              <div data-a="3">
+                <div class="theory-row">
+                  <div class="theory-dot"></div>
+                  <div class="theory-text">Das größte Problem: <strong style="color:var(--on-dark);">Workshop-Amnesie.</strong> Drei Wochen nach dem Event fallen Teams in alte Muster zurück — Verhaltensänderung braucht Kontinuität.</div>
+                </div>
+                <div class="theory-row">
+                  <div class="theory-dot"></div>
+                  <div class="theory-text">Der <strong style="color:var(--on-dark);">asynchrone KI-Coach</strong> ist rund um die Uhr verfügbar — präzise kalibriert auf die psychologischen Profile deines Teams. Retros, Meetings, Konflikte — sofort taktisch vorbereitet.</div>
+                </div>
+              </div>
+            </div>
+            <div class="hero-image" data-a="4">
+              <img src="assets/milo-growth.jpg" alt="Milo Growth">
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>KI-Coaching · Asynchron · Teamkalibriert</div>
+          <div class="source-line">Modul 2 · AI-Coach</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 09 · Kap 4 Praxis — beige, CTA
+           Ch5: Kap 4 · Der VAR / KI-Coach
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide beige" data-ch="5">
+        <div class="frame center">
+
+          <div style="display:flex; flex-direction:column; align-items:center; text-align:center; gap:36px; max-width:1200px;">
+            <div class="ch-badge" style="background:rgba(212,101,42,0.08); border-color:rgba(212,101,42,0.22);" data-a="1">
+              Kap 4 · Praxis
+            </div>
+            <h2 class="h2" data-a="2" style="color:var(--ink); max-width:900px;">
+              Hole dir jetzt eine <em class="accent">maßgeschneiderte Taktik.</em>
+            </h2>
+            <p class="sub" data-a="3" style="max-width:800px;">
+              Steht ein schwieriges Gespräch an oder planst du die nächste Retro? Dein KI-Assistent kennt dein Team.
+            </p>
+            <div class="card-orange" data-a="4" style="width:100%; padding:36px 48px; text-align:left; display:flex; align-items:center; gap:40px; justify-content:space-between;">
+              <div>
+                <div style="font-size:var(--type-small); font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--orange); margin-bottom:12px;">Deine Aktion</div>
+                <div style="font-family:var(--font-dm-serif); font-size:44px; letter-spacing:-0.5px; color:var(--ink); line-height:1.1;">KI Chat Coach ausprobieren</div>
+                <div style="font-size:28px; color:var(--ink-2); margin-top:10px; line-height:1.4;">Situatives Coaching — abgestimmt auf euer Team-Profil.</div>
+              </div>
+              <div class="cta-btn">👉 Coach fragen</div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Kap 4 · Absprungpunkt</div>
+          <div class="source-line">→ KI Chat Coach</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 10 · Kap 5 Story + Theorie — dark, stats
+           Ch6: Kap 5 · Der Match-Report
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide" data-ch="6">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Kapitel 5 · Der Match-Report</div>
+            <div class="page-num">10 / 11</div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:24px; flex:1; min-height:0;">
+            <div style="display:flex; gap:60px; align-items:flex-start; flex-shrink:0;">
+              <div style="flex:1;">
+                <h2 class="h2" data-a="1" style="font-size:58px; margin-bottom:16px;">
+                  Teamentwicklung als <em class="accent">messbares Asset.</em>
+                </h2>
+                <div class="quote-block" data-a="2" style="padding:22px 32px;">
+                  <div class="quote-text" style="font-size:26px;">
+                    „Nach dem Abpfiff analysieren wir das Spiel anhand von Daten und Video. Nur wer seine Kennzahlen kennt, kann sich nachhaltig verbessern."
+                  </div>
+                  <div class="quote-attr">— Deniz Aytekin</div>
+                </div>
+              </div>
+              <div style="flex:1; padding-left:20px;">
+                <p class="body" data-a="3">
+                  Unter den <strong style="color:var(--on-dark);">CSRD-Richtlinien (ESRS S1)</strong> müssen Unternehmen ab 250 Mitarbeitern kognitive Diversität und Kompetenzentwicklung <strong style="color:var(--on-dark);">auditierbar nachweisen.</strong> Strength Hack aggregiert anonymisierte Teamdaten zu einem manipulationssicheren Team Synergy Report — bereit für das ESG-Reporting.
+                </p>
+              </div>
+            </div>
+            <div data-a="4" style="display:grid; grid-template-columns:repeat(4,1fr); gap:20px; flex:1; min-height:0;">
+              <div class="stat-tile">
+                <div class="stat-num">+29%</div>
+                <div class="stat-desc">Profitabilität in stärken-fokussierten Teams</div>
+                <div class="stat-source">Gallup · 50.000 Geschäftseinheiten</div>
+              </div>
+              <div class="stat-tile">
+                <div class="stat-num">6×</div>
+                <div class="stat-desc">Mehr Engagement bei stärkenbasierter Führung</div>
+                <div class="stat-source">Gallup State of the Global Workplace</div>
+              </div>
+              <div class="stat-tile accent">
+                <div class="stat-num">CSRD</div>
+                <div class="stat-desc">ESRS S1 — Nachweispflicht ab 250 MA für kognitive Diversität</div>
+                <div class="stat-source">EU-Richtlinie · ab 2025</div>
+              </div>
+              <div class="stat-tile">
+                <div class="stat-num">1×</div>
+                <div class="stat-desc">Klick — Team Synergy Report generieren &amp; exportieren</div>
+                <div class="stat-source">Strength Hack Plattform</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>CSRD · ESG-Reporting · Team Synergy Report</div>
+          <div class="source-line">ESRS S1 · EU Corporate Sustainability Reporting Directive</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 11 · Kap 5 Praxis + Modul-Abschluss — beige, CTA
+           Ch6: Kap 5 · Der Match-Report
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide beige" data-ch="6">
+        <div class="frame center">
+
+          <div style="display:flex; flex-direction:column; align-items:center; text-align:center; gap:32px; max-width:1300px;">
+            <div class="ch-badge" style="background:rgba(212,101,42,0.08); border-color:rgba(212,101,42,0.22);" data-a="1">
+              Kap 5 · Praxis · Modul-Abschluss
+            </div>
+            <h2 class="h2" data-a="2" style="color:var(--ink); max-width:1000px;">
+              Dein Team. Deine Daten.<br/><em class="accent">Dein Match-Report.</em>
+            </h2>
+            <p class="sub" data-a="3" style="max-width:860px;">
+              Fasse den Entwicklungsstand eures Teams in einem professionellen Dokument zusammen — für das nächste Management-Update, HR-Audit oder ESG-Bericht.
+            </p>
+            <div class="card-orange" data-a="4" style="width:100%; padding:36px 48px; text-align:left; display:flex; align-items:center; gap:40px; justify-content:space-between;">
+              <div>
+                <div style="font-size:var(--type-small); font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--orange); margin-bottom:12px;">Deine Aktion</div>
+                <div style="font-family:var(--font-dm-serif); font-size:44px; letter-spacing:-0.5px; color:var(--ink); line-height:1.1;">Team-Bericht erstellen &amp; ESG-Export generieren</div>
+                <div style="font-size:28px; color:var(--ink-2); margin-top:10px; line-height:1.4;">Manipulationssicher, auditierbar, management-ready.</div>
+              </div>
+              <div class="cta-btn">👉 Match-Report generieren</div>
+            </div>
+            <p data-a="5" style="font-size:var(--type-small); color:var(--ink-2); letter-spacing:0.5px;">
+              Modul abgeschlossen · strength-hack.com
+            </p>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Kap 5 · Absprungpunkt · Modul-Ende</div>
+          <div class="source-line">→ ESG-Export</div>
+        </div>
+      </div>
+
+
+    </div><!-- /slides-wrap -->
+  </main>
+
+</div><!-- /app -->
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<script>
+  /* ============================================================
+     Navigation System
+     ============================================================ */
+  const SLIDES   = Array.from(document.querySelectorAll('.slide'));
+  const CH_BTNS  = Array.from(document.querySelectorAll('.sb-ch'));
+  const DOT_WRAP = document.getElementById('sbDots');
+  const C_CUR    = document.getElementById('cCur');
+  const C_TOT    = document.getElementById('cTot');
+
+  /* Chapter start indices (0-based):
+     Ch1(Intro)=0, Ch2(Kap1)=1, Ch3(Kap2)=3, Ch4(Kap3)=5, Ch5(Kap4)=7, Ch6(Kap5)=9 */
+  const CH_START = [0, 1, 3, 5, 7, 9];
+
+  /* All slides are core — no 2h-only slides */
+  const NEW_SLIDE_INDICES = new Set([]);
+
+  let cur = 0;
+
+  /* ── Scaling ──────────────────────────────────────────────── */
+  function scaleSlides() {
+    const stageW = window.innerWidth - 210;
+    const stageH = window.innerHeight;
+    const scale  = Math.min(stageW / 1920, stageH / 1080);
+    const offX   = (stageW - 1920 * scale) / 2;
+    const offY   = (stageH - 1080 * scale) / 2;
+    SLIDES.forEach(s => {
+      s.style.transform       = `scale(${scale})`;
+      s.style.transformOrigin = 'top left';
+      s.style.left            = offX + 'px';
+      s.style.top             = offY + 'px';
+    });
+  }
+
+  /* ── Navigation ───────────────────────────────────────────── */
+  function go(delta) { goTo(cur + delta); }
+
+  function goTo(idx) {
+    if (idx < 0 || idx >= SLIDES.length || idx === cur) return;
+    const out = SLIDES[cur];
+    cur = idx;
+    out.classList.remove('active');
+    SLIDES[cur].classList.add('active');
+    updateUI();
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const fill = document.getElementById('progressFill');
+    if (fill) fill.style.width = ((cur + 1) / SLIDES.length * 100) + '%';
+  }
+
+  function goChapter(ch) { goTo(CH_START[ch]); }
+
+  /* ── UI sync ──────────────────────────────────────────────── */
+  function updateUI() {
+    C_CUR.textContent = cur + 1;
+    C_TOT.textContent = SLIDES.length;
+    const ch = parseInt(SLIDES[cur].dataset.ch || '1') - 1;
+    CH_BTNS.forEach((btn, i) => btn.classList.toggle('active', i === ch));
+    document.querySelectorAll('.sb-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === cur);
+    });
+  }
+
+  /* ── Build dot grid ───────────────────────────────────────── */
+  function buildDots() {
+    SLIDES.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.className = 'sb-dot';
+      d.textContent = i + 1;
+      d.onclick = () => goTo(i);
+      DOT_WRAP.appendChild(d);
+    });
+  }
+
+  /* ── PDF Export ───────────────────────────────────────────── */
+  function exportPDF() {
+    window.print();
+  }
+
+  /* ── Keyboard ─────────────────────────────────────────────── */
+  document.addEventListener('keydown', e => {
+    switch (e.key) {
+      case 'ArrowRight': case 'ArrowDown': case ' ':
+        e.preventDefault(); go(1);  break;
+      case 'ArrowLeft':  case 'ArrowUp':
+        e.preventDefault(); go(-1); break;
+      case 'Home': e.preventDefault(); goTo(0); break;
+      case 'End':  e.preventDefault(); goTo(SLIDES.length - 1); break;
+    }
+  });
+
+  /* ── Init ─────────────────────────────────────────────────── */
+  window.addEventListener('resize', scaleSlides);
+  buildDots();
+  scaleSlides();
+  updateUI();
+  updateProgress();
+</script>
+
+</body>
+</html>
