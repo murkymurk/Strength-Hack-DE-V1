@@ -661,6 +661,124 @@ em.accent { font-style: italic; color: var(--orange); }
 }
 
 /* ══════════════════════════════════════════════════════════════
+   PRAXIS STEP FLOW
+   ══════════════════════════════════════════════════════════════ */
+.praxis-flow {
+  display: flex;
+  gap: 16px;
+  flex: 1;
+  min-height: 0;
+  align-items: stretch;
+}
+.praxis-card {
+  flex: 1;
+  background: #fff;
+  border: 1px solid rgba(44,40,36,0.10);
+  border-radius: 20px;
+  padding: 28px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.praxis-card.hl {
+  background: var(--orange-soft);
+  border-color: var(--orange-line);
+}
+.pc-num {
+  font-family: var(--font-dm-serif);
+  font-size: 52px;
+  color: var(--orange);
+  line-height: 0.9;
+  letter-spacing: -1px;
+  flex-shrink: 0;
+}
+.pc-title {
+  font-family: var(--font-dm-serif);
+  font-size: 30px;
+  color: var(--ink);
+  line-height: 1.2;
+  letter-spacing: -0.3px;
+}
+.pc-desc {
+  font-size: 24px;
+  color: var(--ink-2);
+  line-height: 1.4;
+  margin-top: auto;
+}
+.pc-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 14px;
+  background: var(--orange-soft);
+  border: 1px solid var(--orange-line);
+  border-radius: 980px;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--orange);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  width: fit-content;
+  margin-top: auto;
+}
+
+/* S05 dual-path layout */
+.path-split {
+  display: flex;
+  gap: 24px;
+  flex: 1;
+  min-height: 0;
+  align-items: stretch;
+}
+.path-card {
+  flex: 1;
+  border-radius: 20px;
+  padding: 36px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.path-card.a { background: rgba(44,40,36,0.04); border: 1px solid rgba(44,40,36,0.12); }
+.path-card.b { background: var(--orange-soft); border: 1.5px solid var(--orange-line); }
+.path-label {
+  font-size: var(--type-small);
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+.path-card.a .path-label { color: var(--ink-2); }
+.path-card.b .path-label { color: var(--orange); }
+.path-title {
+  font-family: var(--font-dm-serif);
+  font-size: 44px;
+  color: var(--ink);
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+.path-step {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 10px 0;
+  border-top: 1px solid rgba(44,40,36,0.08);
+}
+.path-card.b .path-step { border-top-color: rgba(212,101,42,0.18); }
+.path-step-num {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--orange-soft);
+  border: 1px solid var(--orange-line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--type-small);
+  font-weight: 700;
+  color: var(--orange);
+  flex-shrink: 0;
+}
+.path-step-text { font-size: 26px; color: var(--ink-2); line-height: 1.4; padding-top: 3px; }
+
+/* ══════════════════════════════════════════════════════════════
    PDF EXPORT
    ══════════════════════════════════════════════════════════════ */
 @media print {
@@ -845,25 +963,48 @@ em.accent { font-style: italic; color: var(--orange); }
            Ch2: Kap 1 · Arena des Drucks
            ══════════════════════════════════════════════════════ -->
       <div class="slide beige" data-ch="2">
-        <div class="frame center">
+        <div class="frame between">
 
-          <div style="display:flex; flex-direction:column; align-items:center; text-align:center; gap:36px; max-width:1200px;">
-            <div class="ch-badge" style="background:rgba(212,101,42,0.08); border-color:rgba(212,101,42,0.22);" data-a="1">
-              Kap 1 · Praxis
+          <div class="top-bar">
+            <div class="eyebrow">Kap 1 · Praxis · Spielfeld aufbauen</div>
+            <div class="page-num">3 / 11</div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:20px; flex:1; min-height:0;">
+            <div style="display:flex; align-items:center; justify-content:space-between; flex-shrink:0;">
+              <h2 class="h2" data-a="1" style="color:var(--ink); font-size:60px;">
+                Teammitglieder <em class="accent">einladen.</em>
+              </h2>
+              <div class="cta-btn" style="font-size:26px; padding:18px 36px;">👉 Spielfeld aufbauen</div>
             </div>
-            <h2 class="h2" data-a="2" style="color:var(--ink); max-width:900px;">
-              Baue jetzt euer <em class="accent">Spielfeld.</em>
-            </h2>
-            <p class="sub" data-a="3" style="max-width:800px;">
-              Ein echtes Team entsteht nicht allein. Lade deine wichtigsten Mitspieler ein und eröffnet gemeinsam eure digitale Arena.
-            </p>
-            <div class="card-orange" data-a="4" style="width:100%; padding:36px 48px; text-align:left; display:flex; align-items:center; gap:40px; justify-content:space-between;">
-              <div>
-                <div style="font-size:var(--type-small); font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--orange); margin-bottom:12px;">Deine Aktion</div>
-                <div style="font-family:var(--font-dm-serif); font-size:44px; letter-spacing:-0.5px; color:var(--ink); line-height:1.1;">Teammitglieder einladen</div>
-                <div style="font-size:28px; color:var(--ink-2); margin-top:10px; line-height:1.4;">Starte den gemeinsamen Prozess — direkt in der Plattform.</div>
+
+            <div class="praxis-flow" data-a="2">
+              <div class="praxis-card">
+                <div class="pc-num">01</div>
+                <div class="pc-title">Klick &amp; Weiterleitung</div>
+                <div class="pc-desc">Button klicken → Admin-Oberfläche „Neues Team anlegen" öffnet sich</div>
               </div>
-              <div class="cta-btn">👉 Spielfeld aufbauen</div>
+              <div class="praxis-card">
+                <div class="pc-num">02</div>
+                <div class="pc-title">Team-Name eingeben</div>
+                <div class="pc-desc">Textmaske: z. B. „Führungsteam Hartkorn" oder „Projektgruppe Alpha"</div>
+              </div>
+              <div class="praxis-card hl">
+                <div class="pc-num">03</div>
+                <div class="pc-title">Einladungen eintragen</div>
+                <div class="pc-desc">E-Mails manuell, per Copy-Paste oder CSV-Upload einer ganzen Liste</div>
+              </div>
+              <div class="praxis-card">
+                <div class="pc-num">04</div>
+                <div class="pc-title">Rollen vergeben</div>
+                <div class="pc-desc">Dropdown pro E-Mail: Mitglied oder Co-Admin (z. B. für Berater)</div>
+              </div>
+              <div class="praxis-card">
+                <div class="pc-num">05</div>
+                <div class="pc-title">Einladungen senden</div>
+                <div class="pc-desc">Gebrandete Onboarding-Mails werden automatisch verschickt</div>
+                <div class="pc-tag">✓ Status: Grün</div>
+              </div>
             </div>
           </div>
 
@@ -927,25 +1068,54 @@ em.accent { font-style: italic; color: var(--orange); }
            Ch3: Kap 2 · Das Line-Up
            ══════════════════════════════════════════════════════ -->
       <div class="slide beige" data-ch="3">
-        <div class="frame center">
+        <div class="frame between">
 
-          <div style="display:flex; flex-direction:column; align-items:center; text-align:center; gap:36px; max-width:1200px;">
-            <div class="ch-badge" style="background:rgba(212,101,42,0.08); border-color:rgba(212,101,42,0.22);" data-a="1">
-              Kap 2 · Praxis
+          <div class="top-bar">
+            <div class="eyebrow">Kap 2 · Praxis · Das Line-Up</div>
+            <div class="page-num">5 / 11</div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:20px; flex:1; min-height:0;">
+            <div style="display:flex; align-items:center; justify-content:space-between; flex-shrink:0;">
+              <h2 class="h2" data-a="1" style="color:var(--ink); font-size:60px;">
+                Zwei Wege ins <em class="accent">System.</em>
+              </h2>
+              <div class="cta-btn" style="font-size:26px; padding:18px 36px;">👉 Aufstellung prüfen</div>
             </div>
-            <h2 class="h2" data-a="2" style="color:var(--ink); max-width:900px;">
-              Finde deine echte <em class="accent">Aufstellung.</em>
-            </h2>
-            <p class="sub" data-a="3" style="max-width:800px;">
-              Entdecke, wo deine kognitiven Stärken liegen — oder bringe das Profil deines Teams auf den Platz.
-            </p>
-            <div class="card-orange" data-a="4" style="width:100%; padding:36px 48px; text-align:left; display:flex; align-items:center; gap:40px; justify-content:space-between;">
-              <div>
-                <div style="font-size:var(--type-small); font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--orange); margin-bottom:12px;">Deine Aktion</div>
-                <div style="font-family:var(--font-dm-serif); font-size:44px; letter-spacing:-0.5px; color:var(--ink); line-height:1.1;">Assessment durchführen</div>
-                <div style="font-size:28px; color:var(--ink-2); margin-top:10px; line-height:1.4;">Ergebnisse hochladen (PDF-Import) oder Test direkt starten.</div>
+
+            <div class="path-split" data-a="2">
+              <div class="path-card a">
+                <div class="path-label">Pfad A · Noch keine Daten</div>
+                <div class="path-title">Persönlichkeitstest starten</div>
+                <div class="path-step">
+                  <div class="path-step-num">1</div>
+                  <div class="path-step-text">Klick auf „Test starten" → Fragebogen öffnet sich direkt in der App</div>
+                </div>
+                <div class="path-step">
+                  <div class="path-step-num">2</div>
+                  <div class="path-step-text">50 Fragen, IPIP-50 Big Five · Antworten per 5-Punkte-Schieberegler (Likert)</div>
+                </div>
+                <div class="path-step">
+                  <div class="path-step-num">3</div>
+                  <div class="path-step-text">Scores werden in Echtzeit berechnet und im Profil gespeichert</div>
+                </div>
               </div>
-              <div class="cta-btn">👉 Aufstellung prüfen</div>
+              <div class="path-card b">
+                <div class="path-label">Pfad B · Profil bereits vorhanden</div>
+                <div class="path-title">Bestehendes Profil hochladen</div>
+                <div class="path-step">
+                  <div class="path-step-num">1</div>
+                  <div class="path-step-text">Klick auf „Profil hochladen" → Drag-&amp;-Drop-Feld öffnet sich</div>
+                </div>
+                <div class="path-step">
+                  <div class="path-step-num">2</div>
+                  <div class="path-step-text">PDF-Export aus MSA, Gallup CliftonStrengths oder anderen Quellen einziehen</div>
+                </div>
+                <div class="path-step">
+                  <div class="path-step-num">3</div>
+                  <div class="path-step-text">Text-Parser liest Stärken-Scores semantisch aus → automatische Profil-Zuordnung</div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -1022,25 +1192,43 @@ em.accent { font-style: italic; color: var(--orange); }
            Ch4: Kap 3 · Taktik-Kompass
            ══════════════════════════════════════════════════════ -->
       <div class="slide beige" data-ch="4">
-        <div class="frame center">
+        <div class="frame between">
 
-          <div style="display:flex; flex-direction:column; align-items:center; text-align:center; gap:36px; max-width:1200px;">
-            <div class="ch-badge" style="background:rgba(212,101,42,0.08); border-color:rgba(212,101,42,0.22);" data-a="1">
-              Kap 3 · Praxis
+          <div class="top-bar">
+            <div class="eyebrow">Kap 3 · Praxis · Taktik-Kompass</div>
+            <div class="page-num">7 / 11</div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:20px; flex:1; min-height:0;">
+            <div style="display:flex; align-items:center; justify-content:space-between; flex-shrink:0;">
+              <h2 class="h2" data-a="1" style="color:var(--ink); font-size:60px;">
+                Canvas befüllen. <em class="accent">Kompass lesen.</em>
+              </h2>
+              <div class="cta-btn" style="font-size:26px; padding:18px 36px;">👉 Zum Taktik-Board</div>
             </div>
-            <h2 class="h2" data-a="2" style="color:var(--ink); max-width:900px;">
-              Macht eure Zusammenarbeit <em class="accent">transparent.</em>
-            </h2>
-            <p class="sub" data-a="3" style="max-width:800px;">
-              Definiert Rollen, Stärken und Spielregeln im System — um Reibungsverluste sofort zu eliminieren.
-            </p>
-            <div class="card-orange" data-a="4" style="width:100%; padding:36px 48px; text-align:left; display:flex; align-items:center; gap:40px; justify-content:space-between;">
-              <div>
-                <div style="font-size:var(--type-small); font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--orange); margin-bottom:12px;">Deine Aktion</div>
-                <div style="font-family:var(--font-dm-serif); font-size:44px; letter-spacing:-0.5px; color:var(--ink); line-height:1.1;">Team Canvas &amp; Kompass analysieren</div>
-                <div style="font-size:28px; color:var(--ink-2); margin-top:10px; line-height:1.4;">Blinde Flecken sichtbar machen — bevor sie zum Konflikt werden.</div>
+
+            <div class="praxis-flow" data-a="2">
+              <div class="praxis-card">
+                <div class="pc-num">01</div>
+                <div class="pc-title">Taktik-Board öffnen</div>
+                <div class="pc-desc">Button klicken → interaktives Team-Dashboard lädt</div>
               </div>
-              <div class="cta-btn">👉 Zum Taktik-Board</div>
+              <div class="praxis-card hl">
+                <div class="pc-num">02</div>
+                <div class="pc-title">Eigenen Canvas befüllen</div>
+                <div class="pc-desc">3 Felder: Meine Rolle · Mein Stärken-Fokus · Meine Erwartungen ans Team</div>
+              </div>
+              <div class="praxis-card">
+                <div class="pc-num">03</div>
+                <div class="pc-title">Team-Ansicht: Netzdiagramm</div>
+                <div class="pc-desc">6-dimensionale Profile aller Mitglieder automatisch übereinandergelegt</div>
+              </div>
+              <div class="praxis-card">
+                <div class="pc-num">04</div>
+                <div class="pc-title">Dynamik auswerten</div>
+                <div class="pc-desc">Algorithmus markiert farblich: Overlaps, blinde Flecken, kritische Lücken</div>
+                <div class="pc-tag">⚡ Storming verkürzt</div>
+              </div>
             </div>
           </div>
 
@@ -1104,25 +1292,48 @@ em.accent { font-style: italic; color: var(--orange); }
            Ch5: Kap 4 · Der VAR / KI-Coach
            ══════════════════════════════════════════════════════ -->
       <div class="slide beige" data-ch="5">
-        <div class="frame center">
+        <div class="frame between">
 
-          <div style="display:flex; flex-direction:column; align-items:center; text-align:center; gap:36px; max-width:1200px;">
-            <div class="ch-badge" style="background:rgba(212,101,42,0.08); border-color:rgba(212,101,42,0.22);" data-a="1">
-              Kap 4 · Praxis
+          <div class="top-bar">
+            <div class="eyebrow">Kap 4 · Praxis · KI-Coach</div>
+            <div class="page-num">9 / 11</div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:20px; flex:1; min-height:0;">
+            <div style="display:flex; align-items:center; justify-content:space-between; flex-shrink:0;">
+              <h2 class="h2" data-a="1" style="color:var(--ink); font-size:60px;">
+                Vom Szenario zum <em class="accent">Leitfaden.</em>
+              </h2>
+              <div class="cta-btn" style="font-size:26px; padding:18px 36px;">👉 Coach fragen</div>
             </div>
-            <h2 class="h2" data-a="2" style="color:var(--ink); max-width:900px;">
-              Hole dir jetzt eine <em class="accent">maßgeschneiderte Taktik.</em>
-            </h2>
-            <p class="sub" data-a="3" style="max-width:800px;">
-              Steht ein schwieriges Gespräch an oder planst du die nächste Retro? Dein KI-Assistent kennt dein Team.
-            </p>
-            <div class="card-orange" data-a="4" style="width:100%; padding:36px 48px; text-align:left; display:flex; align-items:center; gap:40px; justify-content:space-between;">
-              <div>
-                <div style="font-size:var(--type-small); font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--orange); margin-bottom:12px;">Deine Aktion</div>
-                <div style="font-family:var(--font-dm-serif); font-size:44px; letter-spacing:-0.5px; color:var(--ink); line-height:1.1;">KI Chat Coach ausprobieren</div>
-                <div style="font-size:28px; color:var(--ink-2); margin-top:10px; line-height:1.4;">Situatives Coaching — abgestimmt auf euer Team-Profil.</div>
+
+            <div class="praxis-flow" data-a="2">
+              <div class="praxis-card">
+                <div class="pc-num">01</div>
+                <div class="pc-title">Chat-Interface öffnen</div>
+                <div class="pc-desc">KI-Coach startet — kalibriert auf euer Team-Profil aus Kap 1–3</div>
               </div>
-              <div class="cta-btn">👉 Coach fragen</div>
+              <div class="praxis-card hl">
+                <div class="pc-num">02</div>
+                <div class="pc-title">Szenario wählen</div>
+                <div class="pc-desc">4 Kacheln: Feedback · Retro · Konflikt moderieren · Freitext</div>
+              </div>
+              <div class="praxis-card">
+                <div class="pc-num">03</div>
+                <div class="pc-title">Situation beschreiben</div>
+                <div class="pc-desc">Kurze Kontext-Eingabe, 2–3 Sätze — was steht konkret an?</div>
+              </div>
+              <div class="praxis-card">
+                <div class="pc-num">04</div>
+                <div class="pc-title">KI-Hintergrundlogik</div>
+                <div class="pc-desc">Matching-Kompass-Daten fließen anonymisiert als Kontext in den System-Prompt</div>
+              </div>
+              <div class="praxis-card">
+                <div class="pc-num">05</div>
+                <div class="pc-title">Präziser Leitfaden</div>
+                <div class="pc-desc">Psychologisch fundiert, auf die kognitiven Profile der Beteiligten zugeschnitten</div>
+                <div class="pc-tag">↗ Profil-referenziert</div>
+              </div>
             </div>
           </div>
 
@@ -1202,29 +1413,49 @@ em.accent { font-style: italic; color: var(--orange); }
            Ch6: Kap 5 · Der Match-Report
            ══════════════════════════════════════════════════════ -->
       <div class="slide beige" data-ch="6">
-        <div class="frame center">
+        <div class="frame between">
 
-          <div style="display:flex; flex-direction:column; align-items:center; text-align:center; gap:32px; max-width:1300px;">
-            <div class="ch-badge" style="background:rgba(212,101,42,0.08); border-color:rgba(212,101,42,0.22);" data-a="1">
-              Kap 5 · Praxis · Modul-Abschluss
+          <div class="top-bar">
+            <div class="eyebrow">Kap 5 · Praxis · Modul-Abschluss</div>
+            <div class="page-num">11 / 11</div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:20px; flex:1; min-height:0;">
+            <div style="display:flex; align-items:center; justify-content:space-between; flex-shrink:0;">
+              <h2 class="h2" data-a="1" style="color:var(--ink); font-size:60px;">
+                Konfigurieren. Exportieren. <em class="accent">Fertig.</em>
+              </h2>
+              <div class="cta-btn" style="font-size:26px; padding:18px 36px;">👉 Match-Report generieren</div>
             </div>
-            <h2 class="h2" data-a="2" style="color:var(--ink); max-width:1000px;">
-              Dein Team. Deine Daten.<br/><em class="accent">Dein Match-Report.</em>
-            </h2>
-            <p class="sub" data-a="3" style="max-width:860px;">
-              Fasse den Entwicklungsstand eures Teams in einem professionellen Dokument zusammen — für das nächste Management-Update, HR-Audit oder ESG-Bericht.
-            </p>
-            <div class="card-orange" data-a="4" style="width:100%; padding:36px 48px; text-align:left; display:flex; align-items:center; gap:40px; justify-content:space-between;">
-              <div>
-                <div style="font-size:var(--type-small); font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--orange); margin-bottom:12px;">Deine Aktion</div>
-                <div style="font-family:var(--font-dm-serif); font-size:44px; letter-spacing:-0.5px; color:var(--ink); line-height:1.1;">Team-Bericht erstellen &amp; ESG-Export generieren</div>
-                <div style="font-size:28px; color:var(--ink-2); margin-top:10px; line-height:1.4;">Manipulationssicher, auditierbar, management-ready.</div>
+
+            <div class="praxis-flow" data-a="2">
+              <div class="praxis-card hl">
+                <div class="pc-num">01</div>
+                <div class="pc-title">Bericht konfigurieren</div>
+                <div class="pc-desc">Inhalte per Checkbox wählen: Management-Summary · Kompass · Canvas · KI-Empfehlungen</div>
               </div>
-              <div class="cta-btn">👉 Match-Report generieren</div>
+              <div class="praxis-card">
+                <div class="pc-num">02</div>
+                <div class="pc-title">PDF generieren</div>
+                <div class="pc-desc">Co-Branded Design: Echte Teams × Strength Hack — hochprofessionell, druckfertig</div>
+              </div>
+              <div class="praxis-card">
+                <div class="pc-num">03</div>
+                <div class="pc-title">ESG-Nachweis exportieren</div>
+                <div class="pc-desc">Anonymisierter ESRS-S1-Export — auditfähige Übersicht für HR &amp; Compliance</div>
+              </div>
+              <div class="praxis-card">
+                <div class="pc-num">04</div>
+                <div class="pc-title">Dokument herunterladen</div>
+                <div class="pc-desc">Management-ready, manipulationssicher — bereit für das nächste Board-Meeting</div>
+              </div>
+              <div class="praxis-card">
+                <div class="pc-num">05</div>
+                <div class="pc-title">Modul abschließen</div>
+                <div class="pc-desc">Klick auf „Modul abschließen" → digitales Zertifikat wird ausgestellt</div>
+                <div class="pc-tag">🏆 Zertifiziert</div>
+              </div>
             </div>
-            <p data-a="5" style="font-size:var(--type-small); color:var(--ink-2); letter-spacing:0.5px;">
-              Modul abgeschlossen · strength-hack.com
-            </p>
           </div>
 
         </div>
