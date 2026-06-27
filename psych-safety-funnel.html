@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team Psychological Safety — Strength Hack</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   Team Psych Safety Funnel — Strength Hack Sales Deck
+   Canvas: 1920 × 1080 px, scaled to viewport by JS
+   Sidebar: 210 px | Stage: remainder
+   ============================================================ */
+
+:root {
+  --font-dm-serif: 'DM Serif Display', Georgia, 'Times New Roman', serif;
+  --font-outfit:   'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Brand */
+  --orange:       #D4652A;
+  --orange-soft:  rgba(212,101,42,0.12);
+  --orange-line:  rgba(212,101,42,0.30);
+  --charcoal:     #1A1714;
+  --card-dark:    #242018;
+  --cream:        #FDFBF7;
+  --beige:        #F5F0E8;
+  --ink:          #2C2824;
+  --ink-2:        #7A7168;
+  --on-dark:      #F5F0E8;
+  --on-dark-2:    rgba(245,240,232,0.62);
+  --on-dark-3:    rgba(245,240,232,0.38);
+  --on-dark-line: rgba(245,240,232,0.10);
+
+  /* Type scale — 1920 × 1080 projection */
+  --type-display: 132px;
+  --type-title:    88px;
+  --type-h2:       72px;
+  --type-quote:    56px;
+  --type-stat:    220px;
+  --type-sub:      40px;
+  --type-body:     30px;
+  --type-small:    24px;
+  --type-eyebrow:  24px;
+
+  /* Spacing */
+  --pad-x:      120px;
+  --pad-top:    110px;
+  --pad-bottom:  90px;
+  --gap-title:   44px;
+  --gap-item:    28px;
+
+  --sidebar-w:  210px;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  height: 100vh; width: 100vw;
+  overflow: hidden;
+  background: #0E0C0A;
+  font-family: var(--font-outfit);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   APP SHELL
+   ══════════════════════════════════════════════════════════════ */
+.app { display: flex; height: 100vh; width: 100vw; }
+
+/* ══════════════════════════════════════════════════════════════
+   SIDEBAR
+   ══════════════════════════════════════════════════════════════ */
+.sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  background: #13110e;
+  border-right: 1px solid var(--on-dark-line);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.sb-logo {
+  padding: 20px 18px 16px;
+  border-bottom: 1px solid var(--on-dark-line);
+  flex-shrink: 0;
+}
+.sb-logo-name {
+  font-family: var(--font-dm-serif);
+  font-size: 15px;
+  color: var(--on-dark);
+  letter-spacing: -0.2px;
+}
+.sb-logo-name span { color: var(--orange); }
+.sb-logo-sub {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(245,240,232,0.22);
+  margin-top: 3px;
+}
+
+.sb-chapters { flex: 1; overflow-y: auto; padding: 12px 0; }
+.sb-ch {
+  padding: 9px 18px;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: all 0.2s;
+}
+.sb-ch:hover { background: rgba(245,240,232,0.04); }
+.sb-ch.active {
+  border-left-color: var(--orange);
+  background: rgba(212,101,42,0.08);
+}
+.sb-ch-num {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 2px;
+}
+.sb-ch-title {
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(245,240,232,0.42);
+  line-height: 1.35;
+}
+.sb-ch.active .sb-ch-title { color: var(--on-dark); }
+
+.sb-dots {
+  padding: 12px 18px;
+  border-top: 1px solid var(--on-dark-line);
+  flex-shrink: 0;
+}
+.sb-dots-wrap { display: flex; flex-wrap: wrap; gap: 4px; }
+.sb-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  background: rgba(245,240,232,0.07);
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  font-weight: 700;
+  color: rgba(245,240,232,0.3);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.sb-dot:hover { background: rgba(245,240,232,0.14); }
+.sb-dot.active { background: var(--orange); color: #fff; border-color: var(--orange); }
+
+.sb-footer {
+  padding: 12px 14px 16px;
+  border-top: 1px solid var(--on-dark-line);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.mode-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 8px 12px;
+  border-radius: 980px;
+  border: 1px solid var(--on-dark-line);
+  background: rgba(245,240,232,0.05);
+  cursor: pointer;
+  font-family: var(--font-outfit);
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(245,240,232,0.45);
+  letter-spacing: 0.3px;
+  transition: all 0.2s ease;
+}
+.mode-btn:hover { background: rgba(245,240,232,0.1); color: rgba(245,240,232,0.7); }
+
+/* ══════════════════════════════════════════════════════════════
+   STAGE
+   ══════════════════════════════════════════════════════════════ */
+.stage {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: #0E0C0A;
+}
+
+.counter {
+  position: absolute;
+  top: 16px;
+  right: 22px;
+  z-index: 50;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: rgba(245,240,232,0.25);
+  pointer-events: none;
+}
+.counter .n { color: rgba(245,240,232,0.62); font-weight: 700; }
+
+.arr {
+  position: absolute;
+  bottom: 20px;
+  z-index: 50;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(245,240,232,0.06);
+  border: 1px solid var(--on-dark-line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: rgba(245,240,232,0.32);
+  font-size: 15px;
+  transition: all 0.2s;
+  user-select: none;
+}
+.arr:hover { background: rgba(212,101,42,0.18); border-color: rgba(212,101,42,0.4); color: var(--orange); }
+.arr-prev { right: 64px; }
+.arr-next { right: 18px; }
+
+/* ══════════════════════════════════════════════════════════════
+   SLIDES WRAPPER
+   ══════════════════════════════════════════════════════════════ */
+.slides-wrap { position: absolute; inset: 0; }
+
+/* ══════════════════════════════════════════════════════════════
+   SLIDE BASE
+   ══════════════════════════════════════════════════════════════ */
+.slide {
+  position: absolute;
+  width: 1920px;
+  height: 1080px;
+  background: var(--charcoal);
+  color: var(--on-dark);
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform;
+  font-family: var(--font-outfit);
+  -webkit-font-smoothing: antialiased;
+  transition: opacity 0.25s ease;
+}
+.slide.active { opacity: 1; pointer-events: auto; }
+.slide.beige  { background: var(--beige); color: var(--ink); }
+.slide.light  { background: var(--cream); color: var(--ink); }
+
+/* ══════════════════════════════════════════════════════════════
+   FRAME
+   ══════════════════════════════════════════════════════════════ */
+.frame {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  bottom: var(--pad-bottom);
+  padding: var(--pad-top) var(--pad-x) 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.frame.between { justify-content: space-between; }
+.frame.center  { justify-content: center; align-items: center; }
+
+/* ══════════════════════════════════════════════════════════════
+   TOP BAR
+   ══════════════════════════════════════════════════════════════ */
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--gap-title);
+  flex-shrink: 0;
+  height: 30px;
+}
+
+.page-num {
+  font-family: var(--font-outfit);
+  font-size: var(--type-small);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: var(--on-dark-3);
+}
+.slide.beige .page-num,
+.slide.light .page-num { color: var(--ink-2); }
+
+/* ══════════════════════════════════════════════════════════════
+   BOTTOM BAR — MUST be OUTSIDE .frame
+   ══════════════════════════════════════════════════════════════ */
+.bottom-bar {
+  position: absolute;
+  bottom: 22px;
+  left: var(--pad-x);
+  right: var(--pad-x);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-outfit);
+  font-size: var(--type-small);
+  font-weight: 400;
+  letter-spacing: 0.3px;
+  color: var(--on-dark-3);
+}
+.slide.beige .bottom-bar,
+.slide.light .bottom-bar { color: var(--ink-2); }
+
+.source-line {
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  font-size: var(--type-small);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   TYPOGRAPHY
+   ══════════════════════════════════════════════════════════════ */
+.eyebrow {
+  font-family: var(--font-outfit);
+  font-size: var(--type-eyebrow);
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--orange);
+  line-height: 1;
+}
+
+.display {
+  font-family: var(--font-dm-serif);
+  font-size: var(--type-display);
+  font-weight: 400;
+  letter-spacing: -3px;
+  line-height: 1.0;
+  text-wrap: balance;
+}
+.h2 {
+  font-family: var(--font-dm-serif);
+  font-size: var(--type-h2);
+  font-weight: 400;
+  letter-spacing: -1.2px;
+  line-height: 1.06;
+  text-wrap: balance;
+}
+em.accent { font-style: italic; color: var(--orange); }
+
+.sub {
+  font-family: var(--font-outfit);
+  font-weight: 300;
+  font-size: var(--type-sub);
+  line-height: 1.35;
+  color: var(--on-dark-2);
+  text-wrap: pretty;
+}
+.slide.beige .sub,
+.slide.light .sub { color: var(--ink-2); }
+
+.body {
+  font-family: var(--font-outfit);
+  font-size: var(--type-body);
+  line-height: 1.55;
+  color: var(--on-dark-2);
+}
+.slide.beige .body,
+.slide.light .body { color: var(--ink-2); }
+
+.small {
+  font-family: var(--font-outfit);
+  font-size: var(--type-small);
+  line-height: 1.5;
+  color: var(--on-dark-3);
+}
+.slide.beige .small,
+.slide.light .small { color: var(--ink-2); }
+
+/* ══════════════════════════════════════════════════════════════
+   LAYOUT HELPERS
+   ══════════════════════════════════════════════════════════════ */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  flex: 1;
+  min-height: 0;
+}
+.grid-2-58 {
+  display: grid;
+  grid-template-columns: 58fr 42fr;
+  gap: 100px;
+  align-items: flex-start;
+  flex: 1;
+  min-height: 0;
+}
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap-item);
+  flex: 1;
+  min-height: 0;
+  align-items: stretch;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   HERO IMAGE FRAME
+   ══════════════════════════════════════════════════════════════ */
+.hero-image {
+  align-self: stretch;
+  width: 100%;
+  border-radius: 28px;
+  overflow: hidden;
+  background: #20322F;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+.hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   CARDS
+   ══════════════════════════════════════════════════════════════ */
+.card-dark {
+  background: var(--card-dark);
+  border: 1px solid var(--on-dark-line);
+  border-radius: 24px;
+  padding: 36px 40px;
+}
+.card-orange {
+  background: var(--orange-soft);
+  border: 1.5px solid var(--orange-line);
+  border-radius: 24px;
+  padding: 44px 48px;
+}
+.feat-card {
+  border-radius: 24px;
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.feat-card.dark  { background: var(--card-dark); border: 1px solid var(--on-dark-line); }
+.feat-card.light { background: #fff; border: 1px solid rgba(44,40,36,0.08); }
+.feat-card.orange { background: var(--orange-soft); border: 1.5px solid var(--orange-line); }
+
+.card-title {
+  font-family: var(--font-dm-serif);
+  font-size: 38px;
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+  color: var(--on-dark);
+}
+.feat-card.light .card-title,
+.feat-card.orange .card-title { color: var(--ink); }
+
+.card-body {
+  font-family: var(--font-outfit);
+  font-size: 26px;
+  line-height: 1.5;
+  color: var(--on-dark-2);
+}
+.feat-card.light .card-body,
+.feat-card.orange .card-body { color: var(--ink-2); }
+
+/* ══════════════════════════════════════════════════════════════
+   QUOTE BLOCK
+   ══════════════════════════════════════════════════════════════ */
+.quote-block {
+  background: var(--card-dark);
+  border: 1px solid var(--on-dark-line);
+  border-left: 3px solid var(--orange);
+  border-radius: 20px;
+  padding: 36px 44px;
+}
+.quote-text {
+  font-family: var(--font-dm-serif);
+  font-style: italic;
+  font-size: 44px;
+  line-height: 1.3;
+  color: var(--on-dark);
+}
+.quote-attr {
+  font-size: var(--type-small);
+  font-weight: 600;
+  color: var(--orange);
+  margin-top: 18px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   CTA BUTTON
+   ══════════════════════════════════════════════════════════════ */
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 26px 48px;
+  background: var(--orange);
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  font-family: var(--font-outfit);
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  text-decoration: none;
+}
+.cta-btn:hover { opacity: 0.88; }
+
+.cta-btn.secondary {
+  background: transparent;
+  border: 2px solid var(--orange);
+  color: var(--orange);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   STAT TILES
+   ══════════════════════════════════════════════════════════════ */
+.stat-tile {
+  background: var(--card-dark);
+  border: 1px solid var(--on-dark-line);
+  border-radius: 20px;
+  padding: 40px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+.stat-tile.accent {
+  background: var(--orange-soft);
+  border-color: var(--orange-line);
+}
+.stat-num {
+  font-family: var(--font-dm-serif);
+  font-size: 88px;
+  letter-spacing: -3px;
+  line-height: 0.9;
+  color: var(--orange);
+}
+.stat-desc {
+  font-size: var(--type-body);
+  line-height: 1.4;
+  color: var(--on-dark-2);
+}
+.stat-source {
+  font-size: var(--type-small);
+  color: var(--on-dark-3);
+  margin-top: 4px;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PRAXIS STEP FLOW (reused for funnel steps)
+   ══════════════════════════════════════════════════════════════ */
+.praxis-flow {
+  display: flex;
+  gap: 16px;
+  flex: 1;
+  min-height: 0;
+  align-items: stretch;
+}
+.praxis-card {
+  flex: 1;
+  background: var(--card-dark);
+  border: 1px solid var(--on-dark-line);
+  border-radius: 20px;
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.praxis-card.hl {
+  background: var(--orange-soft);
+  border-color: var(--orange-line);
+}
+.praxis-card.white {
+  background: #fff;
+  border: 1px solid rgba(44,40,36,0.10);
+}
+.pc-num {
+  font-family: var(--font-dm-serif);
+  font-size: 64px;
+  color: var(--orange);
+  line-height: 0.9;
+  letter-spacing: -1px;
+  flex-shrink: 0;
+}
+.pc-title {
+  font-family: var(--font-dm-serif);
+  font-size: 34px;
+  color: var(--on-dark);
+  line-height: 1.15;
+  letter-spacing: -0.3px;
+}
+.praxis-card.white .pc-title { color: var(--ink); }
+.pc-desc {
+  font-size: 26px;
+  color: var(--on-dark-2);
+  line-height: 1.4;
+  margin-top: auto;
+}
+.praxis-card.white .pc-desc { color: var(--ink-2); }
+
+/* ══════════════════════════════════════════════════════════════
+   DIMENSION BARS (Score Breakdown)
+   ══════════════════════════════════════════════════════════════ */
+.dim-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 14px 0;
+  border-top: 1px solid rgba(44,40,36,0.08);
+}
+.dim-bar-label {
+  font-size: var(--type-body);
+  font-weight: 500;
+  color: var(--ink);
+  width: 420px;
+  flex-shrink: 0;
+}
+.dim-bar-track {
+  flex: 1;
+  height: 16px;
+  background: rgba(44,40,36,0.08);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.dim-bar-fill {
+  height: 100%;
+  background: var(--orange);
+  border-radius: 8px;
+  opacity: 0.7;
+}
+.dim-bar-fill.high { opacity: 1; }
+.dim-bar-score {
+  font-size: var(--type-body);
+  font-weight: 700;
+  color: var(--orange);
+  width: 80px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SCORE BADGE (large centred)
+   ══════════════════════════════════════════════════════════════ */
+.score-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: var(--card-dark);
+  border: 2px solid var(--orange-line);
+  border-radius: 28px;
+  padding: 48px 60px;
+}
+.score-big {
+  font-family: var(--font-dm-serif);
+  font-size: 140px;
+  letter-spacing: -4px;
+  line-height: 0.9;
+  color: var(--orange);
+}
+.score-label {
+  font-size: var(--type-sub);
+  font-weight: 600;
+  color: var(--on-dark-2);
+  letter-spacing: -0.5px;
+}
+.score-tier {
+  font-size: var(--type-small);
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+.score-count {
+  font-size: var(--type-small);
+  color: var(--on-dark-3);
+  margin-top: 8px;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PACKAGE PRICE TAG
+   ══════════════════════════════════════════════════════════════ */
+.pkg-price {
+  font-family: var(--font-dm-serif);
+  font-size: 52px;
+  letter-spacing: -1px;
+  color: var(--orange);
+  line-height: 1;
+}
+.pkg-bullets {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+.pkg-bullet {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 26px;
+  color: var(--on-dark-2);
+  line-height: 1.3;
+}
+.pkg-bullet::before {
+  content: '✓';
+  color: var(--orange);
+  font-weight: 700;
+  flex-shrink: 0;
+  font-size: 24px;
+  margin-top: 1px;
+}
+.pkg-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px 32px;
+  border-radius: 12px;
+  font-family: var(--font-outfit);
+  font-size: 26px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  text-decoration: none;
+  margin-top: auto;
+}
+.pkg-cta.filled { background: var(--orange); color: #fff; }
+.pkg-cta.outlined { background: transparent; border: 2px solid var(--orange); color: var(--orange); }
+.feat-card.dark .pkg-bullet { color: var(--on-dark-2); }
+
+/* ══════════════════════════════════════════════════════════════
+   PROGRESS BAR
+   ══════════════════════════════════════════════════════════════ */
+.progress-bar {
+  position: fixed;
+  bottom: 0;
+  left: var(--sidebar-w);
+  right: 0;
+  height: 3px;
+  background: rgba(245,240,232,0.06);
+  z-index: 100;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--orange);
+  transition: width 0.3s ease;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PDF EXPORT
+   ══════════════════════════════════════════════════════════════ */
+@media print {
+  @page { size: 1920px 1080px; margin: 0; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  .sidebar, .arr, .counter, #exportBtn, .progress-bar { display: none !important; }
+  body, html { width: 1920px !important; height: auto !important; overflow: visible !important; }
+  .app { display: block !important; width: 1920px !important; height: auto !important; }
+  .stage {
+    display: block !important;
+    margin-left: 0 !important;
+    overflow: visible !important;
+    width: 1920px !important;
+    height: auto !important;
+    background: transparent !important;
+  }
+  .slides-wrap {
+    position: static !important;
+    width: 1920px !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+  .slide {
+    position: relative !important;
+    transform: none !important;
+    left: 0 !important; top: 0 !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    width: 1920px !important; height: 1080px !important;
+    page-break-after: always; break-after: page;
+    overflow: hidden !important;
+    display: block !important;
+  }
+  .slide[data-skip-print] { display: none !important; }
+  .hero-image { box-shadow: none !important; }
+}
+
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ══════════════════════════════════════════════════════════
+       SIDEBAR
+       ══════════════════════════════════════════════════════════ -->
+  <aside class="sidebar">
+    <div class="sb-logo">
+      <div class="sb-logo-name">The <span>Strength Hack</span></div>
+      <div class="sb-logo-sub">Psych Safety · Team Funnel</div>
+    </div>
+    <div class="sb-chapters">
+      <div class="sb-ch active" onclick="goChapter(0)">
+        <div class="sb-ch-num">Intro</div>
+        <div class="sb-ch-title">Is Your Team Safe?</div>
+      </div>
+      <div class="sb-ch" onclick="goChapter(1)">
+        <div class="sb-ch-num">Problem</div>
+        <div class="sb-ch-title">The Hidden Cost</div>
+      </div>
+      <div class="sb-ch" onclick="goChapter(2)">
+        <div class="sb-ch-num">Step 1</div>
+        <div class="sb-ch-title">Leader Takes the Quiz</div>
+      </div>
+      <div class="sb-ch" onclick="goChapter(3)">
+        <div class="sb-ch-num">Step 2</div>
+        <div class="sb-ch-title">Invite Your Team</div>
+      </div>
+      <div class="sb-ch" onclick="goChapter(4)">
+        <div class="sb-ch-num">Results</div>
+        <div class="sb-ch-title">Team Score & Packages</div>
+      </div>
+      <div class="sb-ch" onclick="goChapter(5)">
+        <div class="sb-ch-num">Why It Works</div>
+        <div class="sb-ch-title">Strength Hack + Safety</div>
+      </div>
+    </div>
+    <div class="sb-dots">
+      <div class="sb-dots-wrap" id="sbDots"></div>
+    </div>
+    <div class="sb-footer">
+      <button class="mode-btn" id="exportBtn" style="margin-top:4px; opacity:0.7;" onclick="exportPDF()">↓ Export PDF</button>
+    </div>
+  </aside>
+
+  <!-- ══════════════════════════════════════════════════════════
+       STAGE
+       ══════════════════════════════════════════════════════════ -->
+  <main class="stage">
+    <div class="counter"><span class="n" id="cCur">1</span> / <span id="cTot">9</span></div>
+    <div class="arr arr-prev" onclick="go(-1)">&#8592;</div>
+    <div class="arr arr-next" onclick="go(1)">&#8594;</div>
+
+    <div class="slides-wrap">
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 01 · Title — dark, hero split
+           Ch1: Intro
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide active" data-ch="1">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Team Psychological Safety</div>
+            <div class="page-num">1 / 9</div>
+          </div>
+
+          <div class="grid-2-58" style="gap:120px; align-items:center;">
+            <div style="display:flex; flex-direction:column; gap:44px;">
+              <h1 class="display" style="font-size:108px; max-width:900px; letter-spacing:-2px; line-height:1.02;">
+                Is Your Team<br/><em class="accent">Psychologically Safe?</em>
+              </h1>
+              <p class="sub" style="max-width:800px;">
+                3 minutes. 10 questions. A score that reveals what your team won't say out loud.
+              </p>
+              <div style="display:flex; align-items:center; gap:28px; flex-wrap:wrap;">
+                <a class="cta-btn" href="#">Take the Free Quiz →</a>
+                <span class="small">strength-hack.com/quiz</span>
+              </div>
+            </div>
+            <div class="hero-image">
+              <img src="assets_2/Milo_referee.jpg" alt="Milo Referee">
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Strength Hack · Team Performance Platform</div>
+          <div class="source-line">strength-hack.com</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 02 · The Problem — dark, 4 stat-tiles
+           Ch2: Problem
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide" data-ch="2">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">The Hidden Cost of Unsafe Teams</div>
+            <div class="page-num">2 / 9</div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:32px; flex:1; min-height:0;">
+            <h2 class="h2" style="max-width:1100px;">Most teams are operating with <em class="accent">invisible friction.</em></h2>
+            <div style="display:flex; gap:24px; flex:1; min-height:0; align-items:stretch;">
+              <div class="stat-tile accent">
+                <div class="stat-num">70%</div>
+                <div class="stat-desc">of teams have unresolved tension that leadership doesn't know about</div>
+                <div class="stat-source">Edmondson, Harvard Business School</div>
+              </div>
+              <div class="stat-tile">
+                <div class="stat-num">5×</div>
+                <div class="stat-desc">more likely to hit performance targets when psychological safety is high</div>
+                <div class="stat-source">Google Project Aristotle</div>
+              </div>
+              <div class="stat-tile">
+                <div class="stat-num">+29%</div>
+                <div class="stat-desc">increase in team engagement when safety is actively addressed</div>
+                <div class="stat-source">Gallup State of the Workplace</div>
+              </div>
+              <div class="stat-tile">
+                <div class="stat-num">1 in 3</div>
+                <div class="stat-desc">leaders significantly overestimate how safe their team actually feels</div>
+                <div class="stat-source">McKinsey Organizational Health Index</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>The gap between what leaders think and what teams feel is the problem we solve.</div>
+          <div class="source-line">strength-hack.com</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 03 · Step 1: Leader Takes Quiz — beige, hero split
+           Ch3: Step 1
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide beige" data-ch="3">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Step 1 · Start With Yourself</div>
+            <div class="page-num">3 / 9</div>
+          </div>
+
+          <div class="grid-2-58" style="gap:100px; align-items:center;">
+            <div style="display:flex; flex-direction:column; gap:36px;">
+              <h2 class="h2" style="color:var(--ink);">You answer for your team.<br/><em class="accent">They answer for themselves.</em></h2>
+              <p class="sub">Take the 3-minute quiz as the leader. Get your score across 5 dimensions of psychological safety.</p>
+              <div style="display:flex; flex-direction:column; gap:14px;">
+                <div style="display:flex; align-items:center; gap:16px; font-size:28px; color:var(--ink-2);">
+                  <span style="color:var(--orange); font-weight:700;">→</span> Communication Safety
+                </div>
+                <div style="display:flex; align-items:center; gap:16px; font-size:28px; color:var(--ink-2);">
+                  <span style="color:var(--orange); font-weight:700;">→</span> Conflict Navigation
+                </div>
+                <div style="display:flex; align-items:center; gap:16px; font-size:28px; color:var(--ink-2);">
+                  <span style="color:var(--orange); font-weight:700;">→</span> Cognitive Diversity
+                </div>
+                <div style="display:flex; align-items:center; gap:16px; font-size:28px; color:var(--ink-2);">
+                  <span style="color:var(--orange); font-weight:700;">→</span> Delegation &amp; Autonomy
+                </div>
+                <div style="display:flex; align-items:center; gap:16px; font-size:28px; color:var(--ink-2);">
+                  <span style="color:var(--orange); font-weight:700;">→</span> AI Readiness
+                </div>
+              </div>
+              <div style="margin-top:8px;">
+                <a class="cta-btn" href="#" style="font-size:28px; padding:20px 40px;">Start Quiz — Free →</a>
+              </div>
+            </div>
+            <div class="hero-image">
+              <img src="assets_2/Milo_team.jpg" alt="Milo Team">
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>10 questions · instant score · no account needed</div>
+          <div class="source-line">strength-hack.com/quiz</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 04 · Step 2: Invite Team — dark, 3 praxis cards
+           Ch4: Step 2
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide" data-ch="4">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Step 2 · See the Real Gap</div>
+            <div class="page-num">4 / 9</div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:28px; flex:1; min-height:0;">
+            <h2 class="h2" style="max-width:1200px;">One leader's view isn't enough.<br/><em class="accent">Invite your whole team.</em></h2>
+            <div class="praxis-flow">
+              <div class="praxis-card hl">
+                <div class="pc-num">01</div>
+                <div class="pc-title">Share Your Invite Link</div>
+                <div class="pc-desc">After your score, you get a unique team link. Share it in Slack, email, or WhatsApp — one click to start.</div>
+              </div>
+              <div class="praxis-card">
+                <div class="pc-num">02</div>
+                <div class="pc-title">Each Member Takes 3 Minutes</div>
+                <div class="pc-desc">Every team member answers the same 10 questions from their own perspective. Anonymous, honest, fast.</div>
+              </div>
+              <div class="praxis-card">
+                <div class="pc-num">03</div>
+                <div class="pc-title">Scores Aggregate Automatically</div>
+                <div class="pc-desc">As responses come in, your team's collective score builds in real time. No spreadsheets. No manual work.</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>The more team members respond, the more accurate your team score becomes.</div>
+          <div class="source-line">strength-hack.com</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 05 · Team Results Page — beige, score + bars
+           Ch5: Results
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide beige" data-ch="5">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Step 3 · Your Team Score</div>
+            <div class="page-num">5 / 9</div>
+          </div>
+
+          <div class="grid-2" style="gap:80px; align-items:start;">
+            <!-- Left: score badge -->
+            <div style="display:flex; flex-direction:column; gap:28px;">
+              <h2 class="h2" style="color:var(--ink); font-size:60px;">A shared score.<br/>A shared starting point.</h2>
+              <div style="background:var(--ink); border-radius:28px; padding:44px 52px; display:flex; flex-direction:column; align-items:center; gap:12px;">
+                <div style="font-family:var(--font-outfit); font-size:var(--type-small); font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--orange);">Your Team · Live Score</div>
+                <div style="font-family:var(--font-dm-serif); font-size:160px; letter-spacing:-4px; line-height:0.9; color:var(--orange);">38</div>
+                <div style="font-family:var(--font-outfit); font-size:var(--type-sub); font-weight:600; color:rgba(245,240,232,0.7); letter-spacing:-0.5px;">/ 100</div>
+                <div style="font-size:var(--type-small); font-weight:700; letter-spacing:2px; text-transform:uppercase; color:rgba(212,101,42,0.8);">Hidden Friction Zone</div>
+                <div style="font-size:var(--type-small); color:rgba(245,240,232,0.35); margin-top:8px;">4 of 8 members responded · Live</div>
+              </div>
+            </div>
+            <!-- Right: dimension bars -->
+            <div style="display:flex; flex-direction:column; justify-content:center; gap:0; flex:1;">
+              <div style="font-size:var(--type-small); font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--ink-2); margin-bottom:18px;">Dimension Breakdown</div>
+              <div class="dim-bar-row">
+                <div class="dim-bar-label">Communication Safety</div>
+                <div class="dim-bar-track"><div class="dim-bar-fill" style="width:70%;"></div></div>
+                <div class="dim-bar-score">14/20</div>
+              </div>
+              <div class="dim-bar-row">
+                <div class="dim-bar-label">Conflict Navigation</div>
+                <div class="dim-bar-track"><div class="dim-bar-fill" style="width:55%;"></div></div>
+                <div class="dim-bar-score">11/20</div>
+              </div>
+              <div class="dim-bar-row">
+                <div class="dim-bar-label">Cognitive Diversity</div>
+                <div class="dim-bar-track"><div class="dim-bar-fill high" style="width:85%;"></div></div>
+                <div class="dim-bar-score">17/20</div>
+              </div>
+              <div class="dim-bar-row">
+                <div class="dim-bar-label">Delegation &amp; Autonomy</div>
+                <div class="dim-bar-track"><div class="dim-bar-fill" style="width:40%;"></div></div>
+                <div class="dim-bar-score">8/20</div>
+              </div>
+              <div class="dim-bar-row">
+                <div class="dim-bar-label">AI Readiness</div>
+                <div class="dim-bar-track"><div class="dim-bar-fill" style="width:65%;"></div></div>
+                <div class="dim-bar-score">13/20</div>
+              </div>
+              <p class="body" style="margin-top:28px; color:var(--ink-2); font-size:26px; line-height:1.45;">Your team is capable — but delegation gaps and unresolved conflict are costing you speed and trust.</p>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>The results page is public and shareable — your whole team sees the same score.</div>
+          <div class="source-line">strength-hack.com</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 06 · Packages — dark, 3 feat-cards
+           Ch5: Results
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide" data-ch="5">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">Choose Your Path to Improvement</div>
+            <div class="page-num">6 / 9</div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:24px; flex:1; min-height:0;">
+            <h2 class="h2" style="max-width:1100px;">Three ways to turn your score into <em class="accent">real change.</em></h2>
+            <div class="grid-3" style="gap:24px;">
+              <!-- Package 1 -->
+              <div class="feat-card dark" style="gap:16px;">
+                <div style="font-size:var(--type-small); font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--on-dark-3);">Digital</div>
+                <div class="card-title">Self-Paced Programme</div>
+                <div class="pkg-price">€X / team</div>
+                <div class="pkg-bullets">
+                  <div class="pkg-bullet">5 learning modules — frameworks &amp; exercises</div>
+                  <div class="pkg-bullet">Templates your team applies immediately</div>
+                  <div class="pkg-bullet">Team access to Strength Hack platform</div>
+                </div>
+                <a class="pkg-cta outlined" href="#">Get Started →</a>
+              </div>
+              <!-- Package 2 -->
+              <div class="feat-card orange" style="gap:16px; position:relative;">
+                <div style="position:absolute; top:-14px; left:50%; transform:translateX(-50%); background:var(--orange); color:#fff; font-size:var(--type-small); font-weight:700; padding:6px 20px; border-radius:980px; letter-spacing:2px; text-transform:uppercase; white-space:nowrap;">Most Popular</div>
+                <div style="font-size:var(--type-small); font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--orange);">Guided</div>
+                <div class="card-title" style="color:var(--ink);">Guided Programme</div>
+                <div class="pkg-price">€Y / team</div>
+                <div class="pkg-bullets" style="flex:1;">
+                  <div class="pkg-bullet" style="color:var(--ink-2);">Everything in Digital</div>
+                  <div class="pkg-bullet" style="color:var(--ink-2);">Live Q&amp;A sessions with experts</div>
+                  <div class="pkg-bullet" style="color:var(--ink-2);">Community access &amp; peer cohorts</div>
+                </div>
+                <a class="pkg-cta filled" href="#">Get Started →</a>
+              </div>
+              <!-- Package 3 -->
+              <div class="feat-card dark" style="gap:16px;">
+                <div style="font-size:var(--type-small); font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--on-dark-3);">Coach-Led</div>
+                <div class="card-title">Workshops &amp; Coaching</div>
+                <div class="pkg-price" style="font-size:44px;">Custom</div>
+                <div class="pkg-bullets">
+                  <div class="pkg-bullet">Everything in Guided</div>
+                  <div class="pkg-bullet">3 live team workshops</div>
+                  <div class="pkg-bullet">Dedicated coach &amp; custom roadmap</div>
+                </div>
+                <a class="pkg-cta outlined" href="#">Book a Call →</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>All plans activate your team in Strength Hack — strengths + safety in one platform.</div>
+          <div class="source-line">strength-hack.com</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 07 · Outcomes — dark, quote + 2 stat-tiles
+           Ch6: Why It Works
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide" data-ch="6">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">What Changes</div>
+            <div class="page-num">7 / 9</div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:28px; flex:1; min-height:0;">
+            <div class="quote-block">
+              <div class="quote-text">"We knew something was off. The quiz put a number on it. Within six weeks of the programme, we were having conversations we'd avoided for two years."</div>
+              <div class="quote-attr">— Team Lead, 14-person product team</div>
+            </div>
+            <div style="display:flex; gap:24px; flex:1; min-height:0;">
+              <div class="stat-tile accent" style="flex:1;">
+                <div class="stat-num">+29%</div>
+                <div class="stat-desc">average increase in team engagement when psychological safety is actively addressed</div>
+                <div class="stat-source">Gallup State of the Workplace 2024</div>
+              </div>
+              <div class="stat-tile" style="flex:1;">
+                <div class="stat-num">6×</div>
+                <div class="stat-desc">more likely to achieve high performance — teams with high safety vs. low safety</div>
+                <div class="stat-source">Google Project Aristotle · re:Work</div>
+              </div>
+              <div class="stat-tile" style="flex:1;">
+                <div class="stat-num">3 min</div>
+                <div class="stat-desc">is all it takes per person to generate a team-level diagnostic that most organisations never do</div>
+                <div class="stat-source">Strength Hack · Quiz Design</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Safety isn't soft. It's the operating system your team's performance runs on.</div>
+          <div class="source-line">strength-hack.com</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 08 · Strength Hack Connection — beige, hero split
+           Ch6: Why It Works
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide beige" data-ch="6">
+        <div class="frame between">
+
+          <div class="top-bar">
+            <div class="eyebrow">The Bigger Picture</div>
+            <div class="page-num">8 / 9</div>
+          </div>
+
+          <div class="grid-2-58" style="gap:100px; align-items:center;">
+            <div style="display:flex; flex-direction:column; gap:36px;">
+              <h2 class="h2" style="color:var(--ink); font-size:64px;">The quiz is the door.<br/><em class="accent">Strength Hack is the room.</em></h2>
+              <p class="sub">Safety tells you where the friction is. Strengths tell you how to fix it. Together, they give your team a complete picture — and a clear path forward.</p>
+              <div style="display:flex; flex-direction:column; gap:16px;">
+                <div style="display:flex; align-items:flex-start; gap:16px;">
+                  <div style="width:10px; height:10px; border-radius:50%; background:var(--orange); flex-shrink:0; margin-top:12px;"></div>
+                  <p style="font-size:28px; color:var(--ink-2); line-height:1.4;">Your team is pre-created in Strength Hack when you buy — no setup needed</p>
+                </div>
+                <div style="display:flex; align-items:flex-start; gap:16px;">
+                  <div style="width:10px; height:10px; border-radius:50%; background:var(--orange); flex-shrink:0; margin-top:12px;"></div>
+                  <p style="font-size:28px; color:var(--ink-2); line-height:1.4;">Members join via a single link — strengths profile, canvas, and AI coach ready</p>
+                </div>
+                <div style="display:flex; align-items:flex-start; gap:16px;">
+                  <div style="width:10px; height:10px; border-radius:50%; background:var(--orange); flex-shrink:0; margin-top:12px;"></div>
+                  <p style="font-size:28px; color:var(--ink-2); line-height:1.4;">Safety score + individual strengths in one platform — not two more tools</p>
+                </div>
+              </div>
+            </div>
+            <div class="hero-image">
+              <img src="assets_2/Milo_Coach.jpg" alt="Milo Coach">
+            </div>
+          </div>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Prof. Dr. Utho Creusen × Murk Creusen × Deniz Aytekin</div>
+          <div class="source-line">strength-hack.com</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SLIDE 09 · CTA — dark, centred
+           Ch6: Why It Works
+           ══════════════════════════════════════════════════════ -->
+      <div class="slide" data-ch="6">
+        <div class="frame center" style="gap:48px; text-align:center;">
+
+          <div class="top-bar" style="position:absolute; top:var(--pad-top); left:var(--pad-x); right:var(--pad-x); justify-content:space-between;">
+            <div class="eyebrow">Get Started Today</div>
+            <div class="page-num">9 / 9</div>
+          </div>
+
+          <h1 class="display" style="font-size:96px; max-width:1300px; line-height:1.05;">
+            Take 3 minutes.<br/><em class="accent">Change how your team works.</em>
+          </h1>
+          <p class="sub" style="max-width:900px;">
+            Free to start. No account needed. Your team score is waiting.
+          </p>
+          <div style="display:flex; align-items:center; gap:28px; flex-wrap:wrap; justify-content:center;">
+            <a class="cta-btn" href="#" style="font-size:36px; padding:30px 60px;">Start the Quiz — Free →</a>
+            <a class="cta-btn secondary" href="#" style="font-size:36px; padding:30px 60px;">Book a Demo</a>
+          </div>
+          <p class="small" style="color:var(--on-dark-3); margin-top:8px;">strength-hack.com/quiz</p>
+
+        </div>
+        <div class="bottom-bar">
+          <div>Strength Hack · Team Performance Platform</div>
+          <div class="source-line">strength-hack.com</div>
+        </div>
+      </div>
+
+
+    </div><!-- /slides-wrap -->
+  </main>
+
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:11.1%;"></div></div>
+
+</div><!-- /app -->
+
+<script>
+  /* ============================================================
+     Navigation System
+     ============================================================ */
+  const SLIDES   = Array.from(document.querySelectorAll('.slide'));
+  const CH_BTNS  = Array.from(document.querySelectorAll('.sb-ch'));
+  const DOT_WRAP = document.getElementById('sbDots');
+  const C_CUR    = document.getElementById('cCur');
+  const C_TOT    = document.getElementById('cTot');
+
+  /* Chapter start indices (0-based):
+     Ch1(Intro)=0, Ch2(Problem)=1, Ch3(Step1)=2, Ch4(Step2)=3, Ch5(Results)=4, Ch6(WhyItWorks)=6 */
+  const CH_START = [0, 1, 2, 3, 4, 6];
+
+  /* All slides are core */
+  const NEW_SLIDE_INDICES = new Set([]);
+
+  let cur = 0;
+
+  /* ── Scaling ──────────────────────────────────────────────── */
+  function scaleSlides() {
+    const stageW = window.innerWidth - 210;
+    const stageH = window.innerHeight;
+    const scale  = Math.min(stageW / 1920, stageH / 1080);
+    const offX   = (stageW - 1920 * scale) / 2;
+    const offY   = (stageH - 1080 * scale) / 2;
+    SLIDES.forEach(s => {
+      s.style.transform       = `scale(${scale})`;
+      s.style.transformOrigin = 'top left';
+      s.style.left            = offX + 'px';
+      s.style.top             = offY + 'px';
+    });
+  }
+
+  /* ── Navigation ───────────────────────────────────────────── */
+  function go(delta) { goTo(cur + delta); }
+
+  function goTo(idx) {
+    if (idx < 0 || idx >= SLIDES.length || idx === cur) return;
+    const out = SLIDES[cur];
+    cur = idx;
+    out.classList.remove('active');
+    SLIDES[cur].classList.add('active');
+    updateUI();
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const fill = document.getElementById('progressFill');
+    if (fill) fill.style.width = ((cur + 1) / SLIDES.length * 100) + '%';
+  }
+
+  function goChapter(ch) { goTo(CH_START[ch]); }
+
+  /* ── UI sync ──────────────────────────────────────────────── */
+  function updateUI() {
+    C_CUR.textContent = cur + 1;
+    C_TOT.textContent = SLIDES.length;
+    const ch = parseInt(SLIDES[cur].dataset.ch || '1') - 1;
+    CH_BTNS.forEach((btn, i) => btn.classList.toggle('active', i === ch));
+    document.querySelectorAll('.sb-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === cur);
+    });
+  }
+
+  /* ── Build dot grid ───────────────────────────────────────── */
+  function buildDots() {
+    SLIDES.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.className = 'sb-dot';
+      d.textContent = i + 1;
+      d.onclick = () => goTo(i);
+      DOT_WRAP.appendChild(d);
+    });
+  }
+
+  /* ── PDF Export ───────────────────────────────────────────── */
+  function exportPDF() {
+    window.print();
+  }
+
+  /* ── Keyboard ─────────────────────────────────────────────── */
+  document.addEventListener('keydown', e => {
+    switch (e.key) {
+      case 'ArrowRight': case 'ArrowDown': case ' ':
+        e.preventDefault(); go(1);  break;
+      case 'ArrowLeft':  case 'ArrowUp':
+        e.preventDefault(); go(-1); break;
+      case 'Home': e.preventDefault(); goTo(0); break;
+      case 'End':  e.preventDefault(); goTo(SLIDES.length - 1); break;
+    }
+  });
+
+  /* ── Init ─────────────────────────────────────────────────── */
+  window.addEventListener('resize', scaleSlides);
+  buildDots();
+  scaleSlides();
+  updateUI();
+  updateProgress();
+</script>
+
+</body>
+</html>
